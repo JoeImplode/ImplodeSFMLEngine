@@ -10,7 +10,6 @@ SplashScreenState::SplashScreenState(GameState * nextState)
 	m_splashText.setFillColor(sf::Color::Cyan);
 	m_font.loadFromFile("../resources/fonts/Roboto-Light.ttf");
 	m_splashText.setStyle(sf::Text::Bold | sf::Text::Underlined);
-	
 	m_nextState = nextState;
 }
 

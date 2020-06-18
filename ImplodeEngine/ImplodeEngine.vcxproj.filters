@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Engine\States">
       <UniqueIdentifier>{7754a522-4ac0-4988-8de2-6c1a5226edce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Managers">
+      <UniqueIdentifier>{183bee9a-3c32-4d5d-863f-8a48cd29e5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Managers">
+      <UniqueIdentifier>{058069fc-ed4d-43d3-91b6-486f89344156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
