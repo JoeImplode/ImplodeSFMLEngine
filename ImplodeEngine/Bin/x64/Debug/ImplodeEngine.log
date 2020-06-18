@@ -1,2 +1,7 @@
-﻿  main.cpp
+﻿  GameState.cpp
+  ImplodeEngine.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  MenuState.cpp
+  SplashScreenState.cpp
+  main.cpp
   ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe
