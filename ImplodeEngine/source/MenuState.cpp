@@ -7,9 +7,12 @@
 MenuState::MenuState()
 {
 	this->m_assetPool = new AssetPool();
-	this->m_assetPool->LoadTexture("resources/textures/chest.png", "chest");
-	this->m_animation = new Animation(0.1f, sf::Vector2f(100.0f, 100.0f), true);
-	this->m_animation->SetAnimationSheet(m_assetPool->GetTexture("chest"), 1, 8);
+	this->m_assetPool->LoadTexture("resources/textures/link.png", "enemy");
+	this->m_animation = new Animation(0.1f, sf::Vector2f(300.0f, 200.0f));
+	this->m_animation->SetAnimationSheet(m_assetPool->GetTexture("enemy"), 8, 10);
+	this->m_animation->SetScale(sf::Vector2f(2.0f, 2.0f));
+	this->m_animation->SetRepeated(true);
+	this->m_animation->SetRow(4);
 }
 
 void MenuState::Update(float deltaTime)

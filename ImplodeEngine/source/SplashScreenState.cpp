@@ -15,7 +15,7 @@ SplashScreenState::SplashScreenState(GameState * nextState)
 
 void SplashScreenState::Update(float deltaTime)
 {
-	if (m_timeElapsed.getElapsedTime().asSeconds() >= 10.0f)
+	if (m_timeElapsed.getElapsedTime().asSeconds() >= 3.0f)
 		this->m_context->TransitionTo(m_nextState);
 }
 
