@@ -163,6 +163,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Animation.cpp" />
+    <ClCompile Include="source\AssetPool.cpp" />
     <ClCompile Include="source\GameState.cpp" />
     <ClCompile Include="source\ImplodeEngine.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -171,6 +173,8 @@
     <ClCompile Include="source\SplashScreenState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Animation.h" />
+    <ClInclude Include="source\AssetPool.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\MenuState.h" />

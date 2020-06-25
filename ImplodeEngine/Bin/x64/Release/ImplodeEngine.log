@@ -1,7 +1,14 @@
-﻿  main.cpp
+﻿  AssetPool.cpp
+  GameState.cpp
+  ImplodeEngine.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  main.cpp
+  MenuState.cpp
+  pch.cpp
+  SplashScreenState.cpp
   Generating code
-  0 of 4 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
+  381 of 381 functions (100.0%) were compiled.
+    377 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Release\ImplodeEngine.exe
+  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Release\ImplodeEngine.exe

@@ -12,7 +12,7 @@ namespace ImplodeEngine
 
 	static GameContext * m_context;
 	static MenuState * m_menu;
-	static SplashScreenState * m_splash;
+	static SplashScreenState* m_splash;
 
 	void Initialise();
 	void GameLoop();
