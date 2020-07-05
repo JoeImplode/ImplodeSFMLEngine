@@ -19,9 +19,9 @@ void SplashScreenState::Update(float deltaTime)
 		this->m_context->TransitionTo(m_nextState);
 }
 
-void SplashScreenState::Draw(sf::RenderWindow* window)
+void SplashScreenState::Draw()
 {
-	window->clear();
-	window->draw(m_splashText);
-	window->display();
+	this->m_context->GetWindow()->clear();
+	this->m_context->GetWindow()->draw(m_splashText);
+	this->m_context->GetWindow()->display();
 }

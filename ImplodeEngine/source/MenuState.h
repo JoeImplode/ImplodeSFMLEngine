@@ -1,14 +1,20 @@
 #pragma once
 #include "Animation.h"
 #include "AssetPool.h"
+#include "UIElement.h"
+
 class MenuState : public GameState
 {
 public:
 	MenuState();
 	void Update(float deltaTime) override;
-	void Draw(sf::RenderWindow* window);
+	void Draw() override;
 private:
 	sf::RectangleShape rect;
-	Animation * m_animation;
 	AssetPool* m_assetPool;
+	Button* m_button;
+	Slider* m_slider;
+	Publisher* m_publisher;
+	bool buttonState = false;
+	float floatRef = 0.0f;
 };

@@ -19,29 +19,23 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{aa3e0699-e833-4040-bde2-c3e100c8b37f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\States">
-      <UniqueIdentifier>{9df98952-415b-4d70-b26c-491116edaaf4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\States">
-      <UniqueIdentifier>{7754a522-4ac0-4988-8de2-6c1a5226edce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Managers">
       <UniqueIdentifier>{183bee9a-3c32-4d5d-863f-8a48cd29e5a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine\Managers">
       <UniqueIdentifier>{058069fc-ed4d-43d3-91b6-486f89344156}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Managers\Assets">
-      <UniqueIdentifier>{cc69cf5a-c475-4cb3-8ae0-97318d9ea53e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Managers\Assets">
-      <UniqueIdentifier>{2a43f7f8-335e-4bb8-9907-92e471b267f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Components">
       <UniqueIdentifier>{0e96c0d1-db83-496f-bfdf-a18b752740fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine\Components">
       <UniqueIdentifier>{5c244a16-e5f5-4381-83da-9357a8ac44b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{9df98952-415b-4d70-b26c-491116edaaf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{7754a522-4ac0-4988-8de2-6c1a5226edce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,22 +46,25 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="source\GameState.cpp">
-      <Filter>Source Files\Engine\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="source\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\SplashScreenState.cpp">
-      <Filter>Source Files\Engine\States</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="source\MenuState.cpp">
-      <Filter>Source Files\Engine\States</Filter>
-    </ClCompile>
-    <ClCompile Include="source\AssetPool.cpp">
-      <Filter>Source Files\Engine\Managers\Assets</Filter>
+      <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="source\Animation.cpp">
       <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AssetPool.cpp">
+      <Filter>Source Files\Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UIElement.cpp">
+      <Filter>Source Files\Engine\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,22 +72,25 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="source\GameState.h">
-      <Filter>Header Files\Engine\States</Filter>
+      <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="source\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\SplashScreenState.h">
-      <Filter>Header Files\Engine\States</Filter>
+      <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="source\MenuState.h">
-      <Filter>Header Files\Engine\States</Filter>
-    </ClInclude>
-    <ClInclude Include="source\AssetPool.h">
-      <Filter>Header Files\Engine\Managers\Assets</Filter>
+      <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="source\Animation.h">
       <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AssetPool.h">
+      <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UIElement.h">
+      <Filter>Header Files\Engine\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

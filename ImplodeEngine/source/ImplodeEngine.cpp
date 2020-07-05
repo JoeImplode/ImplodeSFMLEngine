@@ -3,12 +3,13 @@
 
 void ImplodeEngine::Initialise()
 {
-	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "My window", sf::Style::Default);
+	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Implode Engine", sf::Style::Default);
 	m_window->setFramerateLimit(200.0f);
 	ImplodeEngine::deltaTime = 0.0f;
 	m_menu = new MenuState();
 	m_splash = new SplashScreenState(m_menu);
 	m_context = new GameContext(m_splash);
+	m_context->SetWindow(m_window.get());
 }
 
 void ImplodeEngine::GameLoop()
@@ -31,18 +32,18 @@ void ImplodeEngine::Update()
 			m_window->close();
 			Exit();
 		}
+
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		{
 			m_window->close();
 			Exit();
 		}
-		
 	}
 	m_context->Update(deltaTime);
 }
 void ImplodeEngine::Draw()
 {
-	m_context->Draw(m_window.get());
+	m_context->Draw();
 }
 
 void ImplodeEngine::Exit()

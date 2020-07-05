@@ -74,3 +74,11 @@ sf::Font& AssetPool::GetFont(std::string name)
 	else
 		return m_fonts[name];
 }
+
+bool AssetPool::operator==(const AssetPool& obj2) const
+{
+	if (this == &obj2)
+		return true;
+	else
+		return false;
+}

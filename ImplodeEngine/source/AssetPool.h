@@ -11,6 +11,7 @@ public:
 
 	void LoadFont(std::string path, std::string name);
 	sf::Font& GetFont(std::string name);
+	bool operator ==(const AssetPool& obj2)const;
 private:
 	std::map<std::string, sf::Texture> m_textures;
 	std::map<std::string, sf::Font> m_fonts;
