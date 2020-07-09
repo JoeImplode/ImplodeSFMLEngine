@@ -7,12 +7,26 @@
 MenuState::MenuState()
 {
 	this->m_assetPool = new AssetPool();
-	this->m_assetPool->LoadTexture("resources/textures/man.png", "button");
-	this->m_button = new Button("A simple Button", sf::Vector2f(300, 100), sf::Vector2f(100, 100), sf::Vector2f(1, 1), buttonState);
+	this->m_assetPool->LoadTexture("resources/textures/sliderTest.png", "button");
+	this->m_assetPool->LoadTexture("resources/textures/selectorTest.png", "slider");
+	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
+
+	sf::Text m_text;
+
+	m_text.setPosition(100, 50);
+	m_text.setString("Button");
+	m_text.setFont(this->m_assetPool->GetFont("font"));
+	m_text.setCharacterSize(24);
+	m_text.setFillColor(sf::Color::Cyan);
+
+	this->m_button = new Button("A simple Button", sf::Vector2f(100, 50), sf::Vector2f(100, 100), sf::Vector2f(0.5f, 0.5f), buttonState);
 	this->m_button->SetTexture(m_assetPool->GetTexture("button"));
-	this->m_slider = new Slider("Slider", sf::Vector2f(300, 100), sf::Vector2f(400, 400), sf::Vector2f(3, 1), floatRef);
-	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("button"));
+	this->m_button->m_label = m_text;
+
+	this->m_slider = new Slider("Slider", sf::Vector2f(300, 100), sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
+	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("slider"));
 	this->m_publisher = new Publisher();
+
 	this->m_publisher->AddElement(m_button);
 	this->m_publisher->AddElement(m_slider);
 }
