@@ -5,13 +5,13 @@ UIElement::UIElement(std::string text, sf::Vector2f textPos, sf::Vector2f elemen
 {
 	//when we construct a UI element, we want to set all the params which will be in each UI element
 	this->m_label.setString(text);
-	this->m_label.setPosition(textPos);
+	this->m_labelRelativePosition = textPos;
+	this->m_label.setPosition(elementPos.x + this->m_labelRelativePosition.x, elementPos.y + this->m_labelRelativePosition.y);
 	this->m_position = elementPos;
 	this->m_scale = scale;
-	this->m_notified = false;
 }
 
-Button::Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool & reference) : UIElement(text,textPos,elementPos,scale),m_boolRef(reference)
+Button::Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,textPos,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
 {
 
 }
@@ -42,8 +42,9 @@ void Button::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
 void Button::Render(sf::RenderWindow* window)
 {
 	window->draw(this->m_label);
-	window->draw(this->m_buttonText);
 	window->draw(this->m_buttonSprite);
+	for(int i = 0;i<this->m_buttonText.size();i++)
+		window->draw(this->m_buttonText[i]);
 }
 
 void Button::Selected()
@@ -53,6 +54,50 @@ void Button::Selected()
 	c.g -= 70.0f;
 	c.b -= 70.0f;
 	this->m_buttonSprite.setColor(c);
+}
+
+void Button::SetButtonText(std::vector<std::string> lines,sf::Text textExample)
+{
+	/*	-Button text is complex yet created tangible
+		-You can still change the character size and position
+		-This method ensures up to 15 characters for each line
+		-Text may seem small yet it's all formatted to allow 15 chars for each line
+	*/
+	float width = this->m_buttonSprite.getLocalBounds().width * this->m_scale.x;
+
+	int longestStrLength = lines[0].length(); //just an initialiser to get a reference of the string length
+
+	float height = this->m_buttonSprite.getLocalBounds().height * this->m_scale.y;
+
+	float spacing = height / lines.size(); //this is our spacing that we need, so we need at least this much spacing
+
+	int numOfLines = lines.size();
+
+	sf::Text buttonTextLine = textExample;
+
+	for (int i = 1; i < lines.size(); i++)
+	{
+		if (lines[i].length() > longestStrLength)
+		{
+			longestStrLength = lines[i].length(); //here we want to calculate the newest longest string length, if we find a string with a longer length
+			buttonTextLine.setString(lines[i]);
+		}
+	}
+
+	float calculatedHeight = (height - (height / 8)) / 4;
+
+	for (int i = 0; i < lines.size(); i++)
+	{
+		buttonTextLine.setCharacterSize(calculatedHeight); //This ensures for a good text position for each line
+		buttonTextLine.setString(lines[i]);
+		this->m_btnRelativeTxtPos.push_back(sf::Vector2f((width / 2) - (buttonTextLine.getLocalBounds().width / 2), height / (2 + numOfLines) + ((spacing * i / 1.5))));
+		buttonTextLine.setPosition(this->m_position.x + this->m_btnRelativeTxtPos[i].x, this->m_position.y + this->m_btnRelativeTxtPos[i].y);
+		this->m_buttonText.push_back(buttonTextLine);
+	}
+	//could store the num of lines
+	//could store the spacing
+	//Then calculate the relative position to these positions and the x and y
+
 }
 
 Slider::Slider(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,textPos,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
