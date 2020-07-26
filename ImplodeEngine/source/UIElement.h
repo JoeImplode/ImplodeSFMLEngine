@@ -3,6 +3,7 @@
 class UIElement
 {
 public:
+	UIElement() {};
 	UIElement(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale);
 	inline virtual void Update(float deltaTime, bool notified,sf::Vector2f mousePos) { ; }
 	inline virtual void Render(sf::RenderWindow* window) { ; }
@@ -20,17 +21,20 @@ protected:
 
 class Button : public UIElement
 {
-public:	
+public:
+	Button(bool& reference);
 	Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool &reference, bool valToSet = false);
-	void SetTexture(sf::Texture &texture);
 	inline void SetBoolRef(bool& reference) { this->m_boolRef = reference; }
-
+	void SetTexture(sf::Texture& texture);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
 	void Notify() override { this->m_boolRef = m_valToSet; std::cout << "Button Pressed" << std::endl; } //this will be our code for if the button was notified
 	void Selected() override;
 	void SetButtonText(std::vector<std::string> lines, sf::Text textExample); //scalars for x,y offset and size, change these values round to get preferred orientation
 	void SetValToSet(bool valToSet) { this->m_valToSet = valToSet; }
+	void SetPos(sf::Vector2f pos) { this->m_position = pos; }
+	float GetWidth() { return this->m_buttonSprite.getLocalBounds().width * this->m_scale.x; }
+	float GetHeight() { return this->m_buttonSprite.getLocalBounds().height * this->m_scale.y; }
 	std::vector<sf::Text> m_buttonText;
 private:
 	sf::Sprite m_buttonSprite;
@@ -67,8 +71,17 @@ protected:
 class ButtonGroup : public UIElement
 {
 public:
+	ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference);
+	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
+	void Render(sf::RenderWindow* window) override;
+	inline void SetTexture(sf::Texture &borderTexture) { this->m_border.setTexture(&borderTexture); }
+	void SetButtons(Button leftButton, Button rightButton);
 private:
-	std::vector<Button> m_buttons;
+	Button * m_leftButton; //buttons for yes and no
+	Button * m_rightButton;
+	sf::RectangleShape m_border;
+	float m_orientation;
+	bool& m_boolRef;
 protected:
 };
 
@@ -78,7 +91,6 @@ public:
 	inline void AddElement(UIElement* element) { this->m_elements.push_back(element); }
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos);
 	void Render(sf::RenderWindow* window);
-
 private:
 	std::vector<UIElement*> m_elements;
 protected:

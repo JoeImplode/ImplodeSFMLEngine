@@ -11,6 +11,10 @@ UIElement::UIElement(std::string text, sf::Vector2f textPos, sf::Vector2f elemen
 	this->m_scale = scale;
 }
 
+Button::Button(bool& reference) : m_boolRef(reference)
+{
+}
+
 Button::Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,textPos,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
 {
 
@@ -206,3 +210,64 @@ void Publisher::Render(sf::RenderWindow* window)
 		element->Render(window);
 	}
 }
+
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference) 
+	: UIElement(text, textPos, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
+{
+	this->m_border.setPosition(elementPos);
+	this->m_border.setScale(scale);
+}
+
+void ButtonGroup::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+{
+	this->m_leftButton->Update(deltaTime, notified, mousePos);
+	this->m_rightButton->Update(deltaTime, notified, mousePos);
+}
+
+void ButtonGroup::Render(sf::RenderWindow* window)
+{
+	window->draw(this->m_border);
+	this->m_leftButton->Render(window);
+	this->m_rightButton->Render(window);
+}
+
+void ButtonGroup::SetButtons(Button leftButton, Button rightButton)
+{
+	float totalWidth = (this->m_border.getLocalBounds().width * this->m_scale.x) - ((this->m_border.getLocalBounds().width *this->m_scale.x) / 8); //we want to get a slight offset for the button height requirements so we have space
+	float totalHeight = (this->m_border.getLocalBounds().height * this->m_scale.y) - ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8);
+
+	if (m_orientation && leftButton.GetWidth() < totalWidth / 2 && rightButton.GetWidth() < totalWidth / 2 
+		&& leftButton.GetHeight() < totalHeight && rightButton.GetHeight() < totalHeight)
+	{
+		this->m_leftButton = &leftButton;
+		this->m_leftButton->SetBoolRef(this->m_boolRef);
+		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+
+		this->m_rightButton = &rightButton;
+		this->m_rightButton->SetBoolRef(this->m_boolRef);
+		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+	}
+
+	else if (!m_orientation && leftButton.GetHeight() < totalHeight / 2 && rightButton.GetHeight() < totalHeight / 2 
+		&& leftButton.GetWidth() < totalWidth && rightButton.GetWidth() < totalWidth)
+	{
+		this->m_leftButton = &leftButton;
+		this->m_leftButton->SetBoolRef(this->m_boolRef);
+		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+
+		this->m_rightButton = &rightButton;
+		this->m_rightButton->SetBoolRef(this->m_boolRef);
+		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+
+	}
+	else
+	{
+		std::cout << "ERROR: The bounds you provided for the button box are too small for the button scales!" << std::endl;
+		std::cout << "-----: Try to change the orientation, resize the border or change the button sizes!" << std::endl;
+	}
+}
+

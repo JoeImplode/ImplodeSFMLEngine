@@ -36,10 +36,25 @@ MenuState::MenuState()
 
 	this->m_slider = new Slider("Slider", sf::Vector2f(300, 100), sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
 	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("slider"));
-	this->m_publisher = new Publisher();
 
+	this->m_yesButton = new Button("Yes", sf::Vector2f(100, 100), sf::Vector2f(0, 0), sf::Vector2f(0.1, 0.1), m_boolToCheck, true);
+	this->m_yesButton->SetTexture(m_assetPool->GetTexture("aporva"));
+	this->m_yesButton->m_label.setString("Yes"); //take string lines make changes for size based on width and how many lines there are
+	this->m_yesButton->m_label.setFont(this->m_assetPool->GetFont("font"));
+
+	this->m_noButton = new Button("No", sf::Vector2f(50, 100), sf::Vector2f(0, 0), sf::Vector2f(0.1, 0.1), m_boolToCheck, true);
+	this->m_noButton->SetTexture(m_assetPool->GetTexture("aporva"));
+	this->m_noButton->m_label.setString("No"); //take string lines make changes for size based on width and how many lines there are
+	this->m_noButton->m_label.setFont(this->m_assetPool->GetFont("font"));
+
+	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(200, 200), sf::Vector2f(300, 300), sf::Vector2f(0.6, 0.6), true, m_boolToCheck);
+	this->m_buttonGroup->SetTexture(m_assetPool->GetTexture("button"));
+	this->m_buttonGroup->SetButtons(*m_yesButton, *m_noButton);
+
+	this->m_publisher = new Publisher();
 	this->m_publisher->AddElement(m_button);
 	this->m_publisher->AddElement(m_slider);
+	this->m_publisher->AddElement(m_buttonGroup);
 }
 
 void MenuState::Update(float deltaTime)
