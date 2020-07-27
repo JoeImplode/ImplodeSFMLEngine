@@ -45,10 +45,9 @@ void Button::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
 
 void Button::Render(sf::RenderWindow* window)
 {
-	window->draw(this->m_label);
 	window->draw(this->m_buttonSprite);
-	for(int i = 0;i<this->m_buttonText.size();i++)
-		window->draw(this->m_buttonText[i]);
+	window->draw(this->m_buttonText);
+	window->draw(this->m_label);
 }
 
 void Button::Selected()
@@ -60,48 +59,9 @@ void Button::Selected()
 	this->m_buttonSprite.setColor(c);
 }
 
-void Button::SetButtonText(std::vector<std::string> lines,sf::Text textExample)
+void Button::SetButtonText(sf::Text textExample)
 {
-	/*	-Button text is complex yet created tangible
-		-You can still change the character size and position
-		-This method ensures up to 15 characters for each line
-		-Text may seem small yet it's all formatted to allow 15 chars for each line
-	*/
-	float width = this->m_buttonSprite.getLocalBounds().width * this->m_scale.x;
-
-	int longestStrLength = lines[0].length(); //just an initialiser to get a reference of the string length
-
-	float height = this->m_buttonSprite.getLocalBounds().height * this->m_scale.y;
-
-	float spacing = height / lines.size(); //this is our spacing that we need, so we need at least this much spacing
-
-	int numOfLines = lines.size();
-
-	sf::Text buttonTextLine = textExample;
-
-	for (int i = 1; i < lines.size(); i++)
-	{
-		if (lines[i].length() > longestStrLength)
-		{
-			longestStrLength = lines[i].length(); //here we want to calculate the newest longest string length, if we find a string with a longer length
-			buttonTextLine.setString(lines[i]);
-		}
-	}
-
-	float calculatedHeight = (height - (height / 8)) / 4;
-
-	for (int i = 0; i < lines.size(); i++)
-	{
-		buttonTextLine.setCharacterSize(calculatedHeight); //This ensures for a good text position for each line
-		buttonTextLine.setString(lines[i]);
-		this->m_btnRelativeTxtPos.push_back(sf::Vector2f((width / 2) - (buttonTextLine.getLocalBounds().width / 2), height / (2 + numOfLines) + ((spacing * i / 1.5))));
-		buttonTextLine.setPosition(this->m_position.x + this->m_btnRelativeTxtPos[i].x, this->m_position.y + this->m_btnRelativeTxtPos[i].y);
-		this->m_buttonText.push_back(buttonTextLine);
-	}
-	//could store the num of lines
-	//could store the spacing
-	//Then calculate the relative position to these positions and the x and y
-
+	this->m_buttonText = textExample;
 }
 
 Slider::Slider(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,textPos,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
@@ -211,11 +171,12 @@ void Publisher::Render(sf::RenderWindow* window)
 	}
 }
 
-ButtonGroup::ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference) 
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference,sf::Texture& borderTexture)
 	: UIElement(text, textPos, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
 {
+	this->m_border.setTexture(&borderTexture);
 	this->m_border.setPosition(elementPos);
-	this->m_border.setScale(scale);
+	this->m_border.setSize(sf::Vector2f(scale.x * borderTexture.getSize().x, scale.y * borderTexture.getSize().y));
 }
 
 void ButtonGroup::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
@@ -231,43 +192,49 @@ void ButtonGroup::Render(sf::RenderWindow* window)
 	this->m_rightButton->Render(window);
 }
 
-void ButtonGroup::SetButtons(Button leftButton, Button rightButton)
+void ButtonGroup::SetButtons(Button *leftButton, Button *rightButton)
 {
-	float totalWidth = (this->m_border.getLocalBounds().width * this->m_scale.x) - ((this->m_border.getLocalBounds().width *this->m_scale.x) / 8); //we want to get a slight offset for the button height requirements so we have space
-	float totalHeight = (this->m_border.getLocalBounds().height * this->m_scale.y) - ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8);
+	float totalWidth = (this->m_border.getLocalBounds().width ) - ((this->m_border.getLocalBounds().width) / 8); //we want to get a slight offset for the button height requirements so we have space
+	float totalHeight = (this->m_border.getLocalBounds().height  ) - ((this->m_border.getLocalBounds().height ) / 8);
 
-	if (m_orientation && leftButton.GetWidth() < totalWidth / 2 && rightButton.GetWidth() < totalWidth / 2 
-		&& leftButton.GetHeight() < totalHeight && rightButton.GetHeight() < totalHeight)
+	std::cout << totalWidth << std::endl;
+	std::cout << totalHeight << std::endl;
+
+	if (m_orientation && leftButton->GetWidth() < totalWidth / 2 && rightButton->GetWidth() < totalWidth / 2
+		&& leftButton->GetHeight() < totalHeight && rightButton->GetHeight() < totalHeight)
 	{
-		this->m_leftButton = &leftButton;
+		this->m_leftButton = leftButton;
 		this->m_leftButton->SetBoolRef(this->m_boolRef);
-		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (leftButton->GetHeight())));
+		this->m_leftButton->UpdateLabel(this->m_leftButton->GetPosition());
 
-		this->m_rightButton = &rightButton;
+		this->m_rightButton = rightButton;
 		this->m_rightButton->SetBoolRef(this->m_boolRef);
-		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width / 2) + ((this->m_border.getLocalBounds().width) / 8),
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (rightButton->GetHeight())));
+		this->m_rightButton->UpdateLabel(this->m_rightButton->GetPosition());
 	}
 
-	else if (!m_orientation && leftButton.GetHeight() < totalHeight / 2 && rightButton.GetHeight() < totalHeight / 2 
-		&& leftButton.GetWidth() < totalWidth && rightButton.GetWidth() < totalWidth)
+	else if (!m_orientation && leftButton->GetHeight() < totalHeight / 2 && rightButton->GetHeight() < totalHeight / 2
+		&& leftButton->GetWidth() < totalWidth && rightButton->GetWidth() < totalWidth)
 	{
-		this->m_leftButton = &leftButton;
+		this->m_leftButton = leftButton;
 		this->m_leftButton->SetBoolRef(this->m_boolRef);
-		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
+		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width ) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 8)));
+		this->m_leftButton->UpdateLabel(this->m_leftButton->GetPosition());
 
-		this->m_rightButton = &rightButton;
+		this->m_rightButton = rightButton;
 		this->m_rightButton->SetBoolRef(this->m_boolRef);
-		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * this->m_scale.x) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 2) + ((this->m_border.getLocalBounds().height * this->m_scale.y) / 8)));
-
+		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) + ((this->m_border.getLocalBounds().height) / 8)));
+		this->m_rightButton->UpdateLabel(this->m_rightButton->GetPosition());
 	}
+
 	else
 	{
 		std::cout << "ERROR: The bounds you provided for the button box are too small for the button scales!" << std::endl;
 		std::cout << "-----: Try to change the orientation, resize the border or change the button sizes!" << std::endl;
 	}
 }
-

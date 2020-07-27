@@ -10,6 +10,8 @@ public:
 	inline virtual void Notify() { ; }
 	inline virtual void Selected() { ; }
 	inline sf::Vector2f GetPosition() { return this->m_position; }
+	inline void UpdateLabel(sf::Vector2f position) { this->m_label.setPosition(sf::Vector2f(position.x + m_labelRelativePosition.x, position.y + m_labelRelativePosition.y)); }
+	inline virtual sf::Vector2f GetOrigin() { return sf::Vector2f(0, 0); };+
 	sf::Text m_label; //our label for our UI element
 private:
 	
@@ -25,22 +27,24 @@ public:
 	Button(bool& reference);
 	Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool &reference, bool valToSet = false);
 	inline void SetBoolRef(bool& reference) { this->m_boolRef = reference; }
+	inline sf::Vector2f GetOrigin() override { return sf::Vector2f(((this->m_buttonSprite.getLocalBounds().width * this->m_scale.x) / 2), (this->m_buttonSprite.getLocalBounds().height* this->m_scale.y) / 2); }
 	void SetTexture(sf::Texture& texture);
+
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
-	void Notify() override { this->m_boolRef = m_valToSet; std::cout << "Button Pressed" << std::endl; } //this will be our code for if the button was notified
+	void Notify() override { this->m_boolRef = m_valToSet; std::cout << m_boolRef << std::endl; } //this will be our code for if the button was notified
 	void Selected() override;
-	void SetButtonText(std::vector<std::string> lines, sf::Text textExample); //scalars for x,y offset and size, change these values round to get preferred orientation
+
+	void SetButtonText(sf::Text textExample); //scalars for x,y offset and size, change these values round to get preferred orientation
 	void SetValToSet(bool valToSet) { this->m_valToSet = valToSet; }
 	void SetPos(sf::Vector2f pos) { this->m_position = pos; }
 	float GetWidth() { return this->m_buttonSprite.getLocalBounds().width * this->m_scale.x; }
 	float GetHeight() { return this->m_buttonSprite.getLocalBounds().height * this->m_scale.y; }
-	std::vector<sf::Text> m_buttonText;
+	sf::Text m_buttonText;
 private:
 	sf::Sprite m_buttonSprite;
 	sf::Color m_initialColor;
 	bool& m_boolRef; //the reference variable we want to change with the button
-	std::vector<sf::Vector2f>m_btnRelativeTxtPos; //relative text positions for the labels
 	bool m_valToSet = false;
 protected:
 };
@@ -71,11 +75,10 @@ protected:
 class ButtonGroup : public UIElement
 {
 public:
-	ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference);
+	ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference, sf::Texture &borderTexture);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
-	inline void SetTexture(sf::Texture &borderTexture) { this->m_border.setTexture(&borderTexture); }
-	void SetButtons(Button leftButton, Button rightButton);
+	void SetButtons(Button *leftButton, Button * rightButton);
 private:
 	Button * m_leftButton; //buttons for yes and no
 	Button * m_rightButton;
