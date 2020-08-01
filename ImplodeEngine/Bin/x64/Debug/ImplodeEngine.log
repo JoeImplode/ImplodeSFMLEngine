@@ -1,25 +1,7 @@
-﻿  ImplodeEngine.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+﻿  GameState.cpp
+  ImplodeEngine.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
   MenuState.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(39,99): warning C4305: 'argument': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(44,101): warning C4305: 'argument': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-  UIElement.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(56,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(57,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(58,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(146,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(147,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(148,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(152,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(153,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(154,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+  SplashScreenState.cpp
   main.cpp
-  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe
+  ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

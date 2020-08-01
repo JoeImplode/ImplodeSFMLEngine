@@ -13,8 +13,6 @@ private:
 	sf::RectangleShape rect;
 	AssetPool* m_assetPool;
 	Button* m_button;
-	Button* m_yesButton;
-	Button* m_noButton;
 	ButtonGroup* m_buttonGroup;
 
 	Slider* m_slider;

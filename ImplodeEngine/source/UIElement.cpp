@@ -1,21 +1,20 @@
 #include "pch.h"
 #include "UIElement.h"
 
-UIElement::UIElement(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale)
+UIElement::UIElement(std::string text,sf::Vector2f elementPos, sf::Vector2f scale)
 {
 	//when we construct a UI element, we want to set all the params which will be in each UI element
 	this->m_label.setString(text);
-	this->m_labelRelativePosition = textPos;
-	this->m_label.setPosition(elementPos.x + this->m_labelRelativePosition.x, elementPos.y + this->m_labelRelativePosition.y);
 	this->m_position = elementPos;
 	this->m_scale = scale;
 }
 
 Button::Button(bool& reference) : m_boolRef(reference)
 {
+
 }
 
-Button::Button(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,textPos,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
+Button::Button(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
 {
 
 }
@@ -64,7 +63,7 @@ void Button::SetButtonText(sf::Text textExample)
 	this->m_buttonText = textExample;
 }
 
-Slider::Slider(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,textPos,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
+Slider::Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
 {
 }
 
@@ -171,8 +170,8 @@ void Publisher::Render(sf::RenderWindow* window)
 	}
 }
 
-ButtonGroup::ButtonGroup(std::string text, sf::Vector2f textPos, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference,sf::Texture& borderTexture)
-	: UIElement(text, textPos, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference,sf::Texture& borderTexture)
+	: UIElement(text, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
 {
 	this->m_border.setTexture(&borderTexture);
 	this->m_border.setPosition(elementPos);
@@ -192,49 +191,34 @@ void ButtonGroup::Render(sf::RenderWindow* window)
 	this->m_rightButton->Render(window);
 }
 
-void ButtonGroup::SetButtons(Button *leftButton, Button *rightButton)
+void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf::Texture& rightTexture, sf::Vector2f scaleRight)
 {
+	//construct the left and the right button here
+	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, true);
+	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, false);
+
 	float totalWidth = (this->m_border.getLocalBounds().width ) - ((this->m_border.getLocalBounds().width) / 8); //we want to get a slight offset for the button height requirements so we have space
 	float totalHeight = (this->m_border.getLocalBounds().height  ) - ((this->m_border.getLocalBounds().height ) / 8);
 
-	std::cout << totalWidth << std::endl;
-	std::cout << totalHeight << std::endl;
-
-	if (m_orientation && leftButton->GetWidth() < totalWidth / 2 && rightButton->GetWidth() < totalWidth / 2
-		&& leftButton->GetHeight() < totalHeight && rightButton->GetHeight() < totalHeight)
+	if (m_orientation)
 	{
-		this->m_leftButton = leftButton;
-		this->m_leftButton->SetBoolRef(this->m_boolRef);
 		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (leftButton->GetHeight())));
-		this->m_leftButton->UpdateLabel(this->m_leftButton->GetPosition());
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - ((leftTexture.getSize().y * scaleLeft.y) / 2)));
+		this->m_leftButton->SetTexture(leftTexture);
 
-		this->m_rightButton = rightButton;
-		this->m_rightButton->SetBoolRef(this->m_boolRef);
 		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width / 2) + ((this->m_border.getLocalBounds().width) / 8),
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (rightButton->GetHeight())));
-		this->m_rightButton->UpdateLabel(this->m_rightButton->GetPosition());
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - ((rightTexture.getSize().y * scaleRight.y) /2)));
+		this->m_rightButton->SetTexture(rightTexture);
 	}
 
-	else if (!m_orientation && leftButton->GetHeight() < totalHeight / 2 && rightButton->GetHeight() < totalHeight / 2
-		&& leftButton->GetWidth() < totalWidth && rightButton->GetWidth() < totalWidth)
+	else if (!m_orientation )
 	{
-		this->m_leftButton = leftButton;
-		this->m_leftButton->SetBoolRef(this->m_boolRef);
 		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width ) / 8,
 			this->m_position.y + ((this->m_border.getLocalBounds().height) / 8)));
-		this->m_leftButton->UpdateLabel(this->m_leftButton->GetPosition());
+		this->m_leftButton->SetTexture(leftTexture);
 
-		this->m_rightButton = rightButton;
-		this->m_rightButton->SetBoolRef(this->m_boolRef);
 		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
 			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) + ((this->m_border.getLocalBounds().height) / 8)));
-		this->m_rightButton->UpdateLabel(this->m_rightButton->GetPosition());
-	}
-
-	else
-	{
-		std::cout << "ERROR: The bounds you provided for the button box are too small for the button scales!" << std::endl;
-		std::cout << "-----: Try to change the orientation, resize the border or change the button sizes!" << std::endl;
+		this->m_leftButton->SetTexture(rightTexture);
 	}
 }

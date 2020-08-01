@@ -16,7 +16,6 @@ MenuState::MenuState()
 	this->m_assetPool->LoadTexture("resources/textures/No.png", "no");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
 	
-
 	sf::Text m_text;
 
 	m_text.setPosition(100, 50);
@@ -27,29 +26,17 @@ MenuState::MenuState()
 	sf::Text m_buttonText = m_text;
 	m_buttonText.setString("Inner Button");
 
-	this->m_button = new Button("", sf::Vector2f(50, -25), sf::Vector2f(100, 100), sf::Vector2f(0.2f, 0.2f), buttonState,true);
+	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.2f, 0.2f), buttonState,true);
 	this->m_button->SetTexture(m_assetPool->GetTexture("save"));
 	this->m_button->m_label.setFont(this->m_assetPool->GetFont("font"));
-
+	this->m_button->SetLabelPos(sf::Vector2f(0, -100.0f));
 	std::string strings = "Save";
 
-	this->m_slider = new Slider("Slider", sf::Vector2f(300, 100), sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
+	this->m_slider = new Slider("Slider",sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
 	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("slider"));
 
-	this->m_yesButton = new Button("", sf::Vector2f(0,-10), sf::Vector2f(0, 0), sf::Vector2f(0.8, 0.8), m_boolToCheck, true);
-	
-	this->m_yesButton->m_label.setFont(this->m_assetPool->GetFont("font"));
-	this->m_yesButton->SetButtonText(m_text);
-
-	this->m_noButton = new Button("", sf::Vector2f(5, -10), sf::Vector2f(100, 0), sf::Vector2f(0.8, 0.8), m_boolToCheck, false);
-	
-	this->m_noButton->m_label.setFont(this->m_assetPool->GetFont("font"));
-	this->m_noButton->SetButtonText(m_text);
-
-	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(200, 200), sf::Vector2f(300, 300), sf::Vector2f(1, 1), true, m_boolToCheck, m_assetPool->GetTexture("aporva")); //texture
-	this->m_buttonGroup->SetButtons(m_yesButton, m_noButton);
-	this->m_noButton->SetTexture(m_assetPool->GetTexture("no"));
-	this->m_yesButton->SetTexture(m_assetPool->GetTexture("yes"));
+	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(300, 300), sf::Vector2f(1, 1), true, m_boolToCheck, m_assetPool->GetTexture("aporva")); //texture
+	this->m_buttonGroup->SetButtons(m_assetPool->GetTexture("yes"), sf::Vector2f(0.8f,0.8f), m_assetPool->GetTexture("no"),sf::Vector2f(0.8f,0.8f));
 
 	this->m_publisher = new Publisher();
 	this->m_publisher->AddElement(m_button);
