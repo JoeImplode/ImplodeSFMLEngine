@@ -3,7 +3,6 @@
 
 UIElement::UIElement(std::string text,sf::Vector2f elementPos, sf::Vector2f scale)
 {
-	//when we construct a UI element, we want to set all the params which will be in each UI element
 	this->m_label.setString(text);
 	this->m_position = elementPos;
 	this->m_scale = scale;
@@ -135,8 +134,7 @@ void Slider::Notify()
 	//take the width of the slider bar and calculate how much distance was traveled as a percentage
 
 	float width = this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x);
-	this->m_floatRef = (this->m_selectorSprite.getPosition().x - this->m_barSprite.getPosition().x)/width ; //here we're getting the percentage of the scale passed, so if we're at 200, and the scale is 400, we'll get 0.5
-	std::cout << "Float val: " << this->m_floatRef << std::endl;
+	this->m_floatRef = (this->m_selectorSprite.getPosition().x - this->m_barSprite.getPosition().x)/width ; 
 }
 
 void Slider::Selected()
@@ -189,6 +187,7 @@ void ButtonGroup::Render(sf::RenderWindow* window)
 	window->draw(this->m_border);
 	this->m_leftButton->Render(window);
 	this->m_rightButton->Render(window);
+	window->draw(this->m_label);
 }
 
 void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf::Texture& rightTexture, sf::Vector2f scaleRight)

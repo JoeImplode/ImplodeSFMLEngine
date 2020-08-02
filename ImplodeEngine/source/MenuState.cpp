@@ -15,28 +15,22 @@ MenuState::MenuState()
 	this->m_assetPool->LoadTexture("resources/textures/Yes.png", "yes");
 	this->m_assetPool->LoadTexture("resources/textures/No.png", "no");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
-	
-	sf::Text m_text;
-
-	m_text.setPosition(100, 50);
-	m_text.setString("Config and anti aliasing"); //take string lines make changes for size based on width and how many lines there are
-	m_text.setFont(this->m_assetPool->GetFont("font"));
-	m_text.setCharacterSize(10);
-	m_text.setFillColor(sf::Color::Black);
-	sf::Text m_buttonText = m_text;
-	m_buttonText.setString("Inner Button");
 
 	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.2f, 0.2f), buttonState,true);
 	this->m_button->SetTexture(m_assetPool->GetTexture("save"));
 	this->m_button->m_label.setFont(this->m_assetPool->GetFont("font"));
 	this->m_button->SetLabelPos(sf::Vector2f(0, -100.0f));
-	std::string strings = "Save";
 
 	this->m_slider = new Slider("Slider",sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
 	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("slider"));
 
 	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(300, 300), sf::Vector2f(1, 1), true, m_boolToCheck, m_assetPool->GetTexture("aporva")); //texture
 	this->m_buttonGroup->SetButtons(m_assetPool->GetTexture("yes"), sf::Vector2f(0.8f,0.8f), m_assetPool->GetTexture("no"),sf::Vector2f(0.8f,0.8f));
+	
+	this->m_buttonGroup->SetLabelPos(sf::Vector2f(-100.0f, -100.0f));
+	this->m_buttonGroup->m_label.setFont(this->m_assetPool->GetFont("font"));
+	this->m_buttonGroup->m_label.setString("Button Group");
+	this->m_buttonGroup->m_label.setFillColor(sf::Color::White);
 
 	this->m_publisher = new Publisher();
 	this->m_publisher->AddElement(m_button);

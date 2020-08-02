@@ -1,7 +1,13 @@
-﻿  GameState.cpp
-  ImplodeEngine.cpp
-C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-  MenuState.cpp
-  SplashScreenState.cpp
+﻿  MenuState.cpp
+  UIElement.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(54,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(55,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(56,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(143,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(144,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(145,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(149,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(150,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(151,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
   main.cpp
   ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe
