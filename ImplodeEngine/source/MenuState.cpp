@@ -16,7 +16,7 @@ MenuState::MenuState()
 	this->m_assetPool->LoadTexture("resources/textures/No.png", "no");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
 
-	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.2f, 0.2f), buttonState,true);
+	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.08f, 0.08f), buttonState,true);
 	this->m_button->SetTexture(m_assetPool->GetTexture("save"));
 	this->m_button->m_label.setFont(this->m_assetPool->GetFont("font"));
 	this->m_button->SetLabelPos(sf::Vector2f(0, -100.0f));
@@ -24,18 +24,24 @@ MenuState::MenuState()
 	this->m_slider = new Slider("Slider",sf::Vector2f(400, 400), sf::Vector2f(0.7f,0.7f),sf::Vector2f(0.7f,0.7f),floatRef);
 	this->m_slider->SetTextures(m_assetPool->GetTexture("button"),m_assetPool->GetTexture("slider"));
 
-	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(300, 300), sf::Vector2f(1, 1), true, m_boolToCheck, m_assetPool->GetTexture("aporva")); //texture
-	this->m_buttonGroup->SetButtons(m_assetPool->GetTexture("yes"), sf::Vector2f(0.8f,0.8f), m_assetPool->GetTexture("no"),sf::Vector2f(0.8f,0.8f));
+	this->m_buttonGroup = new ButtonGroup("Button Group", sf::Vector2f(300, 300), sf::Vector2f(1.3f, 1.3f), true, m_boolToCheck, m_assetPool->GetTexture("aporva")); //texture
+	this->m_buttonGroup->SetButtons(m_assetPool->GetTexture("yes"), sf::Vector2f(1.0f,1.0f), m_assetPool->GetTexture("no"),sf::Vector2f(1.0f,1.0f));
 	
 	this->m_buttonGroup->SetLabelPos(sf::Vector2f(-100.0f, -100.0f));
 	this->m_buttonGroup->m_label.setFont(this->m_assetPool->GetFont("font"));
-	this->m_buttonGroup->m_label.setString("Button Group");
 	this->m_buttonGroup->m_label.setFillColor(sf::Color::White);
 
+
+	this->m_widgetGroup = new Widget("", sf::Vector2f(0.0f, 0.0f), sf::Vector2f(5, 9), m_assetPool->GetTexture("aporva"));
+	this->m_widgetGroup->AddElement(this->m_buttonGroup, sf::Vector2f(0.1f, 0.4f));
+	this->m_widgetGroup->AddElement(this->m_button, sf::Vector2f(0.5f, 0.5f));
+	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
+
 	this->m_publisher = new Publisher();
-	this->m_publisher->AddElement(m_button);
-	this->m_publisher->AddElement(m_slider);
-	this->m_publisher->AddElement(m_buttonGroup);
+	//this->m_publisher->AddElement(m_button);
+	//this->m_publisher->AddElement(m_slider);
+	//this->m_publisher->AddElement(m_buttonGroup);
+	this->m_publisher->AddElement(m_widgetGroup);
 }
 
 void MenuState::Update(float deltaTime)

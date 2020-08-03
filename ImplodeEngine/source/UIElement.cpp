@@ -24,7 +24,17 @@ void Button::SetTexture(sf::Texture& texture)
 	this->m_buttonSprite.setScale(this->m_scale);
 	this->m_buttonSprite.setPosition(this->m_position);
 	this->m_initialColor = this->m_buttonSprite.getColor();
+	
+}
 
+void Button::UpdatePosition(sf::Vector2f position)
+{
+	sf::Vector2f relativeLabelPos = sf::Vector2f(this->m_label.getPosition().x - GetOrigin().x, this->m_label.getPosition().y - GetOrigin().y);
+	sf::Vector2f relativeButtonTextPos = sf::Vector2f(this->m_buttonText.getPosition().x - GetOrigin().x, this->m_buttonText.getPosition().y - GetOrigin().y);
+	this->m_position = position;
+	this->m_buttonSprite.setPosition(position);
+	this->m_label.setPosition(sf::Vector2f(GetOrigin().x + relativeLabelPos.x, GetOrigin().y + relativeLabelPos.y));
+	this->m_buttonText.setPosition(sf::Vector2f(relativeButtonTextPos.x + GetOrigin().x, relativeButtonTextPos.y + GetOrigin().y));
 }
 
 void Button::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
@@ -137,6 +147,17 @@ void Slider::Notify()
 	this->m_floatRef = (this->m_selectorSprite.getPosition().x - this->m_barSprite.getPosition().x)/width ; 
 }
 
+void Slider::UpdatePosition(sf::Vector2f position)
+{
+	sf::Vector2f labelRelativePos = sf::Vector2f(this->m_label.getPosition().x - GetOrigin().x, this->m_label.getPosition().y - GetOrigin().y);
+	sf::Vector2f barSpriteRelativePos = sf::Vector2f(this->m_barSprite.getPosition().x - GetOrigin().x, this->m_barSprite.getPosition().y - GetOrigin().y);
+	sf::Vector2f sliderSpriteRelativePos = sf::Vector2f(this->m_selectorSprite.getPosition().x - GetOrigin().x, this->m_selectorSprite.getPosition().y - GetOrigin().y);
+
+	this->m_position = position;
+	this->m_barSprite.setPosition(sf::Vector2f(GetOrigin().x + barSpriteRelativePos.x,GetOrigin().y + barSpriteRelativePos.y));
+	this->m_selectorSprite.setPosition(sf::Vector2f(GetOrigin().x + sliderSpriteRelativePos.x, GetOrigin().y +sliderSpriteRelativePos.y));
+}
+
 void Slider::Selected()
 {
 	sf::Color c = this->m_barSprite.getColor();
@@ -168,7 +189,7 @@ void Publisher::Render(sf::RenderWindow* window)
 	}
 }
 
-ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, float orientation, bool& reference,sf::Texture& borderTexture)
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture)
 	: UIElement(text, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
 {
 	this->m_border.setTexture(&borderTexture);
@@ -196,28 +217,80 @@ void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf
 	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, true);
 	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, false);
 
-	float totalWidth = (this->m_border.getLocalBounds().width ) - ((this->m_border.getLocalBounds().width) / 8); //we want to get a slight offset for the button height requirements so we have space
-	float totalHeight = (this->m_border.getLocalBounds().height  ) - ((this->m_border.getLocalBounds().height ) / 8);
+	float leftW = (leftTexture.getSize().x * scaleLeft.x);
+	float rightW = (rightTexture.getSize().x * scaleRight.x);
 
+	float leftH = (leftTexture.getSize().y * scaleLeft.y);
+	float rightH = (rightTexture.getSize().y * scaleRight.y);
+	
 	if (m_orientation)
 	{
 		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - ((leftTexture.getSize().y * scaleLeft.y) / 2)));
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (leftH / 2)));
 		this->m_leftButton->SetTexture(leftTexture);
 
-		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width / 2) + ((this->m_border.getLocalBounds().width) / 8),
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - ((rightTexture.getSize().y * scaleRight.y) /2)));
+		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width - (this->m_border.getLocalBounds().width / 8) - rightW),
+			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) - (rightH /2)));
 		this->m_rightButton->SetTexture(rightTexture);
 	}
 
 	else if (!m_orientation )
 	{
-		this->m_leftButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width ) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 8)));
+		this->m_leftButton->SetPos(sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width) / 2) - (leftW / 2),
+			this->m_position.y + (this->m_border.getLocalBounds().height) / 8));
 		this->m_leftButton->SetTexture(leftTexture);
 
-		this->m_rightButton->SetPos(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width) / 8,
-			this->m_position.y + ((this->m_border.getLocalBounds().height) / 2) + ((this->m_border.getLocalBounds().height) / 8)));
-		this->m_leftButton->SetTexture(rightTexture);
+		this->m_rightButton->SetPos(sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width) / 2) - (rightW /2),
+			this->m_position.y + (this->m_border.getLocalBounds().height - (this->m_border.getLocalBounds().height/8) - rightH)));
+		this->m_rightButton->SetTexture(rightTexture);
 	}
+}
+
+void ButtonGroup::UpdatePosition(sf::Vector2f position)
+{
+	sf::Vector2f relativeLeftButtonPos = sf::Vector2f(this->m_leftButton->GetPosition().x - GetOrigin().x, this->m_leftButton->GetPosition().y - GetOrigin().y);
+	sf::Vector2f relativeRightButtonPos = sf::Vector2f(this->m_rightButton->GetPosition().x - GetOrigin().x, this->m_rightButton->GetPosition().y - GetOrigin().y);
+	sf::Vector2f relativeLabelPos = sf::Vector2f(this->m_label.getPosition().x - GetOrigin().x, this->m_label.getPosition().y - GetOrigin().y);
+
+	this->m_position = position;
+	this->m_leftButton->UpdatePosition(sf::Vector2f(relativeLeftButtonPos.x + GetOrigin().x,GetOrigin().y + relativeLeftButtonPos.y));
+	this->m_rightButton->UpdatePosition(sf::Vector2f(GetOrigin().x + relativeRightButtonPos.x, GetOrigin().y + relativeRightButtonPos.y));
+	this->m_label.setPosition(sf::Vector2f(GetOrigin().x + relativeLabelPos.x, GetOrigin().y + relativeLabelPos.y));
+	this->m_border.setPosition(position);
+}
+
+Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture) : UIElement(text, elementPos, scale)
+{
+	this->m_border.setTexture(&widgetTexture);
+	this->m_border.setPosition(elementPos);
+	this->m_border.setSize(sf::Vector2f(scale.x * widgetTexture.getSize().x, scale.y * widgetTexture.getSize().y));
+}
+
+void Widget::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+{
+	for (auto element : this->m_elements)
+	{
+		element->Update(deltaTime, notified, mousePos);
+	}
+}
+
+void Widget::Render(sf::RenderWindow* window)
+{
+	window->draw(this->m_border);
+	window->draw(this->m_label);
+	for (auto element : this->m_elements)
+	{
+		element->Render(window);
+	}
+}
+
+void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
+{
+	if (percentagePos.x < 0 || percentagePos.x > 1 || percentagePos.y < 0 || percentagePos.y > 1)
+	{
+		std::cout << "Error, please provide floats from 0-1 so 80% = 0.8!" << std::endl;
+		return;
+	}
+	element->UpdatePosition(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * percentagePos.x), this->m_position.y + (this->m_border.getLocalBounds().height * percentagePos.y)));
+	this->m_elements.push_back(element);
 }

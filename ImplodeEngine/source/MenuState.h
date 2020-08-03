@@ -14,7 +14,7 @@ private:
 	AssetPool* m_assetPool;
 	Button* m_button;
 	ButtonGroup* m_buttonGroup;
-
+	Widget* m_widgetGroup;
 	Slider* m_slider;
 	Publisher* m_publisher;
 	bool buttonState = false;
