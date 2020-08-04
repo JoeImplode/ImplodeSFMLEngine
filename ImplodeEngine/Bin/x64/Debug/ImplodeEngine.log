@@ -1,5 +1,2 @@
-﻿  GameState.cpp
-  MenuState.cpp
-  SplashScreenState.cpp
-  main.cpp
+﻿  MenuState.cpp
   ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

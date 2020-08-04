@@ -114,6 +114,25 @@ private:
 protected:
 };
 
+class DropDown : public UIElement
+{
+public:
+	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &reference);
+	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
+	void Render(sf::RenderWindow* window) override;
+	void AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool& reference);
+	inline sf::Vector2f GetOrigin() override { 
+		return sf::Vector2f(this->m_activatorButton->GetOrigin());
+	}
+	void UpdatePosition(sf::Vector2f position) override;
+
+private:
+	Button * m_activatorButton;
+	std::vector<Button* > m_buttons;
+protected:
+};
+
+
 class Publisher
 {
 public:

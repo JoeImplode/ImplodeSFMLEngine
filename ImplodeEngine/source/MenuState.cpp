@@ -14,6 +14,7 @@ MenuState::MenuState()
 	this->m_assetPool->LoadTexture("resources/textures/man.png", "man");
 	this->m_assetPool->LoadTexture("resources/textures/Yes.png", "yes");
 	this->m_assetPool->LoadTexture("resources/textures/No.png", "no");
+	this->m_assetPool->LoadTexture("resources/textures/dropDownButton.png", "DropDown");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
 
 	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.08f, 0.08f), buttonState,true);
@@ -37,11 +38,23 @@ MenuState::MenuState()
 	this->m_widgetGroup->AddElement(this->m_button, sf::Vector2f(0.5f, 0.5f));
 	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
 
+	sf::Text txt;
+	txt.setFillColor(sf::Color::Black);
+
+	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(250.0f, 250.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("DropDown"),m_boolToCheck);
+	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
 	//this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
-	this->m_publisher->AddElement(m_widgetGroup);
+	//this->m_publisher->AddElement(m_widgetGroup);
+	this->m_publisher->AddElement(m_dropDown);
+
 }
 
 void MenuState::Update(float deltaTime)

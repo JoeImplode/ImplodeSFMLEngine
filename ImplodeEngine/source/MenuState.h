@@ -17,6 +17,8 @@ private:
 	Widget* m_widgetGroup;
 	Slider* m_slider;
 	Publisher* m_publisher;
+	DropDown* m_dropDown;
+
 	bool buttonState = false;
 	float floatRef = 0.0f;
 	bool m_boolToCheck = false;

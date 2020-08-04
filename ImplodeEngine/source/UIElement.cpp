@@ -215,7 +215,7 @@ void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf
 {
 	//construct the left and the right button here
 	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, true);
-	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, false);
+	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleRight, this->m_boolRef, false);
 
 	float leftW = (leftTexture.getSize().x * scaleLeft.x);
 	float rightW = (rightTexture.getSize().x * scaleRight.x);
@@ -293,4 +293,53 @@ void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
 	}
 	element->UpdatePosition(sf::Vector2f(this->m_position.x + (this->m_border.getLocalBounds().width * percentagePos.x), this->m_position.y + (this->m_border.getLocalBounds().height * percentagePos.y)));
 	this->m_elements.push_back(element);
+}
+
+DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool& reference) : UIElement(text, elementPos, scale)
+{
+	this->m_activatorButton = new Button("", elementPos, scale, reference, true);
+	this->m_activatorButton->SetTexture(buttonTexture);
+	this->m_activatorButton->m_buttonText = buttonText;
+	this->m_activatorButton->m_buttonText.setPosition(sf::Vector2f(this->m_activatorButton->GetPosition().x + (this->m_activatorButton->GetWidth() / 8), this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 4)));
+	this->m_activatorButton->m_buttonText.setCharacterSize(this->m_activatorButton->GetHeight() / 2);
+}
+
+void DropDown::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+{
+	this->m_activatorButton->Update(deltaTime, notified, mousePos);
+	for (int i = 0; i < this->m_buttons.size(); i++)
+		this->m_buttons[i]->Update(deltaTime, notified, mousePos);
+}
+
+void DropDown::Render(sf::RenderWindow* window)
+{
+	this->m_activatorButton->Render(window);
+	for (int i = 0; i < this->m_buttons.size(); i++)
+		this->m_buttons[i]->Render(window);
+}
+
+void DropDown::AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)
+{
+	Button * btn = new Button("", sf::Vector2f(0, 0), buttonScale, reference, true);
+	btn->SetPos(sf::Vector2f(this->m_activatorButton->GetPosition().x, this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() * (this->m_buttons.size()+1))));
+	btn->m_buttonText = buttonText;
+	btn->m_buttonText.setPosition(sf::Vector2f(btn->GetPosition().x + (btn->GetWidth() / 8), btn->GetPosition().y + (btn->GetHeight() / 4)));
+	btn->m_buttonText.setCharacterSize(btn->GetHeight() / 2);
+	btn->SetTexture(buttonTexture);
+	this->m_buttons.push_back(new Button(*btn));
+}
+
+void DropDown::UpdatePosition(sf::Vector2f position)
+{
+	sf::Vector2f relativeActivatorButtonPos = sf::Vector2f(this->m_activatorButton->GetPosition().x - GetOrigin().x, this->m_activatorButton->GetPosition().y - GetOrigin().y);
+	sf::Vector2f relativeLabelPos = sf::Vector2f(this->m_label.getPosition().x - GetOrigin().x, this->m_label.getPosition().y - GetOrigin().y);
+
+	this->m_position = position;
+	this->m_activatorButton->UpdatePosition(sf::Vector2f(relativeActivatorButtonPos.x + GetOrigin().x, GetOrigin().y + relativeActivatorButtonPos.y));
+	this->m_label.setPosition(sf::Vector2f(GetOrigin().x + relativeLabelPos.x, GetOrigin().y + relativeLabelPos.y));
+	for (int i = 0; i < this->m_buttons.size(); i++)
+	{
+		this->m_buttons[i]->UpdatePosition(sf::Vector2f(position.x, position.y * (i+1)));
+	}
+	this->m_activatorButton->UpdatePosition(position);
 }
