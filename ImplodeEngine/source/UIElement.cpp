@@ -339,7 +339,7 @@ void DropDown::UpdatePosition(sf::Vector2f position)
 	this->m_label.setPosition(sf::Vector2f(GetOrigin().x + relativeLabelPos.x, GetOrigin().y + relativeLabelPos.y));
 	for (int i = 0; i < this->m_buttons.size(); i++)
 	{
-		this->m_buttons[i]->UpdatePosition(sf::Vector2f(position.x, position.y * (i+1)));
+		this->m_buttons[i]->UpdatePosition(sf::Vector2f(position.x, position.y + (this->m_activatorButton->GetHeight() * (i+1))));
 	}
 	this->m_activatorButton->UpdatePosition(position);
 }

@@ -41,12 +41,14 @@ MenuState::MenuState()
 	sf::Text txt;
 	txt.setFillColor(sf::Color::Black);
 
-	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(250.0f, 250.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("DropDown"),m_boolToCheck);
+	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("DropDown"),m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
+
+	this->m_dropDown->UpdatePosition(sf::Vector2f(300.0f, 10.0f));
 
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
