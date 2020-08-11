@@ -62,7 +62,25 @@ MenuState::MenuState()
 void MenuState::Update(float deltaTime)
 {
 	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
-	this->m_publisher->Update(deltaTime,sf::Mouse::isButtonPressed(sf::Mouse::Button::Left),mousePos);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		m_mouseIsDown = true;
+
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		m_mouseIsDown = false;
+
+	if (m_mouseIsDown && !m_mouseWasDown)
+	{
+		this->m_publisher->Update(deltaTime, true, mousePos);
+		std::cout << "Updated" << std::endl;
+	}
+	else
+		this->m_publisher->Update(deltaTime, false, mousePos);
+
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		m_mouseWasDown = false;
+	else
+		m_mouseWasDown = true;
+	
 }
 
 void MenuState::Draw()

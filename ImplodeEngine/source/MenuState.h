@@ -22,4 +22,7 @@ private:
 	bool buttonState = false;
 	float floatRef = 0.0f;
 	bool m_boolToCheck = false;
+
+	bool m_mouseIsDown = false;
+	bool m_mouseWasDown = false;
 };
