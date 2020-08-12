@@ -18,6 +18,8 @@ private:
 	Slider* m_slider;
 	Publisher* m_publisher;
 	DropDown* m_dropDown;
+	sf::Vector2f m_mousePos;
+	sf::Vector2f m_prevMousePos;
 
 	bool buttonState = false;
 	float floatRef = 0.0f;
@@ -25,4 +27,5 @@ private:
 
 	bool m_mouseIsDown = false;
 	bool m_mouseWasDown = false;
+	bool m_mouseMoved = false;
 };

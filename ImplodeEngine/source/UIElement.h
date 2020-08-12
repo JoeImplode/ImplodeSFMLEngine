@@ -15,13 +15,16 @@ public:
 	inline void SetLabelPos(sf::Vector2f offsetPosition) {
 		this->m_label.setPosition(sf::Vector2f(GetOrigin().x + offsetPosition.x, GetOrigin().y + offsetPosition.y)); this->m_offsetPosition = offsetPosition;
 	}
+	inline std::string GetType() { return this->m_type; }
+	void SetType(std::string type) { this->m_type = type; }
 	sf::Text m_label;
 private:
 	
 protected:
 	sf::Vector2f m_position; 
-	sf::Vector2f m_scale; 
+	sf::Vector2f m_scale;
 	sf::Vector2f m_offsetPosition;
+	std::string m_type;
 };
 
 class Button : public UIElement
@@ -43,13 +46,15 @@ public:
 	inline void SetPos(sf::Vector2f pos) { this->m_position = pos; }
 	inline float GetWidth() { return this->m_buttonSprite.getLocalBounds().width * this->m_scale.x; }
 	inline float GetHeight() { return this->m_buttonSprite.getLocalBounds().height * this->m_scale.y; }
-	
+	inline bool GetValToSet() { return this->m_valToSet; }
 	sf::Text m_buttonText;
 private:
 	sf::Sprite m_buttonSprite;
 	sf::Color m_initialColor;
 	bool& m_boolRef; 
 	bool m_valToSet = false;
+	
+	
 protected:
 };
 
@@ -117,7 +122,7 @@ protected:
 class DropDown : public UIElement
 {
 public:
-	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &reference);
+	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &boolref);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
 	void AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool& reference);
@@ -129,6 +134,7 @@ public:
 private:
 	Button * m_activatorButton;
 	std::vector<Button* > m_buttons;
+	bool m_dropDownShowing = false;
 protected:
 };
 
@@ -136,7 +142,7 @@ protected:
 class Publisher
 {
 public:
-	void Update(float deltaTime, bool notified, sf::Vector2f mousePos);
+	void Update(float deltaTime, bool notified, bool dragged,sf::Vector2f mousePos);
 	void Render(sf::RenderWindow* window);
 
 	inline void AddElement(UIElement* element) { this->m_elements.push_back(element); }

@@ -15,7 +15,7 @@ Button::Button(bool& reference) : m_boolRef(reference)
 
 Button::Button(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
 {
-
+	this->m_type = "Button";
 }
 
 void Button::SetTexture(sf::Texture& texture)
@@ -74,6 +74,7 @@ void Button::SetButtonText(sf::Text textExample)
 
 Slider::Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
 {
+	this->m_type = "Slider";
 }
 
 void Slider::SetTextures(sf::Texture &barTexture, sf::Texture &selectorTexture)
@@ -173,11 +174,31 @@ void Slider::Selected()
 	this->m_selectorSprite.setColor(sc);
 }
 
-void Publisher::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f mousePos)
 {
-	for (auto element : this->m_elements)
+	if (!dragged)
 	{
-		element->Update(deltaTime, notified, mousePos);
+		for (int i = 0; i < this->m_elements.size(); i++)
+		{
+			if (this->m_elements[i]->GetType() == "Slider")
+			{
+				this->m_elements[i]->Update(deltaTime, false, mousePos);
+			}
+			else
+				this->m_elements[i]->Update(deltaTime, notified, mousePos);
+		}
+	}
+
+	else if (dragged)
+	{
+		for (int i = 0; i < this->m_elements.size(); i++)
+		{
+			if (this->m_elements[i]->GetType() == "Slider")
+			{
+				this->m_elements[i]->Update(deltaTime, notified, mousePos);
+			}
+		}
+		
 	}
 }
 
@@ -192,6 +213,7 @@ void Publisher::Render(sf::RenderWindow* window)
 ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture)
 	: UIElement(text, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
 {
+	this->m_type = "ButtonGroup";
 	this->m_border.setTexture(&borderTexture);
 	this->m_border.setPosition(elementPos);
 	this->m_border.setSize(sf::Vector2f(scale.x * borderTexture.getSize().x, scale.y * borderTexture.getSize().y));
@@ -261,6 +283,7 @@ void ButtonGroup::UpdatePosition(sf::Vector2f position)
 
 Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture) : UIElement(text, elementPos, scale)
 {
+	this->m_type = "Widget";
 	this->m_border.setTexture(&widgetTexture);
 	this->m_border.setPosition(elementPos);
 	this->m_border.setSize(sf::Vector2f(scale.x * widgetTexture.getSize().x, scale.y * widgetTexture.getSize().y));
@@ -297,7 +320,8 @@ void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
 
 DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool& reference) : UIElement(text, elementPos, scale)
 {
-	this->m_activatorButton = new Button("", elementPos, scale, reference, true);
+	this->m_type = "DropDown";
+	this->m_activatorButton = new Button("", elementPos, scale, this->m_dropDownShowing, true);
 	this->m_activatorButton->SetTexture(buttonTexture);
 	this->m_activatorButton->m_buttonText = buttonText;
 	this->m_activatorButton->m_buttonText.setPosition(sf::Vector2f(this->m_activatorButton->GetPosition().x + (this->m_activatorButton->GetWidth() / 8), this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 4)));
@@ -307,15 +331,24 @@ DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale
 void DropDown::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
 {
 	this->m_activatorButton->Update(deltaTime, notified, mousePos);
-	for (int i = 0; i < this->m_buttons.size(); i++)
-		this->m_buttons[i]->Update(deltaTime, notified, mousePos);
+	if (this->m_dropDownShowing)
+	{
+		for (int i = 0; i < this->m_buttons.size(); i++)
+			this->m_buttons[i]->Update(deltaTime, notified, mousePos);
+		this->m_activatorButton->SetValToSet(false);
+	}
+	if (!this->m_dropDownShowing && !this->m_activatorButton->GetValToSet())
+		this->m_activatorButton->SetValToSet(true);
 }
 
 void DropDown::Render(sf::RenderWindow* window)
 {
 	this->m_activatorButton->Render(window);
-	for (int i = 0; i < this->m_buttons.size(); i++)
-		this->m_buttons[i]->Render(window);
+	if (this->m_dropDownShowing)
+	{
+		for (int i = 0; i < this->m_buttons.size(); i++)
+			this->m_buttons[i]->Render(window);
+	}
 }
 
 void DropDown::AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)

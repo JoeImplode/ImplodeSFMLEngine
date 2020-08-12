@@ -37,10 +37,15 @@ MenuState::MenuState()
 	this->m_widgetGroup->AddElement(this->m_buttonGroup, sf::Vector2f(0.1f, 0.4f));
 	this->m_widgetGroup->AddElement(this->m_button, sf::Vector2f(0.5f, 0.5f));
 	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
-
+	
 	sf::Text txt;
 	txt.setFillColor(sf::Color::Black);
-
+	txt.setFont(this->m_assetPool->GetFont("font"));
+	txt.setString("Selection");
+	sf::Text newTxt;
+	newTxt.setFillColor(sf::Color::Black);
+	newTxt.setFont(this->m_assetPool->GetFont("font"));
+	newTxt.setString("Select");
 	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("DropDown"),m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(txt, m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
@@ -52,7 +57,7 @@ MenuState::MenuState()
 
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
-	//this->m_publisher->AddElement(m_slider);
+	this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
 	//this->m_publisher->AddElement(m_widgetGroup);
 	this->m_publisher->AddElement(m_dropDown);
@@ -61,26 +66,36 @@ MenuState::MenuState()
 
 void MenuState::Update(float deltaTime)
 {
-	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
+	this->m_mousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
+
+	if (this->m_mousePos.x != this->m_prevMousePos.x || this->m_mousePos.y != this->m_prevMousePos.y)
+		this->m_mouseMoved = true;
+	else if (this->m_mousePos.x == this->m_prevMousePos.x && this->m_mousePos.y == this->m_prevMousePos.y)
+		this->m_mouseMoved = false;
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		m_mouseIsDown = true;
-
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		m_mouseIsDown = false;
 
 	if (m_mouseIsDown && !m_mouseWasDown)
 	{
-		this->m_publisher->Update(deltaTime, true, mousePos);
+		this->m_publisher->Update(deltaTime, true,this->m_mouseMoved,this->m_mousePos);
 		std::cout << "Updated" << std::endl;
 	}
+
+	else if (m_mouseIsDown && m_mouseWasDown && m_mouseMoved)
+		this->m_publisher->Update(deltaTime, true, this->m_mouseMoved,this->m_mousePos);
 	else
-		this->m_publisher->Update(deltaTime, false, mousePos);
+		this->m_publisher->Update(deltaTime, false, this->m_mouseMoved, this->m_mousePos);
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		m_mouseWasDown = false;
 	else
 		m_mouseWasDown = true;
 	
+	this->m_prevMousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
+
 }
 
 void MenuState::Draw()
