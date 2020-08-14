@@ -4,7 +4,7 @@ class UIElement
 {
 public:
 	UIElement() {};
-	UIElement(std::string text, sf::Vector2f elementPos, sf::Vector2f scale);
+	UIElement(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool activated);
 	inline virtual void Update(float deltaTime, bool notified,sf::Vector2f mousePos) { ; }
 	inline virtual void Render(sf::RenderWindow* window) { ; }
 	inline virtual void Notify() { ; }
@@ -18,6 +18,9 @@ public:
 	inline std::string GetType() { return this->m_type; }
 	void SetType(std::string type) { this->m_type = type; }
 	sf::Text m_label;
+	inline bool GetActivated() { return m_activated; }
+	inline void SetActivated(bool activated) { this->m_activated = activated; }
+	inline bool& GetActivatedAddress() { return m_activated; }
 private:
 	
 protected:
@@ -25,13 +28,14 @@ protected:
 	sf::Vector2f m_scale;
 	sf::Vector2f m_offsetPosition;
 	std::string m_type;
+	bool m_activated;
 };
 
 class Button : public UIElement
 {
 public:
 	Button(bool& reference);
-	Button(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool &reference, bool valToSet = false);
+	Button(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool &reference, bool activated, bool valToSet = false);
 
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
@@ -41,7 +45,7 @@ public:
 	void UpdatePosition(sf::Vector2f position) override;
 	inline sf::Vector2f GetOrigin() override { return sf::Vector2f(((this->m_position.x + (this->m_buttonSprite.getLocalBounds().width * this->m_scale.x) / 2)), (this->m_position.y + (this->m_buttonSprite.getLocalBounds().height * this->m_scale.y) / 2)); }
 	inline void SetBoolRef(bool& reference) { this->m_boolRef = reference; }
-	inline void Notify() override { this->m_boolRef = m_valToSet; }
+	inline void Notify() override { this->m_boolRef = m_valToSet;  std::cout << "Notified!" << std::endl; }
 	inline void SetValToSet(bool valToSet) { this->m_valToSet = valToSet; }
 	inline void SetPos(sf::Vector2f pos) { this->m_position = pos; }
 	inline float GetWidth() { return this->m_buttonSprite.getLocalBounds().width * this->m_scale.x; }
@@ -61,7 +65,7 @@ protected:
 class Slider : public UIElement
 {
 public:
-	Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference);
+	Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference, bool activated);
 	void SetTextures(sf::Texture& barTexture, sf::Texture& selectorTexture);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos)override;
 	void Render(sf::RenderWindow* window) override;
@@ -87,7 +91,7 @@ protected:
 class ButtonGroup : public UIElement
 {
 public:
-	ButtonGroup(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference, sf::Texture &borderTexture);
+	ButtonGroup(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference, sf::Texture &borderTexture, bool activated);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
 	void SetButtons(sf::Texture& leftTexture, sf::Vector2f scaleLeft,sf::Texture& rightTexture, sf::Vector2f scaleRight);
@@ -106,8 +110,8 @@ protected:
 class Widget : public UIElement
 {
 public:
-	Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture);
-	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
+	Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture, bool activated);
+	void Update(float deltaTime, bool notified, bool dragged, sf::Vector2f mousePos);
 	void Render(sf::RenderWindow* window) override;
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width / 2)), this->m_position.y + (this->m_border.getLocalBounds().height / 2));
@@ -122,10 +126,10 @@ protected:
 class DropDown : public UIElement
 {
 public:
-	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &boolref);
+	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &boolref, bool activated);
 	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
 	void Render(sf::RenderWindow* window) override;
-	void AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool& reference);
+	void AddSelection(sf::Text buttonText,std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool& reference);
 	inline sf::Vector2f GetOrigin() override { 
 		return sf::Vector2f(this->m_activatorButton->GetOrigin());
 	}
@@ -137,7 +141,6 @@ private:
 	bool m_dropDownShowing = false;
 protected:
 };
-
 
 class Publisher
 {

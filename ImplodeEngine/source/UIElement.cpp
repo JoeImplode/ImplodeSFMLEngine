@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "UIElement.h"
 
-UIElement::UIElement(std::string text,sf::Vector2f elementPos, sf::Vector2f scale)
+UIElement::UIElement(std::string text,sf::Vector2f elementPos, sf::Vector2f scale,bool activated)
 {
 	this->m_label.setString(text);
 	this->m_position = elementPos;
 	this->m_scale = scale;
+	this->m_activated = activated;
 }
 
 Button::Button(bool& reference) : m_boolRef(reference)
@@ -13,7 +14,7 @@ Button::Button(bool& reference) : m_boolRef(reference)
 
 }
 
-Button::Button(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet) : UIElement(text,elementPos,scale),m_boolRef(reference),m_valToSet(valToSet)
+Button::Button(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet, bool activated) : UIElement(text,elementPos,scale,activated),m_boolRef(reference),m_valToSet(valToSet)
 {
 	this->m_type = "Button";
 }
@@ -72,7 +73,7 @@ void Button::SetButtonText(sf::Text textExample)
 	this->m_buttonText = textExample;
 }
 
-Slider::Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference) : UIElement(text,elementPos,scale),m_floatRef(reference),m_selectorScale(selectorScale)
+Slider::Slider(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Vector2f selectorScale, float& reference, bool activated) : UIElement(text,elementPos,scale,activated),m_floatRef(reference),m_selectorScale(selectorScale)
 {
 	this->m_type = "Slider";
 }
@@ -180,12 +181,21 @@ void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f
 	{
 		for (int i = 0; i < this->m_elements.size(); i++)
 		{
-			if (this->m_elements[i]->GetType() == "Slider")
+			if (this->m_elements[i]->GetActivated())
 			{
-				this->m_elements[i]->Update(deltaTime, false, mousePos);
+				if (this->m_elements[i]->GetType() == "Slider")
+				{
+					this->m_elements[i]->Update(deltaTime, false, mousePos);
+				}
+				if (this->m_elements[i]->GetType() == "Widget")
+				{
+					Widget* tempWgt;
+					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
+					tempWgt->Update(deltaTime, dragged, notified, mousePos);
+				}
+				else
+					this->m_elements[i]->Update(deltaTime, notified, mousePos);
 			}
-			else
-				this->m_elements[i]->Update(deltaTime, notified, mousePos);
 		}
 	}
 
@@ -193,12 +203,21 @@ void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f
 	{
 		for (int i = 0; i < this->m_elements.size(); i++)
 		{
-			if (this->m_elements[i]->GetType() == "Slider")
+			if (this->m_elements[i]->GetActivated())
 			{
-				this->m_elements[i]->Update(deltaTime, notified, mousePos);
+				if (this->m_elements[i]->GetType() == "Slider")
+				{
+					this->m_elements[i]->Update(deltaTime, notified, mousePos);
+				}
+				if (this->m_elements[i]->GetType() == "Widget")
+				{
+					Widget* tempWgt;
+					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
+					tempWgt->Update(deltaTime, dragged, notified, mousePos);
+				}
 			}
+
 		}
-		
 	}
 }
 
@@ -206,12 +225,13 @@ void Publisher::Render(sf::RenderWindow* window)
 {
 	for (auto element : this->m_elements)
 	{
-		element->Render(window);
+		if(element->GetActivated())
+			element->Render(window);
 	}
 }
 
-ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture)
-	: UIElement(text, elementPos, scale),m_orientation(orientation),m_boolRef(reference)
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture, bool activated)
+	: UIElement(text, elementPos, scale,activated),m_orientation(orientation),m_boolRef(reference)
 {
 	this->m_type = "ButtonGroup";
 	this->m_border.setTexture(&borderTexture);
@@ -281,7 +301,7 @@ void ButtonGroup::UpdatePosition(sf::Vector2f position)
 	this->m_border.setPosition(position);
 }
 
-Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture) : UIElement(text, elementPos, scale)
+Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture, bool activated) : UIElement(text, elementPos, scale,activated)
 {
 	this->m_type = "Widget";
 	this->m_border.setTexture(&widgetTexture);
@@ -289,11 +309,49 @@ Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf
 	this->m_border.setSize(sf::Vector2f(scale.x * widgetTexture.getSize().x, scale.y * widgetTexture.getSize().y));
 }
 
-void Widget::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void Widget::Update(float deltaTime, bool dragged,bool notified, sf::Vector2f mousePos)
 {
-	for (auto element : this->m_elements)
+	if (!dragged)
 	{
-		element->Update(deltaTime, notified, mousePos);
+		for (int i = 0; i < this->m_elements.size(); i++)
+		{
+			if (this->m_elements[i]->GetActivated())
+			{
+				if (this->m_elements[i]->GetType() == "Slider")
+				{
+					this->m_elements[i]->Update(deltaTime, false, mousePos);
+				}
+				if (this->m_elements[i]->GetType() == "Widget")
+				{
+					Widget* tempWgt;
+					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
+					tempWgt->Update(deltaTime, dragged, false, mousePos);
+				}
+				else
+					this->m_elements[i]->Update(deltaTime, notified, mousePos);
+			}
+		}
+	}
+
+	else if (dragged)
+	{
+		for (int i = 0; i < this->m_elements.size(); i++)
+		{
+			if (this->m_elements[i]->GetActivated())
+			{
+				if (this->m_elements[i]->GetType() == "Slider")
+				{
+					this->m_elements[i]->Update(deltaTime, notified, mousePos);
+				}
+				if (this->m_elements[i]->GetType() == "Widget")
+				{
+					Widget* tempWgt;
+					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
+					tempWgt->Update(deltaTime, dragged, notified, mousePos);
+				}
+			}
+
+		}
 	}
 }
 
@@ -303,7 +361,8 @@ void Widget::Render(sf::RenderWindow* window)
 	window->draw(this->m_label);
 	for (auto element : this->m_elements)
 	{
-		element->Render(window);
+		if(element->GetActivated())
+			element->Render(window);
 	}
 }
 
@@ -318,14 +377,15 @@ void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
 	this->m_elements.push_back(element);
 }
 
-DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool& reference) : UIElement(text, elementPos, scale)
+DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool& reference, bool activated) : UIElement(text, elementPos, scale,activated)
 {
 	this->m_type = "DropDown";
 	this->m_activatorButton = new Button("", elementPos, scale, this->m_dropDownShowing, true);
 	this->m_activatorButton->SetTexture(buttonTexture);
 	this->m_activatorButton->m_buttonText = buttonText;
-	this->m_activatorButton->m_buttonText.setPosition(sf::Vector2f(this->m_activatorButton->GetPosition().x + (this->m_activatorButton->GetWidth() / 8), this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 4)));
 	this->m_activatorButton->m_buttonText.setCharacterSize(this->m_activatorButton->GetHeight() / 2);
+	this->m_activatorButton->m_buttonText.setPosition(sf::Vector2f((this->m_activatorButton->GetPosition().x + (this->m_activatorButton->GetWidth() / 2)) - (this->m_activatorButton->m_buttonText.getLocalBounds().width/2),
+		(this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 2)) - (this->m_activatorButton->m_buttonText.getLocalBounds().height /2)));
 }
 
 void DropDown::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
@@ -351,14 +411,15 @@ void DropDown::Render(sf::RenderWindow* window)
 	}
 }
 
-void DropDown::AddSelection(sf::Text buttonText, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)
+void DropDown::AddSelection(sf::Text buttonText, std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)
 {
-	Button * btn = new Button("", sf::Vector2f(0, 0), buttonScale, reference, true);
+	Button * btn = new Button("", sf::Vector2f(0, 0), buttonScale, reference,true,false);
 	btn->SetPos(sf::Vector2f(this->m_activatorButton->GetPosition().x, this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() * (this->m_buttons.size()+1))));
 	btn->m_buttonText = buttonText;
-	btn->m_buttonText.setPosition(sf::Vector2f(btn->GetPosition().x + (btn->GetWidth() / 8), btn->GetPosition().y + (btn->GetHeight() / 4)));
-	btn->m_buttonText.setCharacterSize(btn->GetHeight() / 2);
+	btn->m_buttonText.setString(textString);
 	btn->SetTexture(buttonTexture);
+	btn->m_buttonText.setCharacterSize(this->m_activatorButton->GetHeight() / 2);
+	btn->m_buttonText.setPosition(sf::Vector2f((btn->GetPosition().x + (btn->GetWidth()/2)) - (btn->m_buttonText.getLocalBounds().width / 2), (btn->GetPosition().y + (btn->GetHeight() / 2)) - (btn->m_buttonText.getLocalBounds().height/2)));
 	this->m_buttons.push_back(new Button(*btn));
 }
 
