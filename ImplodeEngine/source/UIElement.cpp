@@ -437,3 +437,89 @@ void DropDown::UpdatePosition(sf::Vector2f position)
 	}
 	this->m_activatorButton->UpdatePosition(position);
 }
+
+TextInput::TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+	std::string& stringToSet, int characterLimit, int scrollableLimit, std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window,sf::Font & font) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_scrollableLimit(scrollableLimit), m_string(stringToSet),m_event(event),m_renderWindow(window)
+{
+	this->m_type = "TextInput";
+	this->m_textBoxTexture.setTexture(&textBoxTexture);
+	this->m_textBoxTexture.setPosition(elementPos);
+	this->m_textBoxTexture.setSize(sf::Vector2f(scale.x * textBoxTexture.getSize().x, scale.y * textBoxTexture.getSize().y));
+
+	this->m_inputText.setFont(font);
+	this->m_inputText.setCharacterSize(scale.y * textBoxTexture.getSize().y / 2);
+	this->m_inputText.setPosition(elementPos.x,elementPos.y + ((scale.y * textBoxTexture.getSize().y) / 2) - ((scale.y * textBoxTexture.getSize().y / 2)/2));
+	this->m_inputText.setFillColor(sf::Color::Black);
+	
+	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
+	float endPos = textBoxTexture.getSize().x + width;
+
+	this->m_sendButton = new Button(buttonLabel, sf::Vector2f(endPos + (width / 8), this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton->SetTexture(buttonTexture);
+}
+
+void TextInput::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+{
+	//check if the mouse is clicked within the rect bounds
+	//change focused to true if set to false then clicked, otherwise set to false if clicked off
+	//if typing during focused, we just update the text that is being inputted until if the character length is not what we set it as
+	//if send is clicked, we call the send function, wipe the text
+
+	if (notified && mousePos.x < this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width)
+		&& mousePos.x > this->m_textBoxTexture.getPosition().x && mousePos.y > this->m_textBoxTexture.getPosition().y
+		&& mousePos.y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
+	{
+		if (!this->m_focused && !m_wasFocused)
+			this->m_focused = true;
+		else if (this->m_focused && m_wasFocused)
+			this->m_focused = false;
+	}
+	else if (notified)
+		this->m_focused = false;
+
+	if (this->m_focused)
+	{
+		while (this->m_renderWindow.pollEvent(this->m_event))
+		{
+			if (this->m_event.TextEntered)
+				if (this->m_event.text.unicode >= 33 && this->m_event.text.unicode < 128)
+					this->UpdateTextBox(this->m_event.text.unicode);
+		}
+	}
+	this->m_sendButton->Update(deltaTime, notified, mousePos);
+}
+
+void TextInput::UpdateTextBox(int charTyped)
+{
+	if (charTyped != DELETE_KEY)
+		this->m_textString << static_cast<char>(charTyped);
+
+	else if (charTyped == DELETE_KEY)
+		if (this->m_textString.str().length() > 0)
+			DeleteLastChar();
+
+	this->m_inputText.setString(this->m_textString.str() + "_");
+}
+
+void TextInput::DeleteLastChar()
+{
+	std::string t = this->m_textString.str();
+	std::string newTxtString = "";
+
+	for (int i = 0; i < t.length(); i++)
+		newTxtString += t[i];
+
+	this->m_textString.str("");
+	this->m_textString << newTxtString;
+}
+
+void TextInput::Render(sf::RenderWindow* window)
+{
+	window->draw(this->m_textBoxTexture);
+	window->draw(this->m_inputText);
+	this->m_sendButton->Render(window);
+}
+
+void TextInput::UpdatePosition(sf::Vector2f position)
+{
+}

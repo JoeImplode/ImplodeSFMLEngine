@@ -6,7 +6,7 @@
 class MenuState : public GameState
 {
 public:
-	MenuState();
+	MenuState(GameContext* context);
 	void Update(float deltaTime) override;
 	void Draw() override;
 private:
@@ -20,6 +20,8 @@ private:
 	DropDown* m_dropDown;
 	sf::Vector2f m_mousePos;
 	sf::Vector2f m_prevMousePos;
+	TextInput* m_textInput;
+	std::string m_stringToSet;
 
 	bool buttonState = false;
 	float floatRef = 0.0f;

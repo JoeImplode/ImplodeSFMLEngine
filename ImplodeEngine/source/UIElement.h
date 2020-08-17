@@ -1,5 +1,9 @@
 #pragma once
 
+#define DELETE_KEY 8
+#define ENTER_KEY 13
+#define ESCAPE_KEY 27
+
 class UIElement
 {
 public:
@@ -141,6 +145,35 @@ private:
 	bool m_dropDownShowing = false;
 protected:
 };
+
+class TextInput : public UIElement
+{
+public:
+	TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+		std::string& stringToSet, int characterLimit, int scrollableLimit,std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window, sf::Font & font);
+	void Update(float deltaTime, bool notified, sf::Vector2f mousePos) override;
+	void Render(sf::RenderWindow* window) override;
+	void UpdatePosition(sf::Vector2f position) override;
+	inline sf::Vector2f GetOrigin() override { return sf::Vector2f(200, 200); }
+private:
+	void UpdateTextBox(int charTyped);
+	void DeleteLastChar();
+	Button* m_sendButton;
+	sf::RectangleShape m_textBoxTexture;
+	sf::Text m_inputText;
+	std::ostringstream m_textString;
+	std::string& m_string;
+	bool m_focused = false;
+	bool m_wasFocused;
+	int m_characterLimit;
+	int m_scrollableLimit;
+	bool m_sendPressed = false;
+	bool m_sendWasPressed = false;
+	sf::Event& m_event;
+	sf::RenderWindow& m_renderWindow;
+protected:
+};
+
 
 class Publisher
 {

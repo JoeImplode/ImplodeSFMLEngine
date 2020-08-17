@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include "AssetPool.h"
 
-MenuState::MenuState()
+MenuState::MenuState(GameContext* context) : GameState(context)
 {
 	this->m_assetPool = new AssetPool();
 	this->m_assetPool->LoadTexture("resources/textures/sliderTest.png", "button");
@@ -38,6 +38,9 @@ MenuState::MenuState()
 	this->m_widgetGroup->AddElement(this->m_button, sf::Vector2f(0.5f, 0.5f));
 	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
 	
+	this->m_textInput = new TextInput("Text Input", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
+		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 20, 20, "Send", true,m_context->GetEvent(),*m_context->GetWindow(),this->m_assetPool->GetFont("font"));
+
 	sf::Text txt;
 	txt.setFillColor(sf::Color::Black);
 	txt.setFont(this->m_assetPool->GetFont("font"));
@@ -53,15 +56,14 @@ MenuState::MenuState()
 	this->m_dropDown->AddSelection(newTxt, "Render Distance", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "Aspect Ratio", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 
-	//this->m_dropDown->UpdatePosition(sf::Vector2f(300.0f, 10.0f));
-
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
 	//this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
-	this->m_publisher->AddElement(m_widgetGroup);	
+	//this->m_publisher->AddElement(m_widgetGroup);	
 	//this->m_publisher->AddElement(m_dropDown);
+	this->m_publisher->AddElement(m_textInput);
 
 }
 
@@ -94,9 +96,6 @@ void MenuState::Update(float deltaTime)
 		m_mouseWasDown = false;
 	else
 		m_mouseWasDown = true;
-	
-	//Continue from here for further update checking
-
 
 	this->m_prevMousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
 

@@ -14,11 +14,13 @@ namespace ImplodeEngine
 	static MenuState * m_menu;
 	static SplashScreenState* m_splash;
 
+	static sf::Event *event;
+
+	sf::Event & GetEvent();
 	void Initialise();
 	void GameLoop();
 	void Update(); //pass the "screens" into the update loop, they'll be passed the deltaTime and extras
 	void Draw();
-
 	void Exit();
 }
 	

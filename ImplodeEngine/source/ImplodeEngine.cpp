@@ -1,15 +1,22 @@
 #include "pch.h"
 #include "ImplodeEngine.h"
 
+sf::Event &ImplodeEngine::GetEvent()
+{
+	return *ImplodeEngine::event;
+}
+
 void ImplodeEngine::Initialise()
 {
 	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Implode Engine", sf::Style::Default);
 	m_window->setFramerateLimit(200.0f);
+	m_window->setKeyRepeatEnabled(true);
 	ImplodeEngine::deltaTime = 0.0f;
-	m_menu = new MenuState();
-	m_splash = new SplashScreenState(m_menu);
-	m_context = new GameContext(m_splash);
-	m_context->SetWindow(m_window.get());
+	ImplodeEngine::event = new sf::Event();
+	m_context = new GameContext(*event,*m_window);
+	m_menu = new MenuState(m_context);
+	m_splash = new SplashScreenState(m_context,m_menu);
+	m_context->TransitionTo(m_splash);
 }
 
 void ImplodeEngine::GameLoop()
@@ -24,22 +31,21 @@ void ImplodeEngine::GameLoop()
 
 void ImplodeEngine::Update()
 {
-	sf::Event event;
-	while (m_window->pollEvent(event))
+	m_context->Update(deltaTime);
+	while (m_window->pollEvent(*event))
 	{
-		if (event.type == sf::Event::Closed)
+		if (event->type == sf::Event::Closed)
 		{
 			m_window->close();
 			Exit();
 		}
 
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+		if (event->type == sf::Event::KeyPressed && event->key.code == sf::Keyboard::Escape)
 		{
 			m_window->close();
 			Exit();
 		}
 	}
-	m_context->Update(deltaTime);
 }
 void ImplodeEngine::Draw()
 {

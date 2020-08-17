@@ -2,7 +2,7 @@
 #include "GameState.h"
 #include "SplashScreenState.h"
 
-SplashScreenState::SplashScreenState(GameState * nextState)
+SplashScreenState::SplashScreenState(GameContext* context, GameState* nextState) : GameState(context)
 {
 	m_splashText.setString("IMPLODE GAMES");
 	m_splashText.setFont(m_font);
@@ -12,6 +12,7 @@ SplashScreenState::SplashScreenState(GameState * nextState)
 	m_splashText.setStyle(sf::Text::Bold | sf::Text::Underlined);
 	m_nextState = nextState;
 }
+
 
 void SplashScreenState::Update(float deltaTime)
 {

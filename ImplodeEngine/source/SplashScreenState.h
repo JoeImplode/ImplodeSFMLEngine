@@ -3,7 +3,7 @@
 class SplashScreenState : public GameState
 {
 public:
-	SplashScreenState(GameState* nextState);
+	SplashScreenState(GameContext *context,GameState* nextState);
 	void Update(float deltaTime) override;
 	void Draw() override;
 	~SplashScreenState() { m_nextState = nullptr; }
