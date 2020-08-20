@@ -26,3 +26,7 @@ void SplashScreenState::Draw()
 	this->m_context->GetWindow()->draw(m_splashText);
 	this->m_context->GetWindow()->display();
 }
+
+void SplashScreenState::ProcessEvents(sf::Event& e)
+{
+}

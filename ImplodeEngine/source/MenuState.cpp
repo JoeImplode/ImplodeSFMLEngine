@@ -17,6 +17,8 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_assetPool->LoadTexture("resources/textures/ddSelect.png", "DropDown");
 	this->m_assetPool->LoadTexture("Resources/textures/ddButton.png", "ddButton");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
+	this->m_assetPool->LoadFont("resources/fonts/comicSans.ttf", "font2");
+
 
 	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.08f, 0.08f), buttonState,true,true);
 	this->m_button->SetTexture(m_assetPool->GetTexture("save"));
@@ -39,7 +41,7 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
 	
 	this->m_textInput = new TextInput("Text Input", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
-		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 20, 20, "Send", true,m_context->GetEvent(),*m_context->GetWindow(),this->m_assetPool->GetFont("font"));
+		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 20, 20, "Send", true,m_context->GetEvent(),*m_context->GetWindow(),this->m_assetPool->GetFont("font2"));
 
 	sf::Text txt;
 	txt.setFillColor(sf::Color::Black);
@@ -59,43 +61,18 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
-	//this->m_publisher->AddElement(m_slider);
+	this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
 	//this->m_publisher->AddElement(m_widgetGroup);	
 	//this->m_publisher->AddElement(m_dropDown);
-	this->m_publisher->AddElement(m_textInput);
+	//this->m_publisher->AddElement(m_textInput);
 
 }
 
 void MenuState::Update(float deltaTime)
 {
-	this->m_mousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
-
-	if (this->m_mousePos.x != this->m_prevMousePos.x || this->m_mousePos.y != this->m_prevMousePos.y)
-		this->m_mouseMoved = true;
-	else if (this->m_mousePos.x == this->m_prevMousePos.x && this->m_mousePos.y == this->m_prevMousePos.y)
-		this->m_mouseMoved = false;
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-		m_mouseIsDown = true;
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-		m_mouseIsDown = false;
-
-	if (m_mouseIsDown && !m_mouseWasDown)
-	{
-		this->m_publisher->Update(deltaTime, true,this->m_mouseMoved,this->m_mousePos);
-		std::cout << "Updated" << std::endl;
-	}
-
-	else if (m_mouseIsDown && m_mouseWasDown && m_mouseMoved)
-		this->m_publisher->Update(deltaTime, true, this->m_mouseMoved,this->m_mousePos);
-	else
-		this->m_publisher->Update(deltaTime, false, this->m_mouseMoved, this->m_mousePos);
-
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-		m_mouseWasDown = false;
-	else
-		m_mouseWasDown = true;
+	
+	this->m_publisher->Update(deltaTime, true, true, this->m_mousePos);
 
 	this->m_prevMousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
 
@@ -106,8 +83,12 @@ void MenuState::Draw()
 	rect.setPosition(sf::Vector2f(100.0f, 100.0f));
 	rect.setSize(sf::Vector2f(200.0f, 200.0f));
 	rect.setFillColor(sf::Color::Cyan);
-
-	this->m_context->GetWindow()->clear();
+	m_context->GetWindow()->clear();
 	this->m_publisher->Render(this->m_context->GetWindow());
 	this->m_context->GetWindow()->display();
+}
+
+void MenuState::ProcessEvents(sf::Event& e)
+{
+	this->m_publisher->ProcessInput(e,m_context->GetWindow());
 }

@@ -9,6 +9,7 @@ public:
 	MenuState(GameContext* context);
 	void Update(float deltaTime) override;
 	void Draw() override;
+	void ProcessEvents(sf::Event& e) override;
 private:
 	sf::RectangleShape rect;
 	AssetPool* m_assetPool;

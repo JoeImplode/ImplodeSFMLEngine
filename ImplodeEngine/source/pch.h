@@ -6,3 +6,4 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <sstream>
+#include <SFML/System/Utf.hpp>

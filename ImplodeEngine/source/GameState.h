@@ -13,6 +13,7 @@ public:
 	void SetContext(GameContext* context) { this->m_context = context; }
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
+	virtual void ProcessEvents(sf::Event & e) = 0;
 	sf::Event& GetEvent();
 	sf::RenderWindow& GetRenderWindow();
 	~GameState() { m_context = nullptr; }
@@ -43,6 +44,7 @@ public:
 	sf::RenderWindow* GetWindow() { return this->m_renderWindow; }
 	void Update(float deltaTime) { this->m_state->Update(deltaTime); }
 	void Draw() { this->m_state->Draw(); }
+	void ProcessEvents(sf::Event& e) { this->m_state->ProcessEvents(e); }
 	sf::Event& GetEvent();
 	~GameContext() { m_state = nullptr; }
 };

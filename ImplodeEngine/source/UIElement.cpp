@@ -38,18 +38,9 @@ void Button::UpdatePosition(sf::Vector2f position)
 	this->m_buttonText.setPosition(sf::Vector2f(relativeButtonTextPos.x + GetOrigin().x, relativeButtonTextPos.y + GetOrigin().y));
 }
 
-void Button::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void Button::Update(float deltaTime)
 {
-	if (mousePos.x >= this->m_position.x && mousePos.x <= this->m_position.x + this->m_buttonSprite.getLocalBounds().width *this->m_scale.x
-		&& mousePos.y >= this->m_position.y && mousePos.y <= this->m_position.y + this->m_buttonSprite.getLocalBounds().height * this->m_scale.y)
-	{
-		if(this->m_buttonSprite.getColor() == this->m_initialColor)
-			this->Selected();
-		if (notified)
-			this->Notify();
-	}
-	else if (this->m_buttonSprite.getColor() != this->m_initialColor)
-		this->m_buttonSprite.setColor(this->m_initialColor);
+
 }
 
 void Button::Render(sf::RenderWindow* window)
@@ -57,6 +48,20 @@ void Button::Render(sf::RenderWindow* window)
 	window->draw(this->m_buttonSprite);
 	window->draw(this->m_buttonText);
 	window->draw(this->m_label);
+}
+
+void Button::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	if (sf::Mouse::getPosition(*window).x >= this->m_position.x && sf::Mouse::getPosition(*window).x <= this->m_position.x + this->m_buttonSprite.getLocalBounds().width * this->m_scale.x
+		&& sf::Mouse::getPosition(*window).y >= this->m_position.y && sf::Mouse::getPosition(*window).y <= this->m_position.y + this->m_buttonSprite.getLocalBounds().height * this->m_scale.y)
+	{
+		if (this->m_buttonSprite.getColor() == this->m_initialColor)
+			this->Selected();
+		if (e.type == e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left)
+			this->Notify();
+	}
+	else if (this->m_buttonSprite.getColor() != this->m_initialColor)
+		this->m_buttonSprite.setColor(this->m_initialColor);
 }
 
 void Button::Selected()
@@ -91,41 +96,55 @@ void Slider::SetTextures(sf::Texture &barTexture, sf::Texture &selectorTexture)
 	this->m_initialSliderColour = this->m_selectorSprite.getColor();
 }
 
-void Slider::Update(float deltaTime,bool notified,sf::Vector2f mousePos)
+void Slider::Update(float deltaTime)
 {
-	/*
-	- Quite messy code but is working as expected
-	- Essentially, the slider value is calculated based on how much of the slider has reached the end
-	- It's dynamic as the slider can be any width and the calculated float will always remain between 0 and 1
-	- There is some duplication yet this is to ensure an ease of use for the bar since if we click the bar but at the end, we want to force the slider to the end of the bar
-	*/
 
-	if (mousePos.x >= this->m_barSprite.getPosition().x				//calculate if we get the position within the bounds but not at the end of the button
-		&& mousePos.x <= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x)
-		&& mousePos.y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
-		&& mousePos.y >= this->m_barSprite.getPosition().y)
+}
+
+void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	if (sf::Mouse::getPosition(*window).x >= this->m_barSprite.getPosition().x				//calculate if we get the position within the bounds but not at the end of the button
+		&&sf::Mouse::getPosition(*window).x <= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x)
+		&& sf::Mouse::getPosition(*window).y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
+		&& sf::Mouse::getPosition(*window).y >= this->m_barSprite.getPosition().y)
 	{
 		if (this->m_barSprite.getColor() == m_initialBarColour)
 			this->Selected();
-		if (notified)
+		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
 		{
-			this->m_selectorSprite.setPosition(sf::Vector2f(mousePos.x, this->m_barSprite.getPosition().y));
+			this->m_selectorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(*window).x, this->m_barSprite.getPosition().y));
+			this->Notify();
+			m_dragging = true;
+		}
+		else if (e.MouseMoved && m_dragging)
+		{
+			this->m_selectorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(*window).x, this->m_barSprite.getPosition().y));
 			this->Notify();
 		}
+		else if (e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left  && m_dragging)
+			m_dragging = false;
 	}
-	else if (mousePos.x >= this->m_barSprite.getPosition().x			//Calculate if we get the position within the bounds but at the end
-		&& mousePos.x >= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x)
-		&& mousePos.x <= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x
-		&& mousePos.y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
-		&& mousePos.y >= this->m_barSprite.getPosition().y)
+	else if (sf::Mouse::getPosition(*window).x >= this->m_barSprite.getPosition().x			//Calculate if we get the position within the bounds but at the end
+		&& sf::Mouse::getPosition(*window).x >= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x)
+		&& sf::Mouse::getPosition(*window).x <= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x
+		&& sf::Mouse::getPosition(*window).y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
+		&& sf::Mouse::getPosition(*window).y >= this->m_barSprite.getPosition().y)
 	{
 		if (this->m_barSprite.getColor() == m_initialBarColour)
 			this->Selected();
-		if (notified)
+		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
 		{
 			this->m_selectorSprite.setPosition(this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x), this->m_barSprite.getPosition().y);
 			this->Notify();
+			m_dragging = true;
 		}
+		else if (e.MouseMoved && m_dragging)
+		{
+			this->m_selectorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(*window).x, this->m_barSprite.getPosition().y));
+			this->Notify();
+		}
+		else if (e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left && m_dragging)
+			m_dragging = false;
 	}
 	else if (this->m_barSprite.getColor() != this->m_initialBarColour && this->m_selectorSprite.getColor() != this->m_initialSliderColour)
 	{
@@ -185,16 +204,16 @@ void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f
 			{
 				if (this->m_elements[i]->GetType() == "Slider")
 				{
-					this->m_elements[i]->Update(deltaTime, false, mousePos);
+					this->m_elements[i]->Update(deltaTime);
 				}
 				if (this->m_elements[i]->GetType() == "Widget")
 				{
 					Widget* tempWgt;
 					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime, dragged, notified, mousePos);
+					tempWgt->Update(deltaTime);
 				}
 				else
-					this->m_elements[i]->Update(deltaTime, notified, mousePos);
+					this->m_elements[i]->Update(deltaTime);
 			}
 		}
 	}
@@ -207,13 +226,13 @@ void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f
 			{
 				if (this->m_elements[i]->GetType() == "Slider")
 				{
-					this->m_elements[i]->Update(deltaTime, notified, mousePos);
+					this->m_elements[i]->Update(deltaTime);
 				}
 				if (this->m_elements[i]->GetType() == "Widget")
 				{
 					Widget* tempWgt;
 					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime, dragged, notified, mousePos);
+					tempWgt->Update(deltaTime);
 				}
 			}
 
@@ -230,6 +249,13 @@ void Publisher::Render(sf::RenderWindow* window)
 	}
 }
 
+void Publisher::ProcessInput(sf::Event& event,sf::RenderWindow * window)
+{
+	for (auto element : this->m_elements)
+		if (element->GetActivated())
+			element->ProcessInput(event,window);
+}
+
 ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture, bool activated)
 	: UIElement(text, elementPos, scale,activated),m_orientation(orientation),m_boolRef(reference)
 {
@@ -239,10 +265,10 @@ ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f
 	this->m_border.setSize(sf::Vector2f(scale.x * borderTexture.getSize().x, scale.y * borderTexture.getSize().y));
 }
 
-void ButtonGroup::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void ButtonGroup::Update(float deltaTime)
 {
-	this->m_leftButton->Update(deltaTime, notified, mousePos);
-	this->m_rightButton->Update(deltaTime, notified, mousePos);
+	this->m_leftButton->Update(deltaTime);
+	this->m_rightButton->Update(deltaTime);
 }
 
 void ButtonGroup::Render(sf::RenderWindow* window)
@@ -309,9 +335,9 @@ Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf
 	this->m_border.setSize(sf::Vector2f(scale.x * widgetTexture.getSize().x, scale.y * widgetTexture.getSize().y));
 }
 
-void Widget::Update(float deltaTime, bool dragged,bool notified, sf::Vector2f mousePos)
+void Widget::Update(float deltaTime)
 {
-	if (!dragged)
+	/*if (!dragged)
 	{
 		for (int i = 0; i < this->m_elements.size(); i++)
 		{
@@ -352,7 +378,7 @@ void Widget::Update(float deltaTime, bool dragged,bool notified, sf::Vector2f mo
 			}
 
 		}
-	}
+	}*/
 }
 
 void Widget::Render(sf::RenderWindow* window)
@@ -388,13 +414,13 @@ DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale
 		(this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 2)) - (this->m_activatorButton->m_buttonText.getLocalBounds().height /2)));
 }
 
-void DropDown::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void DropDown::Update(float deltaTime)
 {
-	this->m_activatorButton->Update(deltaTime, notified, mousePos);
+	this->m_activatorButton->Update(deltaTime);
 	if (this->m_dropDownShowing)
 	{
 		for (int i = 0; i < this->m_buttons.size(); i++)
-			this->m_buttons[i]->Update(deltaTime, notified, mousePos);
+			this->m_buttons[i]->Update(deltaTime);
 		this->m_activatorButton->SetValToSet(false);
 	}
 	if (!this->m_dropDownShowing && !this->m_activatorButton->GetValToSet())
@@ -458,35 +484,35 @@ TextInput::TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f sca
 	this->m_sendButton->SetTexture(buttonTexture);
 }
 
-void TextInput::Update(float deltaTime, bool notified, sf::Vector2f mousePos)
+void TextInput::Update(float deltaTime)
 {
-	//check if the mouse is clicked within the rect bounds
-	//change focused to true if set to false then clicked, otherwise set to false if clicked off
-	//if typing during focused, we just update the text that is being inputted until if the character length is not what we set it as
-	//if send is clicked, we call the send function, wipe the text
+	////check if the mouse is clicked within the rect bounds
+	////change focused to true if set to false then clicked, otherwise set to false if clicked off
+	////if typing during focused, we just update the text that is being inputted until if the character length is not what we set it as
+	////if send is clicked, we call the send function, wipe the text
 
-	if (notified && mousePos.x < this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width)
-		&& mousePos.x > this->m_textBoxTexture.getPosition().x && mousePos.y > this->m_textBoxTexture.getPosition().y
-		&& mousePos.y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
-	{
-		if (!this->m_focused && !m_wasFocused)
-			this->m_focused = true;
-		else if (this->m_focused && m_wasFocused)
-			this->m_focused = false;
-	}
-	else if (notified)
-		this->m_focused = false;
+	//if (notified && mousePos.x < this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width)
+	//	&& mousePos.x > this->m_textBoxTexture.getPosition().x && mousePos.y > this->m_textBoxTexture.getPosition().y
+	//	&& mousePos.y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
+	//{
+	//	if (!this->m_focused && !m_wasFocused)
+	//		this->m_focused = true;
+	//	else if (this->m_focused && m_wasFocused)
+	//		this->m_focused = false;
+	//}
+	//else if (notified)
+	//	this->m_focused = false;
 
-	if (this->m_focused)
-	{
-		while (this->m_renderWindow.pollEvent(this->m_event))
-		{
-			if (this->m_event.TextEntered)
-				if (this->m_event.text.unicode >= 33 && this->m_event.text.unicode < 128)
-					this->UpdateTextBox(this->m_event.text.unicode);
-		}
-	}
-	this->m_sendButton->Update(deltaTime, notified, mousePos);
+	//if (this->m_focused)
+	//{
+	//	while (this->m_renderWindow.pollEvent(this->m_event))
+	//	{
+	//		if (this->m_event.TextEntered)
+	//			if (this->m_event.text.unicode >= 33 && this->m_event.text.unicode < 128)
+	//				this->UpdateTextBox(this->m_event.text.unicode);
+	//	}
+	//}
+	//this->m_sendButton->Update(deltaTime);
 }
 
 void TextInput::UpdateTextBox(int charTyped)

@@ -31,9 +31,9 @@ void ImplodeEngine::GameLoop()
 
 void ImplodeEngine::Update()
 {
-	m_context->Update(deltaTime);
 	while (m_window->pollEvent(*event))
 	{
+		m_context->ProcessEvents(*event);
 		if (event->type == sf::Event::Closed)
 		{
 			m_window->close();
@@ -46,6 +46,7 @@ void ImplodeEngine::Update()
 			Exit();
 		}
 	}
+	m_context->Update(deltaTime);
 }
 void ImplodeEngine::Draw()
 {
