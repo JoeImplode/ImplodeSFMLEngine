@@ -103,6 +103,8 @@ void Slider::Update(float deltaTime)
 
 void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 {
+	if (m_dragging && e.type == sf::Event::MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left)
+		m_dragging = false;
 	if (sf::Mouse::getPosition(*window).x >= this->m_barSprite.getPosition().x				//calculate if we get the position within the bounds but not at the end of the button
 		&&sf::Mouse::getPosition(*window).x <= this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x)
 		&& sf::Mouse::getPosition(*window).y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
@@ -110,18 +112,18 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 	{
 		if (this->m_barSprite.getColor() == m_initialBarColour)
 			this->Selected();
-		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
+		if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && !m_dragging)
 		{
 			this->m_selectorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(*window).x, this->m_barSprite.getPosition().y));
 			this->Notify();
 			m_dragging = true;
 		}
-		else if (e.MouseMoved && m_dragging)
+		else if (e.type == sf::Event::MouseMoved && m_dragging)
 		{
 			this->m_selectorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(*window).x, this->m_barSprite.getPosition().y));
 			this->Notify();
 		}
-		else if (e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left  && m_dragging)
+		else if (e.type == sf::Event::MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left && m_dragging)
 			m_dragging = false;
 	}
 	else if (sf::Mouse::getPosition(*window).x >= this->m_barSprite.getPosition().x			//Calculate if we get the position within the bounds but at the end
@@ -132,7 +134,7 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 	{
 		if (this->m_barSprite.getColor() == m_initialBarColour)
 			this->Selected();
-		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left)
+		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && !m_dragging)
 		{
 			this->m_selectorSprite.setPosition(this->m_barSprite.getPosition().x + this->m_barSprite.getLocalBounds().width * this->m_scale.x - (this->m_selectorSprite.getLocalBounds().width * this->m_selectorScale.x), this->m_barSprite.getPosition().y);
 			this->Notify();
@@ -194,49 +196,12 @@ void Slider::Selected()
 	this->m_selectorSprite.setColor(sc);
 }
 
-void Publisher::Update(float deltaTime, bool notified, bool dragged,sf::Vector2f mousePos)
+void Publisher::Update(float deltaTime)
 {
-	if (!dragged)
+	for (auto element : this->m_elements)
 	{
-		for (int i = 0; i < this->m_elements.size(); i++)
-		{
-			if (this->m_elements[i]->GetActivated())
-			{
-				if (this->m_elements[i]->GetType() == "Slider")
-				{
-					this->m_elements[i]->Update(deltaTime);
-				}
-				if (this->m_elements[i]->GetType() == "Widget")
-				{
-					Widget* tempWgt;
-					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime);
-				}
-				else
-					this->m_elements[i]->Update(deltaTime);
-			}
-		}
-	}
-
-	else if (dragged)
-	{
-		for (int i = 0; i < this->m_elements.size(); i++)
-		{
-			if (this->m_elements[i]->GetActivated())
-			{
-				if (this->m_elements[i]->GetType() == "Slider")
-				{
-					this->m_elements[i]->Update(deltaTime);
-				}
-				if (this->m_elements[i]->GetType() == "Widget")
-				{
-					Widget* tempWgt;
-					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime);
-				}
-			}
-
-		}
+		if (element->GetActivated())
+			element->Update(deltaTime);
 	}
 }
 
@@ -267,8 +232,7 @@ ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f
 
 void ButtonGroup::Update(float deltaTime)
 {
-	this->m_leftButton->Update(deltaTime);
-	this->m_rightButton->Update(deltaTime);
+	
 }
 
 void ButtonGroup::Render(sf::RenderWindow* window)
@@ -277,6 +241,12 @@ void ButtonGroup::Render(sf::RenderWindow* window)
 	this->m_leftButton->Render(window);
 	this->m_rightButton->Render(window);
 	window->draw(this->m_label);
+}
+
+void ButtonGroup::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	this->m_leftButton->ProcessInput(e, window);
+	this->m_rightButton->ProcessInput(e, window);
 }
 
 void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf::Texture& rightTexture, sf::Vector2f scaleRight)
@@ -337,48 +307,14 @@ Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf
 
 void Widget::Update(float deltaTime)
 {
-	/*if (!dragged)
-	{
-		for (int i = 0; i < this->m_elements.size(); i++)
-		{
-			if (this->m_elements[i]->GetActivated())
-			{
-				if (this->m_elements[i]->GetType() == "Slider")
-				{
-					this->m_elements[i]->Update(deltaTime, false, mousePos);
-				}
-				if (this->m_elements[i]->GetType() == "Widget")
-				{
-					Widget* tempWgt;
-					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime, dragged, false, mousePos);
-				}
-				else
-					this->m_elements[i]->Update(deltaTime, notified, mousePos);
-			}
-		}
-	}
 
-	else if (dragged)
-	{
-		for (int i = 0; i < this->m_elements.size(); i++)
-		{
-			if (this->m_elements[i]->GetActivated())
-			{
-				if (this->m_elements[i]->GetType() == "Slider")
-				{
-					this->m_elements[i]->Update(deltaTime, notified, mousePos);
-				}
-				if (this->m_elements[i]->GetType() == "Widget")
-				{
-					Widget* tempWgt;
-					tempWgt = dynamic_cast <Widget*>(this->m_elements[i]);
-					tempWgt->Update(deltaTime, dragged, notified, mousePos);
-				}
-			}
+}
 
-		}
-	}*/
+void Widget::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	for (auto element : this->m_elements)
+		if (element->GetActivated())
+			element->ProcessInput(e, window);
 }
 
 void Widget::Render(sf::RenderWindow* window)
@@ -416,15 +352,7 @@ DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale
 
 void DropDown::Update(float deltaTime)
 {
-	this->m_activatorButton->Update(deltaTime);
-	if (this->m_dropDownShowing)
-	{
-		for (int i = 0; i < this->m_buttons.size(); i++)
-			this->m_buttons[i]->Update(deltaTime);
-		this->m_activatorButton->SetValToSet(false);
-	}
-	if (!this->m_dropDownShowing && !this->m_activatorButton->GetValToSet())
-		this->m_activatorButton->SetValToSet(true);
+	
 }
 
 void DropDown::Render(sf::RenderWindow* window)
@@ -435,6 +363,19 @@ void DropDown::Render(sf::RenderWindow* window)
 		for (int i = 0; i < this->m_buttons.size(); i++)
 			this->m_buttons[i]->Render(window);
 	}
+}
+
+void DropDown::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	this->m_activatorButton->ProcessInput(e,window);
+	if (this->m_dropDownShowing)
+	{
+		for (int i = 0; i < this->m_buttons.size(); i++)
+			this->m_buttons[i]->ProcessInput(e, window);
+		this->m_activatorButton->SetValToSet(false);
+	}
+	if (!this->m_dropDownShowing && !this->m_activatorButton->GetValToSet())
+		this->m_activatorButton->SetValToSet(true);
 }
 
 void DropDown::AddSelection(sf::Text buttonText, std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)
@@ -464,7 +405,7 @@ void DropDown::UpdatePosition(sf::Vector2f position)
 	this->m_activatorButton->UpdatePosition(position);
 }
 
-TextInput::TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+TextInput::TextInput(std::string text,sf::Text buttonText,sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
 	std::string& stringToSet, int characterLimit, int scrollableLimit, std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window,sf::Font & font) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_scrollableLimit(scrollableLimit), m_string(stringToSet),m_event(event),m_renderWindow(window)
 {
 	this->m_type = "TextInput";
@@ -480,63 +421,76 @@ TextInput::TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f sca
 	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
 	float endPos = textBoxTexture.getSize().x + width;
 
-	this->m_sendButton = new Button(buttonLabel, sf::Vector2f(endPos + (width / 8), this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton = new Button("", sf::Vector2f(endPos + (width / 20), this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton->SetButtonText(buttonText);
 	this->m_sendButton->SetTexture(buttonTexture);
+	this->m_textBoxTexture.setOutlineColor(sf::Color::Blue);
 }
 
 void TextInput::Update(float deltaTime)
 {
-	////check if the mouse is clicked within the rect bounds
-	////change focused to true if set to false then clicked, otherwise set to false if clicked off
-	////if typing during focused, we just update the text that is being inputted until if the character length is not what we set it as
-	////if send is clicked, we call the send function, wipe the text
+	if (this->m_sendPressed && this->m_inputText.getString().getSize() > 0)
+	{
+		std::string temp = this->m_inputText.getString();
+		this->m_string = std::string(temp.begin(), temp.end() - 1);
+		this->m_inputText.setString("");
+		this->m_textString = "";
+		this->m_sendPressed = false;
+	}
+	else
+		m_sendPressed = false;
 
-	//if (notified && mousePos.x < this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width)
-	//	&& mousePos.x > this->m_textBoxTexture.getPosition().x && mousePos.y > this->m_textBoxTexture.getPosition().y
-	//	&& mousePos.y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
-	//{
-	//	if (!this->m_focused && !m_wasFocused)
-	//		this->m_focused = true;
-	//	else if (this->m_focused && m_wasFocused)
-	//		this->m_focused = false;
-	//}
-	//else if (notified)
-	//	this->m_focused = false;
+}
 
-	//if (this->m_focused)
-	//{
-	//	while (this->m_renderWindow.pollEvent(this->m_event))
-	//	{
-	//		if (this->m_event.TextEntered)
-	//			if (this->m_event.text.unicode >= 33 && this->m_event.text.unicode < 128)
-	//				this->UpdateTextBox(this->m_event.text.unicode);
-	//	}
-	//}
-	//this->m_sendButton->Update(deltaTime);
+void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+	if (e.type == sf::Event::MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left && sf::Mouse::getPosition(*window).x < this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width)
+		&& sf::Mouse::getPosition(*window).x > this->m_textBoxTexture.getPosition().x && sf::Mouse::getPosition(*window).y > this->m_textBoxTexture.getPosition().y
+		&& sf::Mouse::getPosition(*window).y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
+	{
+		this->m_textBoxTexture.setOutlineThickness(2);
+		if (!this->m_focused && !m_wasFocused)
+			this->m_focused = true;
+		else if (this->m_focused && m_wasFocused)
+			this->m_focused = false;
+	}
+	else if (e.type == sf::Event::MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left)
+	{
+		this->m_textBoxTexture.setOutlineThickness(0);
+		this->m_focused = false;
+	}
+
+	if (this->m_focused)
+	{
+		if (e.type == sf::Event::TextEntered)
+			if (e.text.unicode < 128)
+				this->UpdateTextBox(e.text.unicode);
+	}
+	this->m_sendButton->ProcessInput(e, window);
 }
 
 void TextInput::UpdateTextBox(int charTyped)
 {
-	if (charTyped != DELETE_KEY)
-		this->m_textString << static_cast<char>(charTyped);
+	if (charTyped != DELETE_KEY && this->m_textString.length() < this->m_characterLimit)
+		this->m_textString += static_cast<char>(charTyped);
 
 	else if (charTyped == DELETE_KEY)
-		if (this->m_textString.str().length() > 0)
+		if (this->m_textString.length() > 0)
 			DeleteLastChar();
 
-	this->m_inputText.setString(this->m_textString.str() + "_");
+	this->m_inputText.setString(this->m_textString + "_");
 }
 
 void TextInput::DeleteLastChar()
 {
-	std::string t = this->m_textString.str();
+	std::string t = this->m_textString;
 	std::string newTxtString = "";
 
-	for (int i = 0; i < t.length(); i++)
+	for (int i = 0; i < t.length() - 1; i++)
 		newTxtString += t[i];
 
-	this->m_textString.str("");
-	this->m_textString << newTxtString;
+	this->m_textString = "";
+	this->m_textString = newTxtString;
 }
 
 void TextInput::Render(sf::RenderWindow* window)
@@ -548,4 +502,10 @@ void TextInput::Render(sf::RenderWindow* window)
 
 void TextInput::UpdatePosition(sf::Vector2f position)
 {
+	sf::Vector2f relativeButtonPos = sf::Vector2f(this->m_sendButton->GetPosition().x - this->GetOrigin().x, this->m_sendButton->GetPosition().y - this->GetOrigin().y);
+	sf::Vector2f relativeTextPos = sf::Vector2f(this->m_inputText.getPosition().x - this->GetOrigin().x, this->m_inputText.getPosition().y - this->GetOrigin().y);
+
+	this->m_textBoxTexture.setPosition(position);
+	this->m_sendButton->UpdatePosition(sf::Vector2f(relativeButtonPos.x + this->GetOrigin().x, relativeButtonPos.y + this->GetOrigin().y));
+	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
 }

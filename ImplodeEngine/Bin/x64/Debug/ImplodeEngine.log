@@ -1,8 +1,9 @@
-﻿  UIElement.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(70,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(71,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(72,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(115,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+﻿  MenuState.cpp
+  UIElement.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(70,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(71,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(72,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(117,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=int
@@ -11,7 +12,7 @@ C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UI
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(121,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(123,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=int
@@ -20,7 +21,7 @@ C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UI
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(143,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(145,83): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=int
@@ -29,17 +30,17 @@ C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UI
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(185,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(186,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(187,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(191,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(192,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(193,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(412,94): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(447,74): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(476,74): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(187,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(188,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(189,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(193,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(194,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(195,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(348,94): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(387,74): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(416,74): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe
+  ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

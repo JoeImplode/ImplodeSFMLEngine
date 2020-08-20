@@ -40,31 +40,34 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_widgetGroup->AddElement(this->m_button, sf::Vector2f(0.5f, 0.5f));
 	this->m_widgetGroup->AddElement(this->m_slider, sf::Vector2f(0.7f, 0.7f));
 	
-	this->m_textInput = new TextInput("Text Input", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
-		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 20, 20, "Send", true,m_context->GetEvent(),*m_context->GetWindow(),this->m_assetPool->GetFont("font2"));
+	
 
 	sf::Text txt;
-	txt.setFillColor(sf::Color::Black);
+	txt.setFillColor(sf::Color::Red);
 	txt.setFont(this->m_assetPool->GetFont("font"));
-	txt.setString("Selection");
+	txt.setString("Send");
+	txt.setPosition(531.25, 20.0f);
 	sf::Text newTxt;
 	newTxt.setFillColor(sf::Color::Yellow);
 	newTxt.setFont(this->m_assetPool->GetFont("font"));
 	newTxt.setString("Antialiasing");
-	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("ddButton"),m_boolToCheck,true);
+	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(400.0f,400.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("ddButton"),m_boolToCheck,true);
 	this->m_dropDown->AddSelection(newTxt, "AntiAliasing",m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "V-Sync",m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "Motion Blur...eww", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "Render Distance", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "Aspect Ratio", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
-
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
+
+	this->m_textInput = new TextInput("Text Input", txt, sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
+		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 5, 20, "Send", true, m_context->GetEvent(), *m_context->GetWindow(), this->m_assetPool->GetFont("font"));
+	this->m_textInput->UpdatePosition(sf::Vector2f(400, 400));
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
-	this->m_publisher->AddElement(m_slider);
+	//this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
 	//this->m_publisher->AddElement(m_widgetGroup);	
-	//this->m_publisher->AddElement(m_dropDown);
+	this->m_publisher->AddElement(m_dropDown);
 	//this->m_publisher->AddElement(m_textInput);
 
 }
@@ -72,10 +75,10 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 void MenuState::Update(float deltaTime)
 {
 	
-	this->m_publisher->Update(deltaTime, true, true, this->m_mousePos);
-
+	this->m_publisher->Update(deltaTime);
 	this->m_prevMousePos = sf::Vector2f(sf::Mouse::getPosition(*m_context->GetWindow()));
 
+	std::cout << this->m_stringToSet << std::endl;
 }
 
 void MenuState::Draw()

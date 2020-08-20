@@ -102,6 +102,7 @@ public:
 	ButtonGroup(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference, sf::Texture &borderTexture, bool activated);
 	void Update(float deltaTime) override;
 	void Render(sf::RenderWindow* window) override;
+	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void SetButtons(sf::Texture& leftTexture, sf::Vector2f scaleLeft,sf::Texture& rightTexture, sf::Vector2f scaleRight);
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width / 2)), this->m_position.y + (this->m_border.getLocalBounds().height / 2));}
@@ -120,6 +121,7 @@ class Widget : public UIElement
 public:
 	Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture, bool activated);
 	void Update(float deltaTime);
+	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void Render(sf::RenderWindow* window) override;
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width / 2)), this->m_position.y + (this->m_border.getLocalBounds().height / 2));
@@ -137,6 +139,7 @@ public:
 	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool &boolref, bool activated);
 	void Update(float deltaTime) override;
 	void Render(sf::RenderWindow* window) override;
+	void ProcessInput(sf::Event& e, sf::RenderWindow* window)override;
 	void AddSelection(sf::Text buttonText,std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool& reference);
 	inline sf::Vector2f GetOrigin() override { 
 		return sf::Vector2f(this->m_activatorButton->GetOrigin());
@@ -153,26 +156,28 @@ protected:
 class TextInput : public UIElement
 {
 public:
-	TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+	TextInput(std::string text,sf::Text buttonText, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
 		std::string& stringToSet, int characterLimit, int scrollableLimit,std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window, sf::Font & font);
 	void Update(float deltaTime) override;
+	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void Render(sf::RenderWindow* window) override;
 	void UpdatePosition(sf::Vector2f position) override;
-	inline sf::Vector2f GetOrigin() override { return sf::Vector2f(200, 200); }
+	inline sf::Vector2f GetOrigin() override {
+		return sf::Vector2f((this->m_textBoxTexture.getPosition().x + this->m_textBoxTexture.getLocalBounds().width) / 2,
+			(this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height) / 2);}
 private:
 	void UpdateTextBox(int charTyped);
 	void DeleteLastChar();
 	Button* m_sendButton;
 	sf::RectangleShape m_textBoxTexture;
 	sf::Text m_inputText;
-	std::ostringstream m_textString;
+	std::string m_textString;
 	std::string& m_string;
 	bool m_focused = false;
 	bool m_wasFocused;
 	int m_characterLimit;
 	int m_scrollableLimit;
 	bool m_sendPressed = false;
-	bool m_sendWasPressed = false;
 	sf::Event& m_event;
 	sf::RenderWindow& m_renderWindow;
 protected:
@@ -182,7 +187,7 @@ protected:
 class Publisher
 {
 public:
-	void Update(float deltaTime, bool notified, bool dragged,sf::Vector2f mousePos);
+	void Update(float deltaTime);
 	void Render(sf::RenderWindow* window);
 	void ProcessInput(sf::Event& event, sf::RenderWindow* window);
 	inline void AddElement(UIElement* element) { this->m_elements.push_back(element); }
