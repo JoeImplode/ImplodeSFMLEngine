@@ -51,7 +51,7 @@ public:
 	void UpdatePosition(sf::Vector2f position) override;
 	inline sf::Vector2f GetOrigin() override { return sf::Vector2f(((this->m_position.x + (this->m_buttonSprite.getLocalBounds().width * this->m_scale.x) / 2)), (this->m_position.y + (this->m_buttonSprite.getLocalBounds().height * this->m_scale.y) / 2)); }
 	inline void SetBoolRef(bool& reference) { this->m_boolRef = reference; }
-	inline void Notify() override { this->m_boolRef = m_valToSet;  std::cout << "Notified!" << std::endl; }
+	inline void Notify() override { this->m_boolRef = m_valToSet;}
 	inline void SetValToSet(bool valToSet) { this->m_valToSet = valToSet; }
 	inline void SetPos(sf::Vector2f pos) { this->m_position = pos; }
 	inline float GetWidth() { return this->m_buttonSprite.getLocalBounds().width * this->m_scale.x; }
@@ -120,7 +120,7 @@ class Widget : public UIElement
 {
 public:
 	Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture, bool activated);
-	void Update(float deltaTime);
+	void Update(float deltaTime) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void Render(sf::RenderWindow* window) override;
 	inline sf::Vector2f GetOrigin() override {
@@ -156,15 +156,15 @@ protected:
 class TextInput : public UIElement
 {
 public:
-	TextInput(std::string text,sf::Text buttonText, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
-		std::string& stringToSet, int characterLimit, int scrollableLimit,std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window, sf::Font & font);
+	TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+		std::string& stringToSet, int characterLimit,std::string buttonLabel, bool activated, sf::Font & font,std::string buttonText,sf::Color textColor, sf::Color outlineColor,int outlineThickness);
 	void Update(float deltaTime) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void Render(sf::RenderWindow* window) override;
 	void UpdatePosition(sf::Vector2f position) override;
 	inline sf::Vector2f GetOrigin() override {
-		return sf::Vector2f((this->m_textBoxTexture.getPosition().x + this->m_textBoxTexture.getLocalBounds().width) / 2,
-			(this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height) / 2);}
+		return sf::Vector2f(this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width / 2),
+			this->m_textBoxTexture.getPosition().y + (this->m_textBoxTexture.getLocalBounds().height / 2));}
 private:
 	void UpdateTextBox(int charTyped);
 	void DeleteLastChar();
@@ -176,10 +176,10 @@ private:
 	bool m_focused = false;
 	bool m_wasFocused;
 	int m_characterLimit;
-	int m_scrollableLimit;
 	bool m_sendPressed = false;
-	sf::Event& m_event;
-	sf::RenderWindow& m_renderWindow;
+	int m_outlineThickness;
+	std::string m_caretVal = "";
+	sf::Clock m_timer;
 protected:
 };
 

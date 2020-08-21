@@ -8,7 +8,7 @@ sf::Event &ImplodeEngine::GetEvent()
 
 void ImplodeEngine::Initialise()
 {
-	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(800, 600), "Implode Engine", sf::Style::Default);
+	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(1280, 720), "Implode Engine", sf::Style::Default);
 	m_window->setFramerateLimit(200.0f);
 	m_window->setKeyRepeatEnabled(true);
 	ImplodeEngine::deltaTime = 0.0f;

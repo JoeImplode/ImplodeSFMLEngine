@@ -25,7 +25,6 @@ void Button::SetTexture(sf::Texture& texture)
 	this->m_buttonSprite.setScale(this->m_scale);
 	this->m_buttonSprite.setPosition(this->m_position);
 	this->m_initialColor = this->m_buttonSprite.getColor();
-	
 }
 
 void Button::UpdatePosition(sf::Vector2f position)
@@ -307,7 +306,9 @@ Widget::Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf
 
 void Widget::Update(float deltaTime)
 {
-
+	for (auto element : this->m_elements)
+		if (element->GetActivated())
+			element->Update(deltaTime);
 }
 
 void Widget::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -405,8 +406,8 @@ void DropDown::UpdatePosition(sf::Vector2f position)
 	this->m_activatorButton->UpdatePosition(position);
 }
 
-TextInput::TextInput(std::string text,sf::Text buttonText,sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
-	std::string& stringToSet, int characterLimit, int scrollableLimit, std::string buttonLabel, bool activated, sf::Event & event,sf::RenderWindow & window,sf::Font & font) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_scrollableLimit(scrollableLimit), m_string(stringToSet),m_event(event),m_renderWindow(window)
+TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
+	std::string& stringToSet, int characterLimit, std::string buttonLabel, bool activated,sf::Font & font,std::string buttonText, sf::Color textColor, sf::Color outlineColor, int outlineThickness) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_string(stringToSet),m_outlineThickness(outlineThickness)
 {
 	this->m_type = "TextInput";
 	this->m_textBoxTexture.setTexture(&textBoxTexture);
@@ -416,15 +417,20 @@ TextInput::TextInput(std::string text,sf::Text buttonText,sf::Vector2f elementPo
 	this->m_inputText.setFont(font);
 	this->m_inputText.setCharacterSize(scale.y * textBoxTexture.getSize().y / 2);
 	this->m_inputText.setPosition(elementPos.x,elementPos.y + ((scale.y * textBoxTexture.getSize().y) / 2) - ((scale.y * textBoxTexture.getSize().y / 2)/2));
-	this->m_inputText.setFillColor(sf::Color::Black);
+	this->m_inputText.setFillColor(textColor);
 	
 	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
 	float endPos = textBoxTexture.getSize().x + width;
 
 	this->m_sendButton = new Button("", sf::Vector2f(endPos + (width / 20), this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
-	this->m_sendButton->SetButtonText(buttonText);
 	this->m_sendButton->SetTexture(buttonTexture);
-	this->m_textBoxTexture.setOutlineColor(sf::Color::Blue);
+	this->m_sendButton->SetButtonText(this->m_inputText);
+	this->m_sendButton->m_buttonText.setCharacterSize(this->m_sendButton->GetHeight() / 2);
+	this->m_sendButton->m_buttonText.setFillColor(textColor);
+	this->m_sendButton->m_buttonText.setString(buttonText);	
+	this->m_sendButton->m_buttonText.setPosition(sf::Vector2f(this->m_sendButton->GetPosition().x + ((this->m_sendButton->GetWidth() / 2) - (this->m_sendButton->m_buttonText.getLocalBounds().width/2)),
+		this->m_sendButton->GetPosition().y + ((this->m_sendButton->GetHeight() / 2) - (this->m_sendButton->GetHeight() / 2)/2)));
+	this->m_textBoxTexture.setOutlineColor(outlineColor);
 }
 
 void TextInput::Update(float deltaTime)
@@ -432,13 +438,30 @@ void TextInput::Update(float deltaTime)
 	if (this->m_sendPressed && this->m_inputText.getString().getSize() > 0)
 	{
 		std::string temp = this->m_inputText.getString();
-		this->m_string = std::string(temp.begin(), temp.end() - 1);
+		if (m_caretVal == "")
+			this->m_string = temp;
+		else if(this->m_caretVal == "|")
+			this->m_string = std::string(temp.begin(), temp.end() - 1);
 		this->m_inputText.setString("");
 		this->m_textString = "";
 		this->m_sendPressed = false;
 	}
 	else
 		m_sendPressed = false;
+
+	if (this->m_caretVal == "" && this->m_timer.getElapsedTime().asSeconds() > 0.5)
+	{
+		this->m_inputText.setString(this->m_inputText.getString() + "|");
+		this->m_caretVal = "|";
+		this->m_timer.restart();
+	}
+	if (this->m_caretVal == "|" && this->m_timer.getElapsedTime().asSeconds() > 0.5)
+	{
+		std::string s = std::string(this->m_inputText.getString().begin(), this->m_inputText.getString().end()-1);
+		this->m_inputText.setString(s);
+		this->m_caretVal = "";
+		this->m_timer.restart();
+	}
 
 }
 
@@ -448,7 +471,7 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		&& sf::Mouse::getPosition(*window).x > this->m_textBoxTexture.getPosition().x && sf::Mouse::getPosition(*window).y > this->m_textBoxTexture.getPosition().y
 		&& sf::Mouse::getPosition(*window).y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
 	{
-		this->m_textBoxTexture.setOutlineThickness(2);
+		this->m_textBoxTexture.setOutlineThickness(this->m_outlineThickness);
 		if (!this->m_focused && !m_wasFocused)
 			this->m_focused = true;
 		else if (this->m_focused && m_wasFocused)
@@ -478,7 +501,7 @@ void TextInput::UpdateTextBox(int charTyped)
 		if (this->m_textString.length() > 0)
 			DeleteLastChar();
 
-	this->m_inputText.setString(this->m_textString + "_");
+	this->m_inputText.setString(this->m_textString);
 }
 
 void TextInput::DeleteLastChar()
@@ -506,6 +529,7 @@ void TextInput::UpdatePosition(sf::Vector2f position)
 	sf::Vector2f relativeTextPos = sf::Vector2f(this->m_inputText.getPosition().x - this->GetOrigin().x, this->m_inputText.getPosition().y - this->GetOrigin().y);
 
 	this->m_textBoxTexture.setPosition(position);
+
 	this->m_sendButton->UpdatePosition(sf::Vector2f(relativeButtonPos.x + this->GetOrigin().x, relativeButtonPos.y + this->GetOrigin().y));
 	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
 }
