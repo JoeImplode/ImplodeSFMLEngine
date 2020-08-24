@@ -431,38 +431,44 @@ TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	this->m_sendButton->m_buttonText.setPosition(sf::Vector2f(this->m_sendButton->GetPosition().x + ((this->m_sendButton->GetWidth() / 2) - (this->m_sendButton->m_buttonText.getLocalBounds().width/2)),
 		this->m_sendButton->GetPosition().y + ((this->m_sendButton->GetHeight() / 2) - (this->m_sendButton->GetHeight() / 2)/2)));
 	this->m_textBoxTexture.setOutlineColor(outlineColor);
+	this->m_placement = 0;
 }
 
 void TextInput::Update(float deltaTime)
 {
-	if (this->m_sendPressed && this->m_inputText.getString().getSize() > 0)
+	if (this->m_sendPressed && this->m_textString.size() > 0)
 	{
-		std::string temp = this->m_inputText.getString();
-		if (m_caretVal == "")
-			this->m_string = temp;
-		else if(this->m_caretVal == "|")
-			this->m_string = std::string(temp.begin(), temp.end() - 1);
+		this->m_string = this->m_textString;
 		this->m_inputText.setString("");
+		this->m_caretVal = "";
 		this->m_textString = "";
 		this->m_sendPressed = false;
 	}
 	else
 		m_sendPressed = false;
 
-	if (this->m_caretVal == "" && this->m_timer.getElapsedTime().asSeconds() > 0.5)
+	if (this->m_caretVal == "" && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
 	{
-		this->m_inputText.setString(this->m_inputText.getString() + "|");
 		this->m_caretVal = "|";
+		this->m_inputText.setString(this->m_textString + "|");
 		this->m_timer.restart();
 	}
-	if (this->m_caretVal == "|" && this->m_timer.getElapsedTime().asSeconds() > 0.5)
+	if (this->m_caretVal == "|" && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
 	{
-		std::string s = std::string(this->m_inputText.getString().begin(), this->m_inputText.getString().end()-1);
-		this->m_inputText.setString(s);
+		this->m_inputText.setString(this->m_textString);
 		this->m_caretVal = "";
 		this->m_timer.restart();
 	}
-
+	if (!m_focused)
+	{
+		std::string s;
+		if (this->m_caretVal == "|")
+			s = std::string(this->m_inputText.getString().begin(), this->m_inputText.getString().end() - 1);
+		else if (this->m_caretVal == "")
+			s = std::string(this->m_inputText.getString());
+		this->m_inputText.setString(s);
+		this->m_caretVal = "";
+	}
 }
 
 void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -497,9 +503,8 @@ void TextInput::UpdateTextBox(int charTyped)
 	if (charTyped != DELETE_KEY && this->m_textString.length() < this->m_characterLimit)
 		this->m_textString += static_cast<char>(charTyped);
 
-	else if (charTyped == DELETE_KEY)
-		if (this->m_textString.length() > 0)
-			DeleteLastChar();
+	else if (charTyped == DELETE_KEY && this->m_textString.size() > 0)
+		DeleteLastChar();
 
 	this->m_inputText.setString(this->m_textString);
 }
@@ -532,4 +537,52 @@ void TextInput::UpdatePosition(sf::Vector2f position)
 
 	this->m_sendButton->UpdatePosition(sf::Vector2f(relativeButtonPos.x + this->GetOrigin().x, relativeButtonPos.y + this->GetOrigin().y));
 	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
+}
+
+TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated) : UIElement(text, elementPos, scale, activated)
+{
+	this->m_type = "TextLog";
+	this->m_textLogTexture.setTexture(&textLogtexture);
+	this->m_textLogTexture.setPosition(elementPos);
+	this->m_textLogTexture.setSize(sf::Vector2f(this->m_textLogTexture.getSize().x * scale.x, this->m_textLogTexture.getSize().y * scale.y));
+
+	this->m_text.setFont(textFont);
+	this->m_text.setCharacterSize(charSize);
+	this->m_text.setPosition(elementPos.x, elementPos.y );
+	this->m_text.setFillColor(textColor);
+}
+
+void TextLog::AddText(std::string text)
+{
+	std::string s = this->m_text.getString();
+
+}
+
+void TextLog::Update(float deltaTime)
+{
+}
+
+void TextLog::Render(sf::RenderWindow* window)
+{
+}
+
+void TextLog::ProcessInput(sf::Event& e, sf::RenderWindow* window)
+{
+}
+
+void TextLog::UpdatePosition(sf::Vector2f newPos)
+{
+
+}
+
+std::string TextLog::FormatStrings(std::string s1, std::string s2)
+{
+	int i = 0;
+	while (i != s2.size())
+		for (int j = 0; j < m_lineLimit; j++)
+		{
+
+		}
+
+	return std::string();
 }
