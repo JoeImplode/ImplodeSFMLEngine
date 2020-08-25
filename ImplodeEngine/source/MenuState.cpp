@@ -58,25 +58,24 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
 
 	this->m_textInput = new TextInput("Text Input", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
-		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 15, "", true, this->m_assetPool->GetFont("font"), "Test", sf::Color::Black,sf::Color::Cyan,5);
+		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 15, "", true, this->m_assetPool->GetFont("font"), "@", sf::Color::Black,sf::Color::Cyan,5);
 	this->m_widgetGroup->AddElement(this->m_textInput, sf::Vector2f(0.2f, 0.2f));
-
+	this->m_textLog = new TextLog("Log", sf::Vector2f(0.0f, 200), sf::Vector2f(1.0f, 5.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 15);
+	this->m_textLog->AddText(newTxt);
 	this->m_textInput->UpdatePosition(sf::Vector2f(400, 400));
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
 	//this->m_publisher->AddElement(m_slider);
 	//this->m_publisher->AddElement(m_buttonGroup);
-	this->m_publisher->AddElement(m_widgetGroup);	
+	//this->m_publisher->AddElement(m_widgetGroup);	
 	//this->m_publisher->AddElement(m_dropDown);
 	//this->m_publisher->AddElement(m_textInput);
-
+	this->m_publisher->AddElement(m_textLog);
 }
 
 void MenuState::Update(float deltaTime)
 {
 	this->m_publisher->Update(deltaTime);
-
-	std::cout << this->m_stringToSet << std::endl;
 }
 
 void MenuState::Draw()

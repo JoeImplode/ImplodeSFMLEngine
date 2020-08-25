@@ -23,6 +23,7 @@ private:
 	sf::Vector2f m_prevMousePos;
 	TextInput* m_textInput;
 	std::string m_stringToSet;
+	TextLog* m_textLog;
 
 	bool buttonState = false;
 	float floatRef = 0.0f;

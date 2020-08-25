@@ -7,3 +7,5 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <SFML/System/Utf.hpp>
+#include <queue>
+#include <stack>

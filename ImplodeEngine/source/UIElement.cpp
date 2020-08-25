@@ -469,6 +469,7 @@ void TextInput::Update(float deltaTime)
 		this->m_inputText.setString(s);
 		this->m_caretVal = "";
 	}
+	
 }
 
 void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -539,23 +540,79 @@ void TextInput::UpdatePosition(sf::Vector2f position)
 	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
 }
 
-TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated) : UIElement(text, elementPos, scale, activated)
+TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated, int textObjLim) : UIElement(text, elementPos, scale, activated)
 {
 	this->m_type = "TextLog";
 	this->m_textLogTexture.setTexture(&textLogtexture);
 	this->m_textLogTexture.setPosition(elementPos);
-	this->m_textLogTexture.setSize(sf::Vector2f(this->m_textLogTexture.getSize().x * scale.x, this->m_textLogTexture.getSize().y * scale.y));
+	this->m_textLogTexture.setSize(sf::Vector2f(textLogtexture.getSize().x * scale.x, textLogtexture.getSize().y * scale.y));
 
 	this->m_text.setFont(textFont);
 	this->m_text.setCharacterSize(charSize);
 	this->m_text.setPosition(elementPos.x, elementPos.y );
 	this->m_text.setFillColor(textColor);
+
+	this->m_textObjLim = textObjLim;
+	sf::View view;
+	view.setCenter(this->GetOrigin());
+	view.setSize(sf::Vector2f(this->m_textLogTexture.getLocalBounds().width, this->m_textLogTexture.getLocalBounds().height));
+	this->m_renderTexture.setView(view);
 }
 
-void TextLog::AddText(std::string text)
+void TextLog::AddText(sf::Text text)
 {
-	std::string s = this->m_text.getString();
+	sf::Text txt = text;
+	sf::Text placeHolderText = text;
+	txt.setFont(*this->m_text.getFont());
+	txt.setCharacterSize(this->m_text.getCharacterSize());
+	std::string finalString;
+	std::string finalText;
+	if (txt.getLocalBounds().width > this->m_textLogTexture.getLocalBounds().width)
+	{
+		while (true)
+		{
+			if (placeHolderText.getLocalBounds().width > this->m_textLogTexture.getLocalBounds().width)
+			{
+				int widthPerChar = placeHolderText.getLocalBounds().width / placeHolderText.getString().getSize();
+				int charsToAdd = this->m_textLogTexture.getLocalBounds().width / widthPerChar;
+				std::string addStr = std::string(placeHolderText.getString().begin(), placeHolderText.getString().end() - charsToAdd);
+				placeHolderText.setString(addStr);
+				addStr += "\n";
+				finalString += addStr;
+			}
+			else
+			{
+				finalString += "\n";
+				finalString += placeHolderText.getString();
+				break;
+			}
+		}
+		txt.setString(finalString);
+	}
+	else
+		txt.setString(text.getString());
+	
+	if (this->m_textList.size() <= this->m_textObjLim)
+	{
+		this->m_textList.push_back(txt);
+	}
+	if (this->m_textList.size() > this->m_textObjLim)
+	{
+		for (int i = this->m_textObjLim; i > 0; i--)
+		{
+			this->m_textList[i-1] = this->m_textList[i];
+		}
+		this->m_textList.push_back(txt);
+	}
+	if (this->m_textList.size() == 1)
+		this->m_textList[0].setPosition(sf::Vector2f(this->m_textLogTexture.getPosition().x,(this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height));
+		
+	for (int i = 0; i < this->m_textList.size(); i++)
+	{
+		//bottom y position
+		//x position is the same
 
+	}
 }
 
 void TextLog::Update(float deltaTime)
@@ -564,10 +621,28 @@ void TextLog::Update(float deltaTime)
 
 void TextLog::Render(sf::RenderWindow* window)
 {
+	this->m_renderTexture.clear();
+	if (this->m_textList.size() > 0)
+	{
+		if (this->m_textList.size() < 2)
+			this->m_renderTexture.draw(this->m_textList[0]);
+		else if (this->m_textList.size() > 2)
+		{
+			for (int i = this->m_textObjLim; i > 0; i--)
+			{
+				this->m_renderTexture.draw(this->m_textList[i]);
+			}
+		}
+	}
+	m_sprite.setTexture(this->m_renderTexture.getTexture());
+	window->draw(this->m_textLogTexture);
+	window->draw(this->m_sprite);
+
 }
 
 void TextLog::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 {
+
 }
 
 void TextLog::UpdatePosition(sf::Vector2f newPos)
@@ -577,12 +652,6 @@ void TextLog::UpdatePosition(sf::Vector2f newPos)
 
 std::string TextLog::FormatStrings(std::string s1, std::string s2)
 {
-	int i = 0;
-	while (i != s2.size())
-		for (int j = 0; j < m_lineLimit; j++)
-		{
-
-		}
 
 	return std::string();
 }

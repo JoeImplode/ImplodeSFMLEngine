@@ -187,8 +187,8 @@ protected:
 class TextLog : public UIElement
 {
 public:
-	TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize,bool activated);
-	void AddText(std::string text);
+	TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize,bool activated, int textObjLim = 50);
+	void AddText(sf::Text text);
 	void Update(float deltaTime) override;
 	void Render(sf::RenderWindow* window) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
@@ -201,8 +201,10 @@ private:
 	std::string FormatStrings(std::string s1, std::string s2);
 	sf::RectangleShape m_textLogTexture;
 	sf::Text m_text;
-	int m_lineLimit;
-
+	std::vector<sf::Text> m_textList;
+	int m_textObjLim;
+	sf::RenderTexture m_renderTexture;
+	sf::Sprite m_sprite;
 protected:
 };
 
