@@ -11,7 +11,6 @@ public:
 	void Draw() override;
 	void ProcessEvents(sf::Event& e) override;
 private:
-	sf::RectangleShape rect;
 	AssetPool* m_assetPool;
 	Button* m_button;
 	ButtonGroup* m_buttonGroup;

@@ -205,6 +205,7 @@ private:
 	int m_textObjLim;
 	sf::RenderTexture m_renderTexture;
 	sf::Sprite m_sprite;
+	sf::RectangleShape * m_rect;
 protected:
 };
 

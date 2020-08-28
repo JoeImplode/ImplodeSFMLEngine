@@ -44,12 +44,22 @@ C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement
           ]
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(428,84): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(481,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(576,22): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(564,117): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(577,20): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(564,70): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(582,22): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(583,20): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float

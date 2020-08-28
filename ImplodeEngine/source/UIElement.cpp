@@ -544,19 +544,25 @@ TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, 
 {
 	this->m_type = "TextLog";
 	this->m_textLogTexture.setTexture(&textLogtexture);
-	this->m_textLogTexture.setPosition(elementPos);
-	this->m_textLogTexture.setSize(sf::Vector2f(textLogtexture.getSize().x * scale.x, textLogtexture.getSize().y * scale.y));
+	this->m_textLogTexture.setPosition(sf::Vector2f(0.0f,0.0f));
+	this->m_textLogTexture.setSize(sf::Vector2f(scale.x * textLogtexture.getSize().x, scale.y * textLogtexture.getSize().y));
+
+	this->m_rect = new sf::RectangleShape(sf::Vector2f(100, 100));
+	this->m_rect->setFillColor(sf::Color::Blue);
+	//this->m_rect->setPosition(sf::Vector2f(0.0f, 0.0f));
 
 	this->m_text.setFont(textFont);
-	this->m_text.setCharacterSize(charSize);
-	this->m_text.setPosition(elementPos.x, elementPos.y );
+	this->m_text.setCharacterSize(20);
+	this->m_text.setPosition(sf::Vector2f(0, 0));
 	this->m_text.setFillColor(textColor);
+	this->m_text.setString("This is text for a text box!\nAs you can see, the text only stays within\nthe bounds!\nThere are also new lines in this text to\nstart new lines!\nYou'll notice if I keep typing, then the text\ngoes out of bounds\n @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+	this->m_sprite.setPosition(elementPos);
 
 	this->m_textObjLim = textObjLim;
-	sf::View view;
-	view.setCenter(this->GetOrigin());
-	view.setSize(sf::Vector2f(this->m_textLogTexture.getLocalBounds().width, this->m_textLogTexture.getLocalBounds().height));
-	this->m_renderTexture.setView(view);
+
+	this->m_renderTexture.create(this->m_textLogTexture.getLocalBounds().width, this->m_textLogTexture.getLocalBounds().height);
+
 }
 
 void TextLog::AddText(sf::Text text)
@@ -605,7 +611,7 @@ void TextLog::AddText(sf::Text text)
 		this->m_textList.push_back(txt);
 	}
 	if (this->m_textList.size() == 1)
-		this->m_textList[0].setPosition(sf::Vector2f(this->m_textLogTexture.getPosition().x,(this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height));
+		//this->m_textList[0].setPosition(0.0f,0.0f);
 		
 	for (int i = 0; i < this->m_textList.size(); i++)
 	{
@@ -613,6 +619,7 @@ void TextLog::AddText(sf::Text text)
 		//x position is the same
 
 	}
+	
 }
 
 void TextLog::Update(float deltaTime)
@@ -621,11 +628,25 @@ void TextLog::Update(float deltaTime)
 
 void TextLog::Render(sf::RenderWindow* window)
 {
+	sf::RectangleShape r;
+	r.setPosition(sf::Vector2f(0.0f,0.0f));
+	r.setTexture(this->m_textLogTexture.getTexture());
+	//r.setFillColor(sf::Color::White);
+	r.setSize(this->m_textLogTexture.getSize());
+
 	this->m_renderTexture.clear();
+	this->m_renderTexture.draw(r);
+	this->m_renderTexture.draw(this->m_text);
+	this->m_renderTexture.display();
+	this->m_sprite.setTexture(this->m_renderTexture.getTexture());
+
 	if (this->m_textList.size() > 0)
 	{
 		if (this->m_textList.size() < 2)
-			this->m_renderTexture.draw(this->m_textList[0]);
+		{
+			
+		}
+		
 		else if (this->m_textList.size() > 2)
 		{
 			for (int i = this->m_textObjLim; i > 0; i--)
@@ -634,9 +655,13 @@ void TextLog::Render(sf::RenderWindow* window)
 			}
 		}
 	}
-	m_sprite.setTexture(this->m_renderTexture.getTexture());
-	window->draw(this->m_textLogTexture);
+	
+	//m_sprite.setPosition(200.0f, 200.0f);
+	this->m_textLogTexture.setPosition(this->m_sprite.getPosition());
 	window->draw(this->m_sprite);
+	//window->draw(this->m_textLogTexture);
+	
+	//window->draw(this->m_text);
 
 }
 

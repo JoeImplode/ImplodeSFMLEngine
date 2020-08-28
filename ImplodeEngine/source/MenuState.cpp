@@ -60,7 +60,7 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_textInput = new TextInput("Text Input", sf::Vector2f(250.0f, 20.0f), sf::Vector2f(0.7f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
 		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 15, "", true, this->m_assetPool->GetFont("font"), "@", sf::Color::Black,sf::Color::Cyan,5);
 	this->m_widgetGroup->AddElement(this->m_textInput, sf::Vector2f(0.2f, 0.2f));
-	this->m_textLog = new TextLog("Log", sf::Vector2f(0.0f, 200), sf::Vector2f(1.0f, 5.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 15);
+	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 400), sf::Vector2f(1.0f, 3.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 15);
 	this->m_textLog->AddText(newTxt);
 	this->m_textInput->UpdatePosition(sf::Vector2f(400, 400));
 	this->m_publisher = new Publisher();
@@ -80,10 +80,7 @@ void MenuState::Update(float deltaTime)
 
 void MenuState::Draw()
 {
-	rect.setPosition(sf::Vector2f(100.0f, 100.0f));
-	rect.setSize(sf::Vector2f(200.0f, 200.0f));
-	rect.setFillColor(sf::Color::Cyan);
-	m_context->GetWindow()->clear();
+	m_context->GetWindow()->clear(sf::Color(50,50,50,0));
 	this->m_publisher->Render(this->m_context->GetWindow());
 	this->m_context->GetWindow()->display();
 }
