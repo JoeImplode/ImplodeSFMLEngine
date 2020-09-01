@@ -1,4 +1,10 @@
-﻿  UIElement.cpp
+﻿  GameState.cpp
+  ImplodeEngine.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(12,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+  main.cpp
+  MenuState.cpp
+  SplashScreenState.cpp
+  UIElement.cpp
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(69,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(70,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(71,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
@@ -44,12 +50,12 @@ C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement
           ]
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(428,84): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(481,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(564,117): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(559,117): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(564,70): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(559,70): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
           with
           [
               T=float
@@ -64,4 +70,6 @@ C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement
           [
               T=float
           ]
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(630,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\UIElement.cpp(659,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

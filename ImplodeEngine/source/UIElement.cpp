@@ -535,27 +535,22 @@ void TextInput::UpdatePosition(sf::Vector2f position)
 	sf::Vector2f relativeTextPos = sf::Vector2f(this->m_inputText.getPosition().x - this->GetOrigin().x, this->m_inputText.getPosition().y - this->GetOrigin().y);
 
 	this->m_textBoxTexture.setPosition(position);
-
 	this->m_sendButton->UpdatePosition(sf::Vector2f(relativeButtonPos.x + this->GetOrigin().x, relativeButtonPos.y + this->GetOrigin().y));
 	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
 }
 
-TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated, int textObjLim) : UIElement(text, elementPos, scale, activated)
+TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated, int lineSpacing,int textObjLim) : UIElement(text, elementPos, scale, activated)
 {
 	this->m_type = "TextLog";
-	this->m_textLogTexture.setTexture(&textLogtexture);
-	this->m_textLogTexture.setPosition(sf::Vector2f(0.0f,0.0f));
-	this->m_textLogTexture.setSize(sf::Vector2f(scale.x * textLogtexture.getSize().x, scale.y * textLogtexture.getSize().y));
 
-	this->m_rect = new sf::RectangleShape(sf::Vector2f(100, 100));
-	this->m_rect->setFillColor(sf::Color::Blue);
-	//this->m_rect->setPosition(sf::Vector2f(0.0f, 0.0f));
+	m_textLogTexture.setPosition(sf::Vector2f(0.0f, 0.0f));
+	m_textLogTexture.setTexture(&textLogtexture);
+	m_textLogTexture.setSize(sf::Vector2f(scale.x * textLogtexture.getSize().x, scale.y * textLogtexture.getSize().y));
 
 	this->m_text.setFont(textFont);
 	this->m_text.setCharacterSize(20);
 	this->m_text.setPosition(sf::Vector2f(0, 0));
 	this->m_text.setFillColor(textColor);
-	this->m_text.setString("This is text for a text box!\nAs you can see, the text only stays within\nthe bounds!\nThere are also new lines in this text to\nstart new lines!\nYou'll notice if I keep typing, then the text\ngoes out of bounds\n @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
 	this->m_sprite.setPosition(elementPos);
 
@@ -563,14 +558,19 @@ TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, 
 
 	this->m_renderTexture.create(this->m_textLogTexture.getLocalBounds().width, this->m_textLogTexture.getLocalBounds().height);
 
+	this->m_lineSpacing = lineSpacing;
 }
 
 void TextLog::AddText(sf::Text text)
 {
 	sf::Text txt = text;
 	sf::Text placeHolderText = text;
+	sf::Text nextText;
+
 	txt.setFont(*this->m_text.getFont());
 	txt.setCharacterSize(this->m_text.getCharacterSize());
+	txt.setFillColor(this->m_text.getFillColor());
+
 	std::string finalString;
 	std::string finalText;
 	if (txt.getLocalBounds().width > this->m_textLogTexture.getLocalBounds().width)
@@ -581,14 +581,28 @@ void TextLog::AddText(sf::Text text)
 			{
 				int widthPerChar = placeHolderText.getLocalBounds().width / placeHolderText.getString().getSize();
 				int charsToAdd = this->m_textLogTexture.getLocalBounds().width / widthPerChar;
-				std::string addStr = std::string(placeHolderText.getString().begin(), placeHolderText.getString().end() - charsToAdd);
-				placeHolderText.setString(addStr);
+				sf::Text temp;
+				temp = txt;
+				temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
+				while (temp.getLocalBounds().width <= m_textLogTexture.getLocalBounds().width)
+				{
+					charsToAdd++;
+					temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
+				}
+				char checkChar = temp.getString()[charsToAdd];
+				while (checkChar != ' ')
+				{
+					charsToAdd--;
+					checkChar = temp.getString()[charsToAdd];
+				}
+				charsToAdd++;
+				std::string addStr = std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd);
+				placeHolderText.setString(std::string(placeHolderText.getString().begin() + charsToAdd, placeHolderText.getString().end()));
 				addStr += "\n";
 				finalString += addStr;
 			}
 			else
 			{
-				finalString += "\n";
 				finalString += placeHolderText.getString();
 				break;
 			}
@@ -611,15 +625,17 @@ void TextLog::AddText(sf::Text text)
 		this->m_textList.push_back(txt);
 	}
 	if (this->m_textList.size() == 1)
-		//this->m_textList[0].setPosition(0.0f,0.0f);
-		
-	for (int i = 0; i < this->m_textList.size(); i++)
-	{
-		//bottom y position
-		//x position is the same
-
-	}
-	
+		this->m_textList[0].setPosition(0.0f,((this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount);
+	else if (this->m_textList.size() > 1)
+		for (int i = this->m_textList.size() - 1; i >= 0; i--)
+		{
+			if(i == this->m_textList.size() - 1)
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i - 1].getLocalBounds().height) - this->m_lineSpacing + m_scrollAmount));
+			if(i > 0)
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[i - 1].getPosition().y + this->m_textList[i - 1].getLocalBounds().height) + this->m_lineSpacing + m_scrollAmount));
+			//else if (i == 0)
+				//this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[1].getPosition().y) + this->m_lineSpacing + m_scrollAmount));
+		}
 }
 
 void TextLog::Update(float deltaTime)
@@ -628,40 +644,27 @@ void TextLog::Update(float deltaTime)
 
 void TextLog::Render(sf::RenderWindow* window)
 {
-	sf::RectangleShape r;
-	r.setPosition(sf::Vector2f(0.0f,0.0f));
-	r.setTexture(this->m_textLogTexture.getTexture());
-	//r.setFillColor(sf::Color::White);
-	r.setSize(this->m_textLogTexture.getSize());
-
 	this->m_renderTexture.clear();
-	this->m_renderTexture.draw(r);
-	this->m_renderTexture.draw(this->m_text);
-	this->m_renderTexture.display();
-	this->m_sprite.setTexture(this->m_renderTexture.getTexture());
+	this->m_renderTexture.draw(this->m_textLogTexture);
 
 	if (this->m_textList.size() > 0)
 	{
 		if (this->m_textList.size() < 2)
 		{
-			
+			this->m_renderTexture.draw(this->m_textList[0]);
 		}
 		
-		else if (this->m_textList.size() > 2)
+		else if (this->m_textList.size() > 1)
 		{
-			for (int i = this->m_textObjLim; i > 0; i--)
+			for (int i = this->m_textList.size()-1; i >= 0; i--)
 			{
 				this->m_renderTexture.draw(this->m_textList[i]);
 			}
 		}
 	}
-	
-	//m_sprite.setPosition(200.0f, 200.0f);
-	this->m_textLogTexture.setPosition(this->m_sprite.getPosition());
+	this->m_renderTexture.display();
+	this->m_sprite.setTexture(this->m_renderTexture.getTexture());
 	window->draw(this->m_sprite);
-	//window->draw(this->m_textLogTexture);
-	
-	//window->draw(this->m_text);
 
 }
 
