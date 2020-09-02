@@ -207,6 +207,9 @@ private:
 	sf::Sprite m_sprite;
 	int m_lineSpacing;
 	int m_scrollAmount = 0;
+	int m_maxScrollAmount = 0;
+	int m_mouseWheelY = 0;
+	int m_mouseScrollSensitivity = 10;
 protected:
 };
 

@@ -23,6 +23,8 @@ private:
 	TextInput* m_textInput;
 	std::string m_stringToSet;
 	TextLog* m_textLog;
+	std::string m_prevString;
+	sf::Text m_tempText;
 
 	bool buttonState = false;
 	float floatRef = 0.0f;

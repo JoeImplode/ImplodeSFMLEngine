@@ -420,9 +420,8 @@ TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	this->m_inputText.setFillColor(textColor);
 	
 	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
-	float endPos = textBoxTexture.getSize().x + width;
 
-	this->m_sendButton = new Button("", sf::Vector2f(endPos + (width / 20), this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton = new Button("", sf::Vector2f(282, this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
 	this->m_sendButton->SetTexture(buttonTexture);
 	this->m_sendButton->SetButtonText(this->m_inputText);
 	this->m_sendButton->m_buttonText.setCharacterSize(this->m_sendButton->GetHeight() / 2);
@@ -612,30 +611,32 @@ void TextLog::AddText(sf::Text text)
 	else
 		txt.setString(text.getString());
 	
-	if (this->m_textList.size() <= this->m_textObjLim)
+	
+	if (this->m_textList.size() == this->m_textObjLim)
 	{
-		this->m_textList.push_back(txt);
+		this->m_textList.insert(this->m_textList.begin(), txt);
+		this->m_textList.erase(this->m_textList.end()-1);
 	}
-	if (this->m_textList.size() > this->m_textObjLim)
-	{
-		for (int i = this->m_textObjLim; i > 0; i--)
-		{
-			this->m_textList[i-1] = this->m_textList[i];
-		}
-		this->m_textList.push_back(txt);
-	}
+
+	else if (this->m_textList.size() < this->m_textObjLim)
+		this->m_textList.insert(this->m_textList.begin(), txt);
+
 	if (this->m_textList.size() == 1)
 		this->m_textList[0].setPosition(0.0f,((this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount);
 	else if (this->m_textList.size() > 1)
-		for (int i = this->m_textList.size() - 1; i >= 0; i--)
+	{
+		for (int i = 0; i <= this->m_textList.size()-1; i++)
 		{
-			if(i == this->m_textList.size() - 1)
-				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i - 1].getLocalBounds().height) - this->m_lineSpacing + m_scrollAmount));
-			if(i > 0)
-				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[i - 1].getPosition().y + this->m_textList[i - 1].getLocalBounds().height) + this->m_lineSpacing + m_scrollAmount));
-			//else if (i == 0)
-				//this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[1].getPosition().y) + this->m_lineSpacing + m_scrollAmount));
+			if (i == 0)
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount));
+			if (i != 0)
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[i - 1].getPosition().y - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount));
 		}
+	}
+	int totalHeight = 0;
+	totalHeight = (this->m_textList[0].getPosition().y + this->m_textList[0].getLocalBounds().height) - this->m_textList[this->m_textList.size() - 1].getPosition().y;
+	if (totalHeight > this->m_textLogTexture.getLocalBounds().height)
+		this->m_maxScrollAmount = totalHeight - this->m_textLogTexture.getLocalBounds().height;
 }
 
 void TextLog::Update(float deltaTime)
@@ -670,7 +671,36 @@ void TextLog::Render(sf::RenderWindow* window)
 
 void TextLog::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 {
-
+	if (e.type == e.MouseWheelScrolled)
+	{
+		std::cout << this->m_maxScrollAmount<<std::endl;
+		std::cout << this->m_scrollAmount << std::endl;
+		if (this->m_maxScrollAmount > 0)
+		{
+			if (e.mouseWheelScroll.delta < 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity >0)
+			{
+				this->m_scrollAmount--;
+				if (this->m_scrollAmount < 0)
+					this->m_scrollAmount = 0;
+				for (int i = 0; i < this->m_textList.size(); i++)
+				{
+					this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y - this->m_mouseScrollSensitivity));
+				}
+			}
+			else if (e.mouseWheelScroll.delta > 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity < this->m_maxScrollAmount)
+			{
+				this->m_scrollAmount++;
+				if (this->m_scrollAmount > this->m_maxScrollAmount)
+					this->m_scrollAmount = this->m_maxScrollAmount;
+				for (int i = 0; i < this->m_textList.size(); i++)
+				{
+					this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y + this->m_mouseScrollSensitivity));
+				}
+				
+			}
+		}
+		
+	}
 }
 
 void TextLog::UpdatePosition(sf::Vector2f newPos)
