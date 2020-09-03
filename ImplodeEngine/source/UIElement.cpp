@@ -54,12 +54,12 @@ void Button::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 	if (sf::Mouse::getPosition(*window).x >= this->m_position.x && sf::Mouse::getPosition(*window).x <= this->m_position.x + this->m_buttonSprite.getLocalBounds().width * this->m_scale.x
 		&& sf::Mouse::getPosition(*window).y >= this->m_position.y && sf::Mouse::getPosition(*window).y <= this->m_position.y + this->m_buttonSprite.getLocalBounds().height * this->m_scale.y)
 	{
-		if (this->m_buttonSprite.getColor() == this->m_initialColor)
+		if (this->m_buttonSprite.getColor() == this->m_initialColor && this->m_effectsShowing)
 			this->Selected();
 		if (e.type == e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left)
 			this->Notify();
 	}
-	else if (this->m_buttonSprite.getColor() != this->m_initialColor)
+	else if (this->m_buttonSprite.getColor() != this->m_initialColor && this->m_effectsShowing)
 		this->m_buttonSprite.setColor(this->m_initialColor);
 }
 
@@ -109,7 +109,7 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		&& sf::Mouse::getPosition(*window).y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
 		&& sf::Mouse::getPosition(*window).y >= this->m_barSprite.getPosition().y)
 	{
-		if (this->m_barSprite.getColor() == m_initialBarColour)
+		if (this->m_barSprite.getColor() == m_initialBarColour && this->m_effectsShowing)
 			this->Selected();
 		if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && !m_dragging)
 		{
@@ -131,7 +131,7 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		&& sf::Mouse::getPosition(*window).y <= this->m_barSprite.getPosition().y + this->m_barSprite.getLocalBounds().height * this->m_scale.y
 		&& sf::Mouse::getPosition(*window).y >= this->m_barSprite.getPosition().y)
 	{
-		if (this->m_barSprite.getColor() == m_initialBarColour)
+		if (this->m_barSprite.getColor() == m_initialBarColour && this->m_effectsShowing)
 			this->Selected();
 		if (e.type == e.MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && !m_dragging)
 		{
@@ -147,7 +147,7 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		else if (e.MouseButtonReleased && e.mouseButton.button == sf::Mouse::Left && m_dragging)
 			m_dragging = false;
 	}
-	else if (this->m_barSprite.getColor() != this->m_initialBarColour && this->m_selectorSprite.getColor() != this->m_initialSliderColour)
+	else if (this->m_barSprite.getColor() != this->m_initialBarColour && this->m_selectorSprite.getColor() != this->m_initialSliderColour && this->m_effectsShowing)
 	{
 		this->m_barSprite.setColor(this->m_initialBarColour);
 		this->m_selectorSprite.setColor(this->m_initialSliderColour);
@@ -421,7 +421,7 @@ TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	
 	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
 
-	this->m_sendButton = new Button("", sf::Vector2f(282, this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton = new Button("", sf::Vector2f(this->m_textBoxTexture.getPosition().x + this->m_textBoxTexture.getLocalBounds().width + this->m_outlineThickness, this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
 	this->m_sendButton->SetTexture(buttonTexture);
 	this->m_sendButton->SetButtonText(this->m_inputText);
 	this->m_sendButton->m_buttonText.setCharacterSize(this->m_sendButton->GetHeight() / 2);
@@ -477,7 +477,8 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		&& sf::Mouse::getPosition(*window).x > this->m_textBoxTexture.getPosition().x && sf::Mouse::getPosition(*window).y > this->m_textBoxTexture.getPosition().y
 		&& sf::Mouse::getPosition(*window).y < this->m_textBoxTexture.getPosition().y + this->m_textBoxTexture.getLocalBounds().height)
 	{
-		this->m_textBoxTexture.setOutlineThickness(this->m_outlineThickness);
+		if(this->m_effectsShowing)
+			this->m_textBoxTexture.setOutlineThickness(this->m_outlineThickness);
 		if (!this->m_focused && !m_wasFocused)
 			this->m_focused = true;
 		else if (this->m_focused && m_wasFocused)
@@ -500,11 +501,16 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 
 void TextInput::UpdateTextBox(int charTyped)
 {
-	if (charTyped != DELETE_KEY && this->m_textString.length() < this->m_characterLimit)
-		this->m_textString += static_cast<char>(charTyped);
-
-	else if (charTyped == DELETE_KEY && this->m_textString.size() > 0)
+	if (charTyped == DELETE_KEY && this->m_textString.size() > 0)
 		DeleteLastChar();
+	else if (charTyped == ENTER_KEY && this->m_textString.size() > 0)
+	{
+		this->m_inputText.setString(this->m_textString);
+		this->m_sendPressed = true;
+		return;
+	}
+	else if (charTyped != DELETE_KEY && charTyped != ENTER_KEY && this->m_textString.length() < this->m_characterLimit)
+		this->m_textString += static_cast<char>(charTyped);
 
 	this->m_inputText.setString(this->m_textString);
 }
@@ -538,7 +544,7 @@ void TextInput::UpdatePosition(sf::Vector2f position)
 	this->m_inputText.setPosition(sf::Vector2f(this->GetOrigin().x + relativeTextPos.x, this->GetOrigin().y + relativeTextPos.y));
 }
 
-TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated, int lineSpacing,int textObjLim) : UIElement(text, elementPos, scale, activated)
+TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize, bool activated, int lineSpacing,sf::Vector2f padding,int textObjLim) : UIElement(text, elementPos, scale, activated),m_padding(padding)
 {
 	this->m_type = "TextLog";
 
@@ -555,7 +561,7 @@ TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, 
 
 	this->m_textObjLim = textObjLim;
 
-	this->m_renderTexture.create(this->m_textLogTexture.getLocalBounds().width, this->m_textLogTexture.getLocalBounds().height);
+	this->m_renderTexture.create(this->m_textLogTexture.getLocalBounds().width - this->m_padding.x, this->m_textLogTexture.getLocalBounds().height);
 
 	this->m_lineSpacing = lineSpacing;
 }
@@ -569,28 +575,38 @@ void TextLog::AddText(sf::Text text)
 	txt.setFont(*this->m_text.getFont());
 	txt.setCharacterSize(this->m_text.getCharacterSize());
 	txt.setFillColor(this->m_text.getFillColor());
+	txt.setString(text.getString());
+	placeHolderText = txt;
 
 	std::string finalString;
 	std::string finalText;
-	if (txt.getLocalBounds().width > this->m_textLogTexture.getLocalBounds().width)
+
+	if (txt.getLocalBounds().width > this->m_renderTexture.getSize().x - this->m_padding.x)
 	{
 		while (true)
 		{
-			if (placeHolderText.getLocalBounds().width > this->m_textLogTexture.getLocalBounds().width)
+			if (placeHolderText.getLocalBounds().width > this->m_renderTexture.getSize().x - this->m_padding.x)
 			{
-				int widthPerChar = placeHolderText.getLocalBounds().width / placeHolderText.getString().getSize();
-				int charsToAdd = this->m_textLogTexture.getLocalBounds().width / widthPerChar;
+				int widthPerChar = (placeHolderText.getLocalBounds().width) / placeHolderText.getString().getSize();
+				int charsToAdd = (this->m_renderTexture.getSize().x - this->m_padding.x) / widthPerChar;
 				sf::Text temp;
 				temp = txt;
 				temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
-				while (temp.getLocalBounds().width <= m_textLogTexture.getLocalBounds().width)
+				while (temp.getLocalBounds().width < this->m_renderTexture.getSize().x - this->m_padding.x)
 				{
 					charsToAdd++;
 					temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
 				}
 				char checkChar = temp.getString()[charsToAdd];
+				int noCharsToAdd = charsToAdd;
 				while (checkChar != ' ')
 				{
+					if (charsToAdd == 0)
+					{
+						charsToAdd = noCharsToAdd;	
+						charsToAdd-=2;
+						break;
+					}
 					charsToAdd--;
 					checkChar = temp.getString()[charsToAdd];
 				}
@@ -628,15 +644,16 @@ void TextLog::AddText(sf::Text text)
 		for (int i = 0; i <= this->m_textList.size()-1; i++)
 		{
 			if (i == 0)
-				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount));
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f + m_padding.x, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_padding.y));
 			if (i != 0)
-				this->m_textList[i].setPosition(sf::Vector2f(0.0f, (this->m_textList[i - 1].getPosition().y - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount));
+				this->m_textList[i].setPosition(sf::Vector2f(0.0f + m_padding.x, (this->m_textList[i - 1].getPosition().y - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing));
 		}
 	}
 	int totalHeight = 0;
 	totalHeight = (this->m_textList[0].getPosition().y + this->m_textList[0].getLocalBounds().height) - this->m_textList[this->m_textList.size() - 1].getPosition().y;
-	if (totalHeight > this->m_textLogTexture.getLocalBounds().height)
+	if (totalHeight > this->m_textLogTexture.getLocalBounds().height - this->m_padding.y)
 		this->m_maxScrollAmount = totalHeight - this->m_textLogTexture.getLocalBounds().height;
+	
 }
 
 void TextLog::Update(float deltaTime)
@@ -673,30 +690,32 @@ void TextLog::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 {
 	if (e.type == e.MouseWheelScrolled)
 	{
-		std::cout << this->m_maxScrollAmount<<std::endl;
-		std::cout << this->m_scrollAmount << std::endl;
-		if (this->m_maxScrollAmount > 0)
+		if (sf::Mouse::getPosition(*window).x > this->m_position.x && sf::Mouse::getPosition(*window).x < this->m_position.x + this->m_textLogTexture.getLocalBounds().width
+			&& sf::Mouse::getPosition(*window).y > this->m_position.y && sf::Mouse::getPosition(*window).y < this->m_position.y + this->m_textLogTexture.getLocalBounds().height)
 		{
-			if (e.mouseWheelScroll.delta < 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity >0)
+			if (this->m_maxScrollAmount > 0)
 			{
-				this->m_scrollAmount--;
-				if (this->m_scrollAmount < 0)
-					this->m_scrollAmount = 0;
-				for (int i = 0; i < this->m_textList.size(); i++)
+				if (e.mouseWheelScroll.delta < 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity >0)
 				{
-					this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y - this->m_mouseScrollSensitivity));
+					this->m_scrollAmount--;
+					if (this->m_scrollAmount < 0)
+						this->m_scrollAmount = 0;
+					for (int i = 0; i < this->m_textList.size(); i++)
+					{
+						this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y - this->m_mouseScrollSensitivity));
+					}
 				}
-			}
-			else if (e.mouseWheelScroll.delta > 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity < this->m_maxScrollAmount)
-			{
-				this->m_scrollAmount++;
-				if (this->m_scrollAmount > this->m_maxScrollAmount)
-					this->m_scrollAmount = this->m_maxScrollAmount;
-				for (int i = 0; i < this->m_textList.size(); i++)
+				else if (e.mouseWheelScroll.delta > 0.0f && this->m_scrollAmount * this->m_mouseScrollSensitivity < this->m_maxScrollAmount)
 				{
-					this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y + this->m_mouseScrollSensitivity));
+					this->m_scrollAmount++;
+					if (this->m_scrollAmount > this->m_maxScrollAmount)
+						this->m_scrollAmount = this->m_maxScrollAmount;
+					for (int i = 0; i < this->m_textList.size(); i++)
+					{
+						this->m_textList[i].setPosition(sf::Vector2f(this->m_textList[i].getPosition().x, this->m_textList[i].getPosition().y + this->m_mouseScrollSensitivity));
+					}
+
 				}
-				
 			}
 		}
 		

@@ -58,10 +58,10 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_dropDown->AddSelection(newTxt, "Aspect Ratio", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
 
-	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 600.0f), sf::Vector2f(0.68f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
-		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 50, "", true, this->m_assetPool->GetFont("font"), "Enter", sf::Color::Black,sf::Color::Cyan,5);
+	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 600.0f), sf::Vector2f(0.8f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
+		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 150, "", true, this->m_assetPool->GetFont("font"), "Enter", sf::Color::Black,sf::Color::Cyan,5);
 	//this->m_widgetGroup->AddElement(this->m_textInput, sf::Vector2f(0.2f, 0.2f));
-	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 300), sf::Vector2f(1.0f, 3.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 10,10);
+	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 300), sf::Vector2f(2.0f, 3.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 10,sf::Vector2f(10.0f,10.0f),10);
 	this->m_textLog->AddText(newTxt);
 	this->m_textLog->AddText(txt);
 	this->m_publisher = new Publisher();

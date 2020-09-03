@@ -26,6 +26,7 @@ public:
 	inline bool GetActivated() { return m_activated; }
 	inline void SetActivated(bool activated) { this->m_activated = activated; }
 	inline bool& GetActivatedAddress() { return m_activated; }
+	inline virtual void SetEffectsVal(bool valToSet) { this->m_effectsShowing = valToSet; }
 private:
 	
 protected:
@@ -34,6 +35,7 @@ protected:
 	sf::Vector2f m_offsetPosition;
 	std::string m_type;
 	bool m_activated;
+	bool m_effectsShowing = false;
 };
 
 class Button : public UIElement
@@ -64,7 +66,6 @@ private:
 	bool& m_boolRef; 
 	bool m_valToSet = false;
 	
-	
 protected:
 };
 
@@ -79,7 +80,6 @@ public:
 	void Notify() override;
 	void UpdatePosition(sf::Vector2f position) override;
 	void Selected() override;
-
 	inline void SetFloatRef(float& reference) { this->m_floatRef = reference; }
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_position.x + (this->m_barSprite.getLocalBounds().width / 2)), this->m_position.y + (this->m_barSprite.getLocalBounds().height / 2));
@@ -107,6 +107,7 @@ public:
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width / 2)), this->m_position.y + (this->m_border.getLocalBounds().height / 2));}
 	void UpdatePosition(sf::Vector2f position) override;
+	inline void SetEffectsVal(bool valToSet)override { this->m_leftButton->SetEffectsVal(valToSet); this->m_rightButton->SetEffectsVal(valToSet);}
 	Button* m_leftButton; 
 	Button* m_rightButton;
 private:
@@ -145,10 +146,10 @@ public:
 		return sf::Vector2f(this->m_activatorButton->GetOrigin());
 	}
 	void UpdatePosition(sf::Vector2f position) override;
-
+	inline void SetEffectsVal(bool valToSet) { for (int i = 0; i < this->m_buttons.size(); i++) { this->m_buttons[i]->SetEffectsVal(valToSet); } }
 private:
 	Button * m_activatorButton;
-	std::vector<Button* > m_buttons;
+	std::vector<Button*> m_buttons;
 	bool m_dropDownShowing = false;
 protected:
 };
@@ -165,6 +166,7 @@ public:
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f(this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width / 2),
 			this->m_textBoxTexture.getPosition().y + (this->m_textBoxTexture.getLocalBounds().height / 2));}
+	inline void SetEffectsVal(bool valToSet) { this->m_sendButton->SetEffectsVal(valToSet); }
 private:
 	void UpdateTextBox(int charTyped);
 	void DeleteLastChar();
@@ -187,7 +189,7 @@ protected:
 class TextLog : public UIElement
 {
 public:
-	TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize,bool activated, int lineSpacing,int textObjLim = 50);
+	TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize,bool activated, int lineSpacing,sf::Vector2f padding,int textObjLim = 50);
 	void AddText(sf::Text text);
 	void Update(float deltaTime) override;
 	void Render(sf::RenderWindow* window) override;
@@ -210,6 +212,7 @@ private:
 	int m_maxScrollAmount = 0;
 	int m_mouseWheelY = 0;
 	int m_mouseScrollSensitivity = 10;
+	sf::Vector2f m_padding;
 protected:
 };
 
