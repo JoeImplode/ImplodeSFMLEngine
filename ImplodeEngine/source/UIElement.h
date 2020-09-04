@@ -183,6 +183,8 @@ private:
 	std::string m_caretVal = "";
 	sf::Clock m_timer;
 	int m_placement;
+	int m_caretPos = 0;
+	bool m_moved = false;
 protected:
 };
 
@@ -195,12 +197,11 @@ public:
 	void Render(sf::RenderWindow* window) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	inline sf::Vector2f GetOrigin() override {
-		return sf::Vector2f((this->m_textLogTexture.getPosition().x + this->m_textLogTexture.getLocalBounds().width) / 2,
-			(this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) / 2);
+		return sf::Vector2f((this->m_sprite.getPosition().x + this->m_sprite.getLocalBounds().width) / 2,
+			(this->m_sprite.getPosition().y + this->m_sprite.getLocalBounds().height) / 2);
 	}
 	void UpdatePosition(sf::Vector2f newPos) override;
 private:
-	std::string FormatStrings(std::string s1, std::string s2);
 	sf::RectangleShape m_textLogTexture;
 	sf::Text m_text;
 	std::vector<sf::Text> m_textList;
