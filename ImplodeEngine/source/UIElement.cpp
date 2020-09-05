@@ -653,12 +653,19 @@ void TextLog::AddText(sf::Text text)
 				int avgWidthPerChar = (placeHolderText.getLocalBounds().width) / placeHolderText.getString().getSize();
 				int charsToAdd = 0;
 				charsToAdd = ((this->m_renderTexture.getSize().x - (this->m_padding.x*2)) / avgWidthPerChar);
+				if (charsToAdd > txt.getString().getSize() - 1)
+					charsToAdd = txt.getString().getSize() - 1;
 				sf::Text temp;
 				temp = txt;
 				temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
 				while (temp.getLocalBounds().width < this->m_renderTexture.getSize().x - (this->m_padding.x * 2))
 				{
 					charsToAdd++;
+					temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
+				}
+				while (temp.getLocalBounds().width > this->m_renderTexture.getSize().x - (this->m_padding.x * 2))
+				{
+					charsToAdd--;
 					temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
 				}
 				char checkChar = temp.getString()[charsToAdd];
@@ -668,7 +675,7 @@ void TextLog::AddText(sf::Text text)
 					if (charsToAdd == 0)
 					{
 						charsToAdd = noCharsToAdd;
-						charsToAdd -= 5;
+						charsToAdd --;
 						break;
 					}
 					charsToAdd--;
@@ -708,7 +715,7 @@ void TextLog::AddText(sf::Text text)
 		for (int i = 0; i <= this->m_textList.size()-1; i++)
 		{
 			if (i == 0)
-				this->m_textList[i].setPosition(sf::Vector2f(m_padding.x, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing - m_padding.y));
+				this->m_textList[i].setPosition(sf::Vector2f(m_padding.x, (this->m_textLogTexture.getLocalBounds().height - this->m_textList[i].getLocalBounds().height) - m_padding.y));
 			if (i != 0)
 				this->m_textList[i].setPosition(sf::Vector2f(m_padding.x, (this->m_textList[i - 1].getPosition().y - this->m_textList[i].getLocalBounds().height) - this->m_lineSpacing));
 		}
