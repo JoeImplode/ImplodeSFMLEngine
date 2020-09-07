@@ -18,6 +18,7 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_assetPool->LoadTexture("Resources/textures/ddButton.png", "ddButton");
 	this->m_assetPool->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
 	this->m_assetPool->LoadFont("resources/fonts/comicSans.ttf", "font2");
+	this->m_assetPool->LoadTexture("resources/textures/MainPanel03.png", "Panel");
 
 
 	this->m_button = new Button("", sf::Vector2f(100, 100), sf::Vector2f(0.08f, 0.08f), buttonState,true,true);
@@ -49,7 +50,7 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	sf::Text newTxt;
 	newTxt.setFillColor(sf::Color::Yellow);
 	newTxt.setFont(this->m_assetPool->GetFont("font"));
-	newTxt.setString("This is my text log! As you can see it handles text quite well... it cascades lines and can even scroll through!");
+	newTxt.setString("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 	this->m_dropDown = new DropDown("Drop Down", sf::Vector2f(400.0f,400.0f), sf::Vector2f(0.5f, 0.5f),txt, m_assetPool->GetTexture("ddButton"),m_boolToCheck,true);
 	this->m_dropDown->AddSelection(newTxt, "AntiAliasing",m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_dropDown->AddSelection(newTxt, "V-Sync",m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
@@ -58,13 +59,15 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	this->m_dropDown->AddSelection(newTxt, "Aspect Ratio", m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.5f, 0.5f), m_boolToCheck);
 	this->m_widgetGroup->AddElement(this->m_dropDown,sf::Vector2f(0.3f,0.3f));
 
-	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 600.0f), sf::Vector2f(0.8f, 0.5f), this->m_assetPool->GetTexture("DropDown"),
-		this->m_assetPool->GetTexture("DropDown"), sf::Vector2f(0.3f, 0.5f), this->m_stringToSet, 150, "", true, this->m_assetPool->GetFont("font"), "Enter", sf::Color::Black,sf::Color::Cyan,5);
+	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 600.0f), sf::Vector2f(1.4f, 0.3f), this->m_assetPool->GetTexture("Panel"),
+		this->m_assetPool->GetTexture("Panel"), sf::Vector2f(0.6f, 0.3f), this->m_stringToSet, 250, "", true, this->m_assetPool->GetFont("font"), "Enter", sf::Color::White,sf::Color::Cyan,5);
 	//this->m_widgetGroup->AddElement(this->m_textInput, sf::Vector2f(0.2f, 0.2f));
-	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 300), sf::Vector2f(1.5f, 3.0f), this->m_assetPool->GetTexture("DropDown"), this->m_assetPool->GetFont("font"), sf::Color::Black, 15, true, 10,sf::Vector2f(30.0f,10.0f),10);
+	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 300), sf::Vector2f(2.0f, 2.0f), this->m_assetPool->GetTexture("Panel"), this->m_assetPool->GetFont("font"), sf::Color::White, 15, true, 10,sf::Vector2f(10.0f,10.0f),10);
+	this->m_textInput->SetEffectsVal(true);
 	this->m_textLog->AddText(newTxt);
-	this->m_textLog->AddText(txt);
-	this->m_textLog->UpdatePosition(sf::Vector2f(10.0f, 50.0f));
+	this->m_textLog->AddText(newTxt);
+	this->m_textLog->AddText(newTxt);
+	//this->m_textLog->UpdatePosition(sf::Vector2f(10.0f, 50.0f));
 	this->m_publisher = new Publisher();
 	//this->m_publisher->AddElement(m_button);
 	//this->m_publisher->AddElement(m_slider);

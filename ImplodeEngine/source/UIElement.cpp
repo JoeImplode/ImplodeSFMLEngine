@@ -447,7 +447,7 @@ void TextInput::Update(float deltaTime)
 	else
 		m_sendPressed = false;
 
-	if (this->m_caretVal == "  " && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
+	if (this->m_caretVal == " " && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
 	{
 		if (this->m_caretPos == 0)
 		{
@@ -461,15 +461,15 @@ void TextInput::Update(float deltaTime)
 			this->m_inputText.setString(temp);
 			this->m_timer.restart();
 		}
-		this->m_caretVal = "_";
+		this->m_caretVal = "|";
 	}
-	if (this->m_caretVal == "_" && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
+	if (this->m_caretVal == "|" && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
 	{
 		std::string temp = this->m_textString;
 		temp.insert(this->m_caretPos, this->m_caretVal);
 		this->m_inputText.setString(temp);
 		this->m_timer.restart();
-		this->m_caretVal = "  ";
+		this->m_caretVal = " ";
 	}
 	else if (m_moved)
 	{
@@ -477,18 +477,18 @@ void TextInput::Update(float deltaTime)
 		temp.insert(this->m_caretPos, this->m_caretVal);
 		this->m_inputText.setString(temp);
 		this->m_timer.restart();
-		this->m_caretVal = "  ";
+		this->m_caretVal = " ";
 		m_moved = false;
 	}
 	if (!m_focused)
 	{
 		std::string s;
-		if (this->m_caretVal == "_")
+		if (this->m_caretVal == "|")
 			s = std::string(this->m_inputText.getString().begin(), this->m_inputText.getString().end() - 1);
-		else if (this->m_caretVal == "  ")
+		else if (this->m_caretVal == " ")
 			s = std::string(this->m_inputText.getString());
 		this->m_inputText.setString(s);
-		this->m_caretVal = "  ";
+		this->m_caretVal = " ";
 	}
 	
 }
@@ -518,7 +518,7 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		{
 			if (this->m_caretPos > 0)
 			{
-				this->m_caretVal = "_";
+				this->m_caretVal = "|";
 				this->m_caretPos--;
 				this->m_timer.restart();
 				m_moved = true;
@@ -528,7 +528,7 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		{
 			if (this->m_caretPos < this->m_inputText.getString().getSize()-1)
 			{
-				this->m_caretVal = "_";
+				this->m_caretVal = "|";
 				this->m_caretPos++;
 				this->m_timer.restart();
 				m_moved = true;
@@ -563,9 +563,8 @@ void TextInput::UpdateTextBox(int charTyped)
 		this->m_textString.insert(this->m_caretPos, s);
 		this->m_caretPos++;
 		this->m_moved = true;
-		this->m_caretVal = "_";
+		this->m_caretVal = "|";
 	}
-
 	this->m_inputText.setString(this->m_textString);
 }
 
@@ -579,7 +578,7 @@ void TextInput::DeleteLastChar()
 		newTxtString = std::string(t.begin(), t.begin() + this->m_caretPos - 1);
 		newTxtString += std::string(t.begin() + this->m_caretPos, t.end());
 		this->m_caretPos--;
-		this->m_caretVal = "_";
+		this->m_caretVal = "|";
 		this->m_timer.restart();
 		this->m_moved = true;
 	}
@@ -651,11 +650,19 @@ void TextLog::AddText(sf::Text text)
 			if (placeHolderText.getLocalBounds().width > this->m_renderTexture.getSize().x - (this->m_padding.x*2))
 			{
 				int avgWidthPerChar = (placeHolderText.getLocalBounds().width) / placeHolderText.getString().getSize();
+				int paddingForChar = this->m_padding.x / avgWidthPerChar;
 				int charsToAdd = 0;
-				charsToAdd = ((this->m_renderTexture.getSize().x - (this->m_padding.x*2)) / avgWidthPerChar);
+				charsToAdd = ((this->m_renderTexture.getSize().x - (this->m_padding.x*2)) / avgWidthPerChar) - paddingForChar;
 				sf::Text temp;
 				temp = txt;
+				if (charsToAdd > placeHolderText.getString().getSize() -1 - paddingForChar)
+					charsToAdd = placeHolderText.getString().getSize() - 1 - paddingForChar;
 				temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
+				while (temp.getLocalBounds().width > this->m_renderTexture.getSize().x - (this->m_padding.x * 2))
+				{
+					charsToAdd--;
+					temp.setString(std::string(placeHolderText.getString().begin(), placeHolderText.getString().begin() + charsToAdd));
+				}
 				while (temp.getLocalBounds().width < this->m_renderTexture.getSize().x - (this->m_padding.x * 2))
 				{
 					charsToAdd++;
@@ -668,7 +675,7 @@ void TextLog::AddText(sf::Text text)
 					if (charsToAdd == 0)
 					{
 						charsToAdd = noCharsToAdd;
-						charsToAdd -= 5;
+						charsToAdd -= this->m_padding.x;
 						break;
 					}
 					charsToAdd--;
@@ -702,7 +709,7 @@ void TextLog::AddText(sf::Text text)
 		this->m_textList.insert(this->m_textList.begin(), txt);
 
 	if (this->m_textList.size() == 1)
-		this->m_textList[0].setPosition(m_padding.x,((this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height) - this->m_lineSpacing - m_scrollAmount);
+		this->m_textList[0].setPosition(m_padding.x,((this->m_textLogTexture.getPosition().y + this->m_textLogTexture.getLocalBounds().height) - this->m_textList[0].getLocalBounds().height) - this->m_lineSpacing);
 	else if (this->m_textList.size() > 1)
 	{
 		for (int i = 0; i <= this->m_textList.size()-1; i++)
@@ -716,8 +723,10 @@ void TextLog::AddText(sf::Text text)
 	int totalHeight = 0;
 	totalHeight = (this->m_textList[0].getPosition().y + this->m_textList[0].getLocalBounds().height) - this->m_textList[this->m_textList.size() - 1].getPosition().y;
 	if (totalHeight > this->m_textLogTexture.getLocalBounds().height - this->m_padding.y)
-		this->m_maxScrollAmount = totalHeight - this->m_textLogTexture.getLocalBounds().height;
-	
+	{
+		this->m_scrollAmount = 0;
+		this->m_maxScrollAmount = totalHeight - (this->m_textLogTexture.getLocalBounds().height - (this->m_padding.y*2));
+	}
 }
 
 void TextLog::Update(float deltaTime)
