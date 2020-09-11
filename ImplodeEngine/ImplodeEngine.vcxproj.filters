@@ -66,6 +66,9 @@
     <ClCompile Include="source\UIElement.cpp">
       <Filter>Source Files\Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="source\UIPool.cpp">
+      <Filter>Source Files\Engine\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ImplodeEngine.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files\Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="source\UIElement.h">
+      <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UIPool.h">
       <Filter>Header Files\Engine\Managers</Filter>
     </ClInclude>
   </ItemGroup>

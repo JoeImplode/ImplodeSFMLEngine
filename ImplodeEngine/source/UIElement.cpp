@@ -9,14 +9,17 @@ UIElement::UIElement(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	this->m_activated = activated;
 }
 
-Button::Button(bool& reference) : m_boolRef(reference)
-{
 
+Button::Button(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool activated, bool valToSet) : UIElement(text, elementPos, scale, activated)
+{
+	this->m_boolRef = new bool();
+	this->m_type = "Button";
+	this->m_valToSet = valToSet;
 }
 
-Button::Button(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool & reference, bool valToSet, bool activated) : UIElement(text,elementPos,scale,activated),m_boolRef(reference),m_valToSet(valToSet)
+Button::~Button()
 {
-	this->m_type = "Button";
+	this->m_boolRef = nullptr;
 }
 
 void Button::SetTexture(sf::Texture& texture)
@@ -220,13 +223,20 @@ void Publisher::ProcessInput(sf::Event& event,sf::RenderWindow * window)
 			element->ProcessInput(event,window);
 }
 
-ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, bool& reference,sf::Texture& borderTexture, bool activated)
-	: UIElement(text, elementPos, scale,activated),m_orientation(orientation),m_boolRef(reference)
+ButtonGroup::ButtonGroup(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, sf::Texture& borderTexture, bool activated)
+	: UIElement(text, elementPos, scale,activated),m_orientation(orientation)
 {
 	this->m_type = "ButtonGroup";
 	this->m_border.setTexture(&borderTexture);
 	this->m_border.setPosition(elementPos);
 	this->m_border.setSize(sf::Vector2f(scale.x * borderTexture.getSize().x, scale.y * borderTexture.getSize().y));
+}
+
+ButtonGroup::~ButtonGroup()
+{
+	this->m_boolRef = nullptr;
+	this->m_leftButton->~Button();
+	this->m_rightButton->~Button();
 }
 
 void ButtonGroup::Update(float deltaTime)
@@ -251,8 +261,10 @@ void ButtonGroup::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf::Texture& rightTexture, sf::Vector2f scaleRight)
 {
 	//construct the left and the right button here
-	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_boolRef, true);
-	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleRight, this->m_boolRef, false);
+	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_activated,true);
+	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleRight,this->m_activated,false);
+	this->m_leftButton->SetBoolRef(*this->m_boolRef);
+	this->m_rightButton->SetBoolRef(*this->m_boolRef);
 
 	float leftW = (leftTexture.getSize().x * scaleLeft.x);
 	float rightW = (rightTexture.getSize().x * scaleRight.x);
@@ -340,15 +352,25 @@ void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
 	this->m_elements.push_back(element);
 }
 
-DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool& reference, bool activated) : UIElement(text, elementPos, scale,activated)
+DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool activated) : UIElement(text, elementPos, scale,activated)
 {
 	this->m_type = "DropDown";
-	this->m_activatorButton = new Button("", elementPos, scale, this->m_dropDownShowing, true);
+	this->m_activatorButton = new Button("", elementPos, scale, this->m_activated, true);
+	this->m_activatorButton->SetBoolRef(this->m_dropDownShowing);
 	this->m_activatorButton->SetTexture(buttonTexture);
 	this->m_activatorButton->m_buttonText = buttonText;
 	this->m_activatorButton->m_buttonText.setCharacterSize(this->m_activatorButton->GetHeight() / 2);
 	this->m_activatorButton->m_buttonText.setPosition(sf::Vector2f((this->m_activatorButton->GetPosition().x + (this->m_activatorButton->GetWidth() / 2)) - (this->m_activatorButton->m_buttonText.getLocalBounds().width/2),
 		(this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() / 2)) - (this->m_activatorButton->m_buttonText.getLocalBounds().height /2)));
+}
+
+DropDown::~DropDown()
+{
+	this->m_activatorButton = nullptr;
+	for (int i = 0; i < this->m_buttons.size();i++)
+	{
+		this->m_buttons[i]->~Button();
+	}
 }
 
 void DropDown::Update(float deltaTime)
@@ -379,9 +401,10 @@ void DropDown::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		this->m_activatorButton->SetValToSet(true);
 }
 
-void DropDown::AddSelection(sf::Text buttonText, std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool & reference)
+void DropDown::AddSelection(sf::Text buttonText, std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool * reference, bool valToSet)
 {
-	Button * btn = new Button("", sf::Vector2f(0, 0), buttonScale, reference,true,false);
+	Button * btn = new Button("", sf::Vector2f(0, 0), buttonScale,this->m_activated,valToSet);
+	btn->SetBoolRef(*reference);
 	btn->SetPos(sf::Vector2f(this->m_activatorButton->GetPosition().x, this->m_activatorButton->GetPosition().y + (this->m_activatorButton->GetHeight() * (this->m_buttons.size()+1))));
 	btn->m_buttonText = buttonText;
 	btn->m_buttonText.setString(textString);
@@ -419,9 +442,12 @@ TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	this->m_inputText.setPosition(elementPos.x,elementPos.y + ((scale.y * textBoxTexture.getSize().y) / 2) - ((scale.y * textBoxTexture.getSize().y / 2)/2));
 	this->m_inputText.setFillColor(textColor);
 	
+	this->m_checkText = this->m_inputText;
+
 	float width = this->m_textBoxTexture.getLocalBounds().width * this->m_scale.x;
 
-	this->m_sendButton = new Button("", sf::Vector2f(this->m_textBoxTexture.getPosition().x + this->m_textBoxTexture.getLocalBounds().width + this->m_outlineThickness, this->m_textBoxTexture.getPosition().y), buttonScale, this->m_sendPressed, true, true);
+	this->m_sendButton = new Button("", sf::Vector2f(this->m_textBoxTexture.getPosition().x + this->m_textBoxTexture.getLocalBounds().width + this->m_outlineThickness, this->m_textBoxTexture.getPosition().y), buttonScale, true, true);
+	this->m_sendButton->SetBoolRef(this->m_sendPressed);
 	this->m_sendButton->SetTexture(buttonTexture);
 	this->m_sendButton->SetButtonText(this->m_inputText);
 	this->m_sendButton->m_buttonText.setCharacterSize(this->m_sendButton->GetHeight() / 2);
@@ -430,7 +456,11 @@ TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scal
 	this->m_sendButton->m_buttonText.setPosition(sf::Vector2f(this->m_sendButton->GetPosition().x + ((this->m_sendButton->GetWidth() / 2) - (this->m_sendButton->m_buttonText.getLocalBounds().width/2)),
 		this->m_sendButton->GetPosition().y + ((this->m_sendButton->GetHeight() / 2) - (this->m_sendButton->GetHeight() / 2)/2)));
 	this->m_textBoxTexture.setOutlineColor(outlineColor);
-	this->m_placement = 0;
+}
+
+TextInput::~TextInput()
+{
+	this->m_sendButton->~Button();
 }
 
 void TextInput::Update(float deltaTime)
@@ -438,59 +468,16 @@ void TextInput::Update(float deltaTime)
 	if (this->m_sendPressed && this->m_textString.size() > 0)
 	{
 		this->m_string = this->m_textString;
-		this->m_inputText.setString("");
-		this->m_caretVal = "";
-		this->m_textString = "";
 		this->m_sendPressed = false;
+		this->m_textString = "";
+		this->m_showString = "";
+		this->m_inputText.setString("");
 		this->m_caretPos = 0;
+		this->m_lowBound = 0;
+		this->m_highBound = 0;
 	}
-	else
-		m_sendPressed = false;
-
-	if (this->m_caretVal == " " && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
-	{
-		if (this->m_caretPos == 0)
-		{
-			std::string temp = this->m_caretVal + this->m_textString;
-			this->m_inputText.setString(temp);
-		}
-		else if (this->m_caretPos != 0)
-		{
-			std::string temp = this->m_textString;
-			temp.insert(this->m_caretPos, this->m_caretVal);
-			this->m_inputText.setString(temp);
-			this->m_timer.restart();
-		}
-		this->m_caretVal = "|";
-	}
-	if (this->m_caretVal == "|" && this->m_timer.getElapsedTime().asSeconds() > 0.5 && this->m_focused)
-	{
-		std::string temp = this->m_textString;
-		temp.insert(this->m_caretPos, this->m_caretVal);
-		this->m_inputText.setString(temp);
-		this->m_timer.restart();
-		this->m_caretVal = " ";
-	}
-	else if (m_moved)
-	{
-		std::string temp = this->m_textString;
-		temp.insert(this->m_caretPos, this->m_caretVal);
-		this->m_inputText.setString(temp);
-		this->m_timer.restart();
-		this->m_caretVal = " ";
-		m_moved = false;
-	}
-	if (!m_focused)
-	{
-		std::string s;
-		if (this->m_caretVal == "|")
-			s = std::string(this->m_inputText.getString().begin(), this->m_inputText.getString().end() - 1);
-		else if (this->m_caretVal == " ")
-			s = std::string(this->m_inputText.getString());
-		this->m_inputText.setString(s);
-		this->m_caretVal = " ";
-	}
-	
+	if(this->m_sendPressed)
+		this->m_sendPressed = false;
 }
 
 void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -511,35 +498,32 @@ void TextInput::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 		this->m_textBoxTexture.setOutlineThickness(0);
 		this->m_focused = false;
 	}
-
+	else if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Left)
+	{
+		if (this->m_caretPos > 0)
+		{
+			this->m_caretPos--;
+			CheckBounds();
+		}
+	}
+	else if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Right)
+	{
+		if (this->m_caretPos < this->m_textString.size())
+		{
+			this->m_caretPos++;
+			CheckBounds();
+		}
+	}
 	if (this->m_focused)
 	{
-		if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Left)
-		{
-			if (this->m_caretPos > 0)
-			{
-				this->m_caretVal = "|";
-				this->m_caretPos--;
-				this->m_timer.restart();
-				m_moved = true;
-			}
-		}
-		else if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Right)
-		{
-			if (this->m_caretPos < this->m_inputText.getString().getSize()-1)
-			{
-				this->m_caretVal = "|";
-				this->m_caretPos++;
-				this->m_timer.restart();
-				m_moved = true;
-			}
-		}
-		else if (e.type == sf::Event::TextEntered)
+		
+		if (e.type == sf::Event::TextEntered && e.key.code != sf::Keyboard::LControl)
 		{
 			if (e.text.unicode < 128)
 				this->UpdateTextBox(e.text.unicode);
 		}
 	}
+	CheckBounds();
 	this->m_sendButton->ProcessInput(e, window);
 }
 
@@ -549,7 +533,6 @@ void TextInput::UpdateTextBox(int charTyped)
 		DeleteLastChar();
 	else if (charTyped == ENTER_KEY && this->m_textString.size() > 0)
 	{
-		this->m_inputText.setString(this->m_textString);
 		this->m_caretPos = 0;
 		this->m_sendPressed = true;
 		return;
@@ -561,33 +544,94 @@ void TextInput::UpdateTextBox(int charTyped)
 		std::string s;
 		s += c;
 		this->m_textString.insert(this->m_caretPos, s);
+		this->m_checkText.setString(this->m_textString);
 		this->m_caretPos++;
-		this->m_moved = true;
-		this->m_caretVal = "|";
+		if (this->m_caretPos == 0 && this->m_lowBound > 0)
+			this->m_lowBound--;
+		if (this->m_highBound < this->m_showString.size())
+			this->m_highBound++;
+		CheckBounds();
 	}
-	this->m_inputText.setString(this->m_textString);
 }
 
 void TextInput::DeleteLastChar()
 {
-	std::string t = this->m_textString;
-	std::string newTxtString = "";
-
-	if (this->m_caretPos > 0)
+	if (this->m_textString.size() > 0 && this->m_caretPos > 0)
 	{
-		newTxtString = std::string(t.begin(), t.begin() + this->m_caretPos - 1);
-		newTxtString += std::string(t.begin() + this->m_caretPos, t.end());
+		std::string str = std::string(this->m_textString.begin(),this->m_textString.begin() + this->m_caretPos - 1);
+		std::string str2 = std::string(this->m_textString.begin() + this->m_caretPos, this->m_textString.end());
+
+		this->m_textString = str += str2;
 		this->m_caretPos--;
-		this->m_caretVal = "|";
-		this->m_timer.restart();
-		this->m_moved = true;
+		if(this->m_lowBound >0)
+			this->m_lowBound--;
+		this->m_highBound--;
+		if (this->m_showString.size() < (this->m_textBoxTexture.getLocalBounds().width / this->m_averageWidth))
+			if(this->m_highBound < this->m_textString.size())
+				this->m_highBound++;
+		CheckBounds();
+	}
+}
+
+void TextInput::CheckBounds()
+{
+	if (this->m_checkText.getLocalBounds().width > (this->m_textBoxTexture.getLocalBounds().width))//added a bit of padding here
+	{
+		if (this->m_caretPos < this->m_lowBound || this->m_caretPos > this->m_highBound)
+		{
+			this->m_averageWidth = this->m_checkText.getLocalBounds().width / this->m_checkText.getString().getSize();
+			this->m_totalCharsToFit = this->m_textBoxTexture.getLocalBounds().width / m_averageWidth;
+
+			if(this->m_caretPos < this->m_lowBound)
+			{
+				if (this->m_lowBound > 0)
+					this->m_lowBound--;
+				this->m_highBound = this->m_lowBound + this->m_totalCharsToFit;
+				if (this->m_highBound > this->m_textString.size())
+					this->m_highBound = this->m_textString.size();
+			}
+			else if (this->m_caretPos > this->m_highBound)
+			{
+				if (this->m_highBound <= this->m_textString.size() - 1)
+					this->m_highBound++;
+				this->m_lowBound = this->m_highBound - this->m_totalCharsToFit;
+				if (this->m_lowBound < 0)
+					this->m_lowBound = 0;
+			}
+		}
 	}
 	else
-		return;
-
-	this->m_textString = "";
-	this->m_textString = newTxtString;
+	{
+		this->m_lowBound = 0;
+		this->m_highBound = this->m_textString.size();
+	}
+	std::string s = this->m_textString;
+	if (m_focused)
+	{
+		s.insert(this->m_caretPos, "|");
+		this->m_showString = std::string(s.begin() + m_lowBound, s.begin() + this->m_highBound + 1);
+	}
+	else
+	{
+		this->m_showString = std::string(s.begin() + m_lowBound, s.begin() + this->m_highBound);
+	}
+	this->m_inputText.setString(this->m_showString);
+	while (true)
+	{
+		if (this->m_inputText.getLocalBounds().width > this->m_textBoxTexture.getLocalBounds().width)
+		{
+			if (this->m_caretPos <= this->m_lowBound)
+				this->m_highBound--;
+			else if (this->m_caretPos > this->m_lowBound)
+				this->m_lowBound++;
+			this->m_showString = std::string(s.begin() + m_lowBound, s.begin() + this->m_highBound);
+			this->m_inputText.setString(this->m_showString);
+		}
+		else
+			break;
+	}
 }
+
 
 void TextInput::Render(sf::RenderWindow* window)
 {
@@ -735,7 +779,7 @@ void TextLog::Update(float deltaTime)
 
 void TextLog::Render(sf::RenderWindow* window)
 {
-	this->m_renderTexture.clear();
+	this->m_renderTexture.clear(sf::Color::Transparent);
 	this->m_renderTexture.draw(this->m_textLogTexture);
 
 	if (this->m_textList.size() > 0)

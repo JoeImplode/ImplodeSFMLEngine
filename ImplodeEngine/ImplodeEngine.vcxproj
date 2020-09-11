@@ -172,6 +172,7 @@
     <ClCompile Include="source\pch.cpp" />
     <ClCompile Include="source\SplashScreenState.cpp" />
     <ClCompile Include="source\UIElement.cpp" />
+    <ClCompile Include="source\UIPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Animation.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\SplashScreenState.h" />
     <ClInclude Include="source\UIElement.h" />
+    <ClInclude Include="source\UIPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
