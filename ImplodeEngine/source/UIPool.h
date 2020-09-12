@@ -6,14 +6,12 @@ class UIPool
 {
 public:
 	UIPool();
-	inline void SetAssetPool(AssetPool pool) { *this->m_assetPool = pool; }
-	void Update(float deltaTime);
-	void Draw(sf::RenderWindow* window) ;
-	void ProcessEvents(sf::Event& e, sf::RenderWindow* window);
-
+	virtual void Update(float deltaTime) = 0;
+	virtual void Draw(sf::RenderWindow* window) = 0;
+	virtual void ProcessEvents(sf::Event& e, sf::RenderWindow* window) = 0;
 	//UI Elements
 private:
+protected:
 	AssetPool* m_assetPool;
 	Publisher* m_publisher;
-protected:
 };

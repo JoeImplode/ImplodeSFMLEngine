@@ -108,7 +108,7 @@ public:
 		return sf::Vector2f((this->m_position.x + (this->m_border.getLocalBounds().width / 2)), this->m_position.y + (this->m_border.getLocalBounds().height / 2));}
 	void UpdatePosition(sf::Vector2f position) override;
 	inline void SetEffectsVal(bool valToSet)override { this->m_leftButton->SetEffectsVal(valToSet); this->m_rightButton->SetEffectsVal(valToSet);}
-	inline void SetBoolRef(bool* ref) { this->m_boolRef = ref; }
+	inline void SetBoolRef(bool* ref) {this->m_boolRef = ref; this->m_leftButton->SetBoolRef(*ref), this->m_rightButton->SetBoolRef(*ref);}
 	Button* m_leftButton; 
 	Button* m_rightButton;
 private:
@@ -130,6 +130,7 @@ public:
 	}
 	void AddElement(UIElement* element, sf::Vector2f percentagePos);
 	std::vector<UIElement*> m_elements;
+	void SetActivated(bool activated) { this->m_activated = activated; for (int i = 0; i < this->m_elements.size(); i++) this->m_elements[i]->SetActivated(activated); }
 private:
 	sf::RectangleShape m_border;
 protected:
@@ -143,6 +144,9 @@ public:
 	void Update(float deltaTime) override;
 	void Render(sf::RenderWindow* window) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window)override;
+	inline void SetRefVal(int index, bool* ref) { 
+		if (index >= 0 && index < this->m_buttons.size())
+			this->m_buttons[index]->SetBoolRef(*ref); }
 	void AddSelection(sf::Text buttonText,std::string textString, sf::Texture& buttonTexture, sf::Vector2f buttonScale, bool* reference, bool valToSet);
 	inline sf::Vector2f GetOrigin() override { 
 		return sf::Vector2f(this->m_activatorButton->GetOrigin());
@@ -152,15 +156,14 @@ public:
 private:
 	Button * m_activatorButton;
 	std::vector<Button*> m_buttons;
-	bool m_dropDownShowing = false;
+	bool m_dropDownShowing;
 protected:
 };
 
 class TextInput : public UIElement
 {
 public:
-	TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
-		std::string& stringToSet, int characterLimit,std::string buttonLabel, bool activated, sf::Font & font,std::string buttonText,sf::Color textColor, sf::Color outlineColor,int outlineThickness);
+	TextInput(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale, int characterLimit,std::string buttonLabel, bool activated, sf::Font & font,std::string buttonText,sf::Color textColor, sf::Color outlineColor,int outlineThickness);
 	~TextInput();
 	void Update(float deltaTime) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
@@ -169,7 +172,8 @@ public:
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f(this->m_textBoxTexture.getPosition().x + (this->m_textBoxTexture.getLocalBounds().width / 2),
 			this->m_textBoxTexture.getPosition().y + (this->m_textBoxTexture.getLocalBounds().height / 2));}
-	inline void SetEffectsVal(bool valToSet) { this->m_sendButton->SetEffectsVal(valToSet); }
+	inline void SetEffectsVal(bool valToSet) { this->m_sendButton->SetEffectsVal(valToSet); this->m_effectsShowing = valToSet; }
+	inline void SetStringRef(std::string& reference) { this->m_string = &reference; }
 private:
 	void UpdateTextBox(int charTyped);
 	void DeleteLastChar();
@@ -178,7 +182,7 @@ private:
 	sf::RectangleShape m_textBoxTexture;
 	sf::Text m_inputText;
 	std::string m_textString;
-	std::string& m_string;
+	std::string* m_string;
 	std::string m_showString;
 	bool m_focused = false;
 	bool m_wasFocused;

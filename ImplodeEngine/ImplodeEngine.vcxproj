@@ -170,17 +170,20 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MenuState.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\PoolExample.cpp" />
     <ClCompile Include="source\SplashScreenState.cpp" />
     <ClCompile Include="source\UIElement.cpp" />
     <ClCompile Include="source\UIPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PoolExample.h" />
     <ClInclude Include="source\Animation.h" />
     <ClInclude Include="source\AssetPool.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\MenuState.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\PoolExample.h" />
     <ClInclude Include="source\SplashScreenState.h" />
     <ClInclude Include="source\UIElement.h" />
     <ClInclude Include="source\UIPool.h" />

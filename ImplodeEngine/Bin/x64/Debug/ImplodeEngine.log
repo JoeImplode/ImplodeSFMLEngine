@@ -1,6 +1,17 @@
-﻿  ImplodeEngine.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(12,30): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-  main.cpp
-  MenuState.cpp
-  UIPool.cpp
+﻿  PoolExample.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(35,100): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(47,100): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(56,100): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

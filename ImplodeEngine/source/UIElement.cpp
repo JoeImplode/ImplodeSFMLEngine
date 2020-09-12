@@ -181,6 +181,7 @@ void Slider::UpdatePosition(sf::Vector2f position)
 	this->m_position = position;
 	this->m_barSprite.setPosition(sf::Vector2f(GetOrigin().x + barSpriteRelativePos.x,GetOrigin().y + barSpriteRelativePos.y));
 	this->m_selectorSprite.setPosition(sf::Vector2f(GetOrigin().x + sliderSpriteRelativePos.x, GetOrigin().y +sliderSpriteRelativePos.y));
+	this->m_label.setPosition(sf::Vector2f(GetOrigin().x + labelRelativePos.x, GetOrigin().y + labelRelativePos.y));
 }
 
 void Slider::Selected()
@@ -263,8 +264,6 @@ void ButtonGroup::SetButtons(sf::Texture& leftTexture,sf::Vector2f scaleLeft, sf
 	//construct the left and the right button here
 	this->m_leftButton = new Button("", sf::Vector2f(0, 0), scaleLeft, this->m_activated,true);
 	this->m_rightButton = new Button("", sf::Vector2f(0, 0), scaleRight,this->m_activated,false);
-	this->m_leftButton->SetBoolRef(*this->m_boolRef);
-	this->m_rightButton->SetBoolRef(*this->m_boolRef);
 
 	float leftW = (leftTexture.getSize().x * scaleLeft.x);
 	float rightW = (rightTexture.getSize().x * scaleRight.x);
@@ -355,7 +354,8 @@ void Widget::AddElement(UIElement* element, sf::Vector2f percentagePos)
 DropDown::DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture & buttonTexture, bool activated) : UIElement(text, elementPos, scale,activated)
 {
 	this->m_type = "DropDown";
-	this->m_activatorButton = new Button("", elementPos, scale, this->m_activated, true);
+	this->m_activatorButton = new Button("", elementPos, scale, false, true);
+	this->m_dropDownShowing = false;
 	this->m_activatorButton->SetBoolRef(this->m_dropDownShowing);
 	this->m_activatorButton->SetTexture(buttonTexture);
 	this->m_activatorButton->m_buttonText = buttonText;
@@ -429,10 +429,10 @@ void DropDown::UpdatePosition(sf::Vector2f position)
 	this->m_activatorButton->UpdatePosition(position);
 }
 
-TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale,
-	std::string& stringToSet, int characterLimit, std::string buttonLabel, bool activated,sf::Font & font,std::string buttonText, sf::Color textColor, sf::Color outlineColor, int outlineThickness) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_string(stringToSet),m_outlineThickness(outlineThickness)
+TextInput::TextInput(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& buttonTexture, sf::Texture& textBoxTexture, sf::Vector2f buttonScale, int characterLimit, std::string buttonLabel, bool activated,sf::Font & font,std::string buttonText, sf::Color textColor, sf::Color outlineColor, int outlineThickness) : UIElement(text, elementPos, scale, activated), m_characterLimit(characterLimit), m_outlineThickness(outlineThickness)
 {
 	this->m_type = "TextInput";
+	this->m_string = new std::string();
 	this->m_textBoxTexture.setTexture(&textBoxTexture);
 	this->m_textBoxTexture.setPosition(elementPos);
 	this->m_textBoxTexture.setSize(sf::Vector2f(scale.x * textBoxTexture.getSize().x, scale.y * textBoxTexture.getSize().y));
@@ -467,7 +467,7 @@ void TextInput::Update(float deltaTime)
 {
 	if (this->m_sendPressed && this->m_textString.size() > 0)
 	{
-		this->m_string = this->m_textString;
+		*this->m_string = this->m_textString;
 		this->m_sendPressed = false;
 		this->m_textString = "";
 		this->m_showString = "";

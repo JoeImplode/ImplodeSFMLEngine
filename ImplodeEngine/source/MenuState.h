@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include "AssetPool.h"
 #include "UIElement.h"
+#include "PoolExample.h"
 
 class MenuState : public GameState
 {
@@ -10,23 +11,9 @@ public:
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void ProcessEvents(sf::Event& e) override;
+	void SetBools();
 private:
-	AssetPool* m_assetPool;
-	Button* m_button;
-	ButtonGroup* m_buttonGroup;
-	Widget* m_widgetGroup;
-	Slider* m_slider;
-	Publisher* m_publisher;
-	DropDown* m_dropDown;
-	sf::Vector2f m_mousePos;
-	sf::Vector2f m_prevMousePos;
-	TextInput* m_textInput;
-	std::string m_stringToSet;
-	TextLog* m_textLog;
-	std::string m_prevString;
-	sf::Text m_tempText;
-
-	bool buttonState = false;
-	float floatRef = 0.0f;
-	bool m_boolToCheck = false;
+	PoolExample* pool;
+	bool m_myBool = false;
+	std::string m_myString;
 };
