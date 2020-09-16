@@ -16,4 +16,5 @@ private:
 	PoolExample* pool;
 	bool m_myBool = false;
 	std::string m_myString;
+	sf::RenderTexture t;
 };

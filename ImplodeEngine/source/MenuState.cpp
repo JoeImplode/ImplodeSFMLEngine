@@ -7,6 +7,7 @@
 MenuState::MenuState(GameContext* context) : GameState(context)
 {
 	pool = new PoolExample();
+	t.create(1280, 720);
 }
 
 void MenuState::Update(float deltaTime)

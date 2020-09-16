@@ -26,68 +26,69 @@ PoolExample::PoolExample()
 	this->m_button->SetLabelPos(sf::Vector2f(0, -100.0f));
 	this->m_button->SetActivated(true);
 
-	this->m_pauseButton1 = new Button("PAUSED", sf::Vector2f(1000, 520), sf::Vector2f(0.5f, 0.3f), true, true);
+	this->m_pauseButton1 = new Button("", sf::Vector2f(1000, 520), sf::Vector2f(0.5f, 0.3f), true, true);
 	this->m_pauseButton1->SetBoolRef(m_boolToCheck);
 	this->m_pauseButton1->SetTexture(m_assetPool->GetTexture("Panel"));
-	this->m_pauseButton1->m_buttonText.setFont(this->m_assetPool->GetFont("font"));
-	this->m_pauseButton1->m_buttonText.setString("Button");
-	this->m_pauseButton1->m_buttonText.setCharacterSize(20);
-	this->m_pauseButton1->m_buttonText.setPosition(sf::Vector2f(this->m_pauseButton1->GetPosition().x + (this->m_pauseButton1->GetWidth()/3.3), this->m_pauseButton1->GetPosition().y + this->m_pauseButton1->GetHeight()/6));
+	this->m_pauseButton1->m_btnTxt.setFont(this->m_assetPool->GetFont("font"));
+	this->m_pauseButton1->m_btnTxt.setString("Button");
+	this->m_pauseButton1->m_btnTxt.setCharacterSize(20);
+	this->m_pauseButton1->m_btnTxt.setPosition(sf::Vector2f(this->m_pauseButton1->GetPosition().x + (this->m_pauseButton1->GetWidth()/3.3), this->m_pauseButton1->GetPosition().y + this->m_pauseButton1->GetHeight()/6));
 	this->m_pauseButton1->SetActivated(true);
-	this->m_pauseButton1->SetLabelPos(sf::Vector2f(-40.0f, -120.0f));
-	this->m_pauseButton1->m_label.setFont(this->m_assetPool->GetFont("font"));
-	this->m_pauseButton1->m_label.setFillColor(sf::Color::White);
 
 	this->m_pauseButton2 = new Button("", sf::Vector2f(1000, 520), sf::Vector2f(0.5f, 0.3f), true, true);
 	this->m_pauseButton2->SetBoolRef(m_boolToCheck);
 	this->m_pauseButton2->SetTexture(m_assetPool->GetTexture("Panel"));
-	this->m_pauseButton2->m_buttonText.setFont(this->m_assetPool->GetFont("font"));
-	this->m_pauseButton2->m_buttonText.setString("Button 2");
-	this->m_pauseButton2->m_buttonText.setCharacterSize(20);
-	this->m_pauseButton2->m_buttonText.setPosition(sf::Vector2f(this->m_pauseButton2->GetPosition().x + (this->m_pauseButton2->GetWidth() / 3.5), this->m_pauseButton2->GetPosition().y + this->m_pauseButton2->GetHeight() / 6));
+	this->m_pauseButton2->m_btnTxt.setFont(this->m_assetPool->GetFont("font"));
+	this->m_pauseButton2->m_btnTxt.setString("Button 2");
+	this->m_pauseButton2->m_btnTxt.setCharacterSize(20);
+	this->m_pauseButton2->m_btnTxt.setPosition(sf::Vector2f(this->m_pauseButton2->GetPosition().x + (this->m_pauseButton2->GetWidth() / 3.5), this->m_pauseButton2->GetPosition().y + this->m_pauseButton2->GetHeight() / 6));
 	this->m_pauseButton2->SetActivated(true);
 
 	this->m_pauseButton3 = new Button("", sf::Vector2f(1000, 520), sf::Vector2f(0.5f, 0.3f), true, true);
 	this->m_pauseButton3->SetBoolRef(m_boolToCheck);
 	this->m_pauseButton3->SetTexture(m_assetPool->GetTexture("Panel"));
-	this->m_pauseButton3->m_buttonText.setFont(this->m_assetPool->GetFont("font"));
-	this->m_pauseButton3->m_buttonText.setString("Button 3");
-	this->m_pauseButton3->m_buttonText.setCharacterSize(20);
-	this->m_pauseButton3->m_buttonText.setPosition(sf::Vector2f(this->m_pauseButton3->GetPosition().x + (this->m_pauseButton3->GetWidth() / 3.5), this->m_pauseButton3->GetPosition().y + this->m_pauseButton3->GetHeight() / 6));
+	this->m_pauseButton3->m_btnTxt.setFont(this->m_assetPool->GetFont("font"));
+	this->m_pauseButton3->m_btnTxt.setString("Button 3");
+	this->m_pauseButton3->m_btnTxt.setCharacterSize(20);
+	this->m_pauseButton3->m_btnTxt.setPosition(sf::Vector2f(this->m_pauseButton3->GetPosition().x + (this->m_pauseButton3->GetWidth() / 3.5), this->m_pauseButton3->GetPosition().y + this->m_pauseButton3->GetHeight() / 6));
 	this->m_pauseButton3->SetActivated(true);
 
-	this->m_slider = new Slider("Brightness", sf::Vector2f(400, 400), sf::Vector2f(0.7f, 0.3f), sf::Vector2f(0.2f, 0.75f), floatRef, true);
+	this->m_slider = new Slider("Brightness", sf::Vector2f(400, 400), sf::Vector2f(0.7f, 0.3f), sf::Vector2f(0.2f, 0.75f), true);
+	this->m_slider->SetFloatRef(floatRef);
 	this->m_slider->SetTextures(m_assetPool->GetTexture("Panel"), m_assetPool->GetTexture("button3"));
 	this->m_slider->m_label.setFont(this->m_assetPool->GetFont("font"));
 	this->m_slider->SetLabelPos(sf::Vector2f(-90, -100));
 	this->m_slider->m_label.setString("Brightness");
 	this->m_slider->m_label.setCharacterSize(20);
 
-	this->m_volumeSlider = new Slider("Volume", sf::Vector2f(400, 400), sf::Vector2f(0.7f, 0.3f), sf::Vector2f(0.2f, 0.75f), floatRef, true);
+	this->m_volumeSlider = new Slider("Volume", sf::Vector2f(400, 400), sf::Vector2f(0.7f, 0.3f), sf::Vector2f(0.2f, 0.75f), true);
+	this->m_volumeSlider->SetFloatRef(floatRef);
 	this->m_volumeSlider->SetTextures(m_assetPool->GetTexture("Panel"), m_assetPool->GetTexture("button3"));
 	this->m_volumeSlider->m_label.setFont(this->m_assetPool->GetFont("font"));
 	this->m_volumeSlider->SetLabelPos(sf::Vector2f(-80, -100));
 	this->m_volumeSlider->m_label.setString("Volume");
 	this->m_volumeSlider->m_label.setCharacterSize(20);
 
-
 	this->m_buttonGroup = new ButtonGroup("ARE YOU SURE YOU WANT TO QUIT?", sf::Vector2f(300, 300), sf::Vector2f(0.8f, 0.7f), true, m_assetPool->GetTexture("Panel"), true); //texture
 	this->m_buttonGroup->SetButtons(m_assetPool->GetTexture("button3"), sf::Vector2f(1.3f, 1.0f), m_assetPool->GetTexture("button3"), sf::Vector2f(1.3f, 1.0f));
-	this->m_buttonGroup->SetBoolRef(&m_quitBool);
+	this->m_buttonGroup->SetBoolRef(m_quitBool);
 	this->m_buttonGroup->SetLabelPos(sf::Vector2f(-230.0f, -100.0f));
 	this->m_buttonGroup->m_label.setFont(this->m_assetPool->GetFont("font"));
 	this->m_buttonGroup->m_label.setFillColor(sf::Color::White);
 
-	this->m_buttonGroup->m_leftButton->m_buttonText.setString("Yes");
-	this->m_buttonGroup->m_rightButton->m_buttonText.setString("No");
-	this->m_buttonGroup->m_leftButton->m_buttonText.setPosition(sf::Vector2f(this->m_buttonGroup->m_leftButton->GetPosition().x + this->m_buttonGroup->m_leftButton->GetWidth() / 7, this->m_buttonGroup->m_leftButton->GetPosition().y + this->m_buttonGroup->m_leftButton->GetHeight() /7));
-	this->m_buttonGroup->m_rightButton->m_buttonText.setPosition(sf::Vector2f(this->m_buttonGroup->m_rightButton->GetPosition().x + this->m_buttonGroup->m_rightButton->GetWidth() / 4, this->m_buttonGroup->m_rightButton->GetPosition().y + this->m_buttonGroup->m_rightButton->GetHeight() / 7));
-	this->m_buttonGroup->m_leftButton->m_buttonText.setFont(this->m_assetPool->GetFont("font"));
-	this->m_buttonGroup->m_rightButton->m_buttonText.setFont(this->m_assetPool->GetFont("font"));
+	this->m_buttonGroup->m_leftButton->m_btnTxt.setString("Yes");
+	this->m_buttonGroup->m_rightButton->m_btnTxt.setString("No");
+	this->m_buttonGroup->m_leftButton->m_btnTxt.setPosition(sf::Vector2f(this->m_buttonGroup->m_leftButton->GetPosition().x + this->m_buttonGroup->m_leftButton->GetWidth() / 7, this->m_buttonGroup->m_leftButton->GetPosition().y + this->m_buttonGroup->m_leftButton->GetHeight() /7));
+	this->m_buttonGroup->m_rightButton->m_btnTxt.setPosition(sf::Vector2f(this->m_buttonGroup->m_rightButton->GetPosition().x + this->m_buttonGroup->m_rightButton->GetWidth() / 4, this->m_buttonGroup->m_rightButton->GetPosition().y + this->m_buttonGroup->m_rightButton->GetHeight() / 7));
+	this->m_buttonGroup->m_leftButton->m_btnTxt.setFont(this->m_assetPool->GetFont("font"));
+	this->m_buttonGroup->m_rightButton->m_btnTxt.setFont(this->m_assetPool->GetFont("font"));
 	this->m_buttonGroup->m_leftButton->SetBoolRef(m_quitBool);
 	this->m_buttonGroup->m_rightButton->SetBoolRef(buttonState);
 	
 	this->m_widgetGroup = new Widget("PAUSED", sf::Vector2f(250.0f, 150.0f), sf::Vector2f(2.5, 3), m_assetPool->GetTexture("Panel"), true);
+	this->m_widgetGroup->m_label.setFont(this->m_assetPool->GetFont("font"));
+	this->m_widgetGroup->m_label.setFillColor(sf::Color::White);
+	this->m_widgetGroup->SetLabelPos(sf::Vector2f(-80, -200));
 	this->m_quitGroup = new Widget("Would you like to quit?", sf::Vector2f(250.0f, 150.0f), sf::Vector2f(2.5, 3), m_assetPool->GetTexture("Panel"), false);
 	
 	sf::Text txt;
