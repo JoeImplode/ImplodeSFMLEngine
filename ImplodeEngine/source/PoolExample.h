@@ -6,7 +6,7 @@ public:
 	PoolExample();
 	PoolExample(AssetPool* pool);
 	void Update(float deltaTime) override;
-	virtual void Draw(sf::RenderWindow* window) override;
+	virtual void Draw(sf::RenderTexture & txtr) override;
 	virtual void ProcessEvents(sf::Event& e, sf::RenderWindow* window) override;
 	Button* m_button;
 	Button* m_pauseButton1;

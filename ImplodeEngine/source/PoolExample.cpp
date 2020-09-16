@@ -109,13 +109,13 @@ PoolExample::PoolExample()
 	this->m_dropDown->AddSelection(newTxt, "Render Distance", m_assetPool->GetTexture("Panel"), sf::Vector2f(0.7f, 0.3f), &m_boolToCheck, true);
 	this->m_dropDown->AddSelection(newTxt, "Aspect Ratio", m_assetPool->GetTexture("Panel"), sf::Vector2f(0.7f, 0.3f), &m_boolToCheck, true);
 
-	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 660.0f), sf::Vector2f(1.4f, 0.3f), this->m_assetPool->GetTexture("Panel"),
+	this->m_textInput = new TextInput("Text Input", sf::Vector2f(20.0f, 660.0f), sf::Vector2f(1.0f, 0.3f), this->m_assetPool->GetTexture("Panel"),
 		this->m_assetPool->GetTexture("Panel"), sf::Vector2f(0.6f, 0.3f), 250, "", true, this->m_assetPool->GetFont("font"), "Enter", sf::Color::White, sf::Color::Cyan, 5);
 	this->m_textInput->SetEffectsVal(false);
 	this->m_textInput->SetStringRef(this->m_stringToSet);
 	//this->m_widgetGroup->AddElement(this->m_textInput, sf::Vector2f(0.2f, 0.2f));
 
-	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 350), sf::Vector2f(2.0f, 2.0f), this->m_assetPool->GetTexture("Panel"), this->m_assetPool->GetFont("font"), sf::Color::White, 15, true, 10, sf::Vector2f(10.0f, 10.0f), 10);
+	this->m_textLog = new TextLog("Log", sf::Vector2f(20.0f, 500), sf::Vector2f(1.5f, 1.0f), this->m_assetPool->GetTexture("Panel"), this->m_assetPool->GetFont("font"), sf::Color::White, 10, true, 10, sf::Vector2f(10.0f, 10.0f), 10);
 
 	this->m_quitGroup->AddElement(this->m_buttonGroup, sf::Vector2f(0.35f, 0.43f));
 
@@ -187,9 +187,9 @@ void PoolExample::Update(float deltaTime)
 	}
 }
 
-void PoolExample::Draw(sf::RenderWindow* window)
+void PoolExample::Draw(sf::RenderTexture& txtr)
 {
-	this->m_publisher->Render(window);
+	this->m_publisher->Render(txtr);
 }
 
 void PoolExample::ProcessEvents(sf::Event& e, sf::RenderWindow* window)

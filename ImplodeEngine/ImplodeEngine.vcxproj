@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="source\Animation.cpp" />
     <ClCompile Include="source\AssetPool.cpp" />
+    <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\GameState.cpp" />
     <ClCompile Include="source\ImplodeEngine.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="PoolExample.h" />
     <ClInclude Include="source\Animation.h" />
     <ClInclude Include="source\AssetPool.h" />
+    <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\MenuState.h" />

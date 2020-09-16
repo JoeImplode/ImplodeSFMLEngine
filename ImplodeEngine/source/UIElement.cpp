@@ -45,11 +45,11 @@ void Button::Update(float deltaTime)
 
 }
 
-void Button::Render(sf::RenderWindow* window)
+void Button::Render(sf::RenderTexture& txtr)
 {
-	window->draw(this->m_buttonSprite);
-	window->draw(this->m_btnTxt);
-	window->draw(this->m_label);
+	txtr.draw(this->m_buttonSprite);
+	txtr.draw(this->m_btnTxt);
+	txtr.draw(this->m_label);
 }
 
 void Button::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -157,11 +157,11 @@ void Slider::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 	}
 }
 
-void Slider::Render(sf::RenderWindow* window)
+void Slider::Render(sf::RenderTexture& txtr)
 {
-	window->draw(this->m_label);
-	window->draw(this->m_barSprite);
-	window->draw(this->m_selectorSprt);
+	txtr.draw(this->m_label);
+	txtr.draw(this->m_barSprite);
+	txtr.draw(this->m_selectorSprt);
 }
 
 void Slider::Notify()
@@ -208,12 +208,12 @@ void Publisher::Update(float deltaTime)
 	}
 }
 
-void Publisher::Render(sf::RenderWindow* window)
+void Publisher::Render(sf::RenderTexture& txtr)
 {
 	for (auto element : this->m_elements)
 	{
 		if(element->GetActivated())
-			element->Render(window);
+			element->Render(txtr);
 	}
 }
 
@@ -245,12 +245,12 @@ void ButtonGroup::Update(float deltaTime)
 	
 }
 
-void ButtonGroup::Render(sf::RenderWindow* window)
+void ButtonGroup::Render(sf::RenderTexture& txtr)
 {
-	window->draw(this->m_border);
-	this->m_leftButton->Render(window);
-	this->m_rightButton->Render(window);
-	window->draw(this->m_label);
+	txtr.draw(this->m_border);
+	this->m_leftButton->Render(txtr);
+	this->m_rightButton->Render(txtr);
+	txtr.draw(this->m_label);
 }
 
 void ButtonGroup::ProcessInput(sf::Event& e, sf::RenderWindow* window)
@@ -329,14 +329,14 @@ void Widget::ProcessInput(sf::Event& e, sf::RenderWindow* window)
 			element->ProcessInput(e, window);
 }
 
-void Widget::Render(sf::RenderWindow* window)
+void Widget::Render(sf::RenderTexture& txtr)
 {
-	window->draw(this->m_border);
-	window->draw(this->m_label);
+	txtr.draw(this->m_border);
+	txtr.draw(this->m_label);
 	for (auto element : this->m_elements)
 	{
 		if(element->GetActivated())
-			element->Render(window);
+			element->Render(txtr);
 	}
 }
 
@@ -378,13 +378,13 @@ void DropDown::Update(float deltaTime)
 	
 }
 
-void DropDown::Render(sf::RenderWindow* window)
+void DropDown::Render(sf::RenderTexture& txtr)
 {
-	this->m_activatorButton->Render(window);
+	this->m_activatorButton->Render(txtr);
 	if (this->m_dropDwnShw)
 	{
 		for (int i = 0; i < this->m_buttons.size(); i++)
-			this->m_buttons[i]->Render(window);
+			this->m_buttons[i]->Render(txtr);
 	}
 }
 
@@ -633,11 +633,11 @@ void TextInput::CheckBounds()
 }
 
 
-void TextInput::Render(sf::RenderWindow* window)
+void TextInput::Render(sf::RenderTexture& txtr)
 {
-	window->draw(this->m_textBoxTxtre);
-	window->draw(this->m_inputTxt);
-	this->m_sndBtn->Render(window);
+	txtr.draw(this->m_textBoxTxtre);
+	txtr.draw(this->m_inputTxt);
+	this->m_sndBtn->Render(txtr);
 }
 
 void TextInput::UpdatePos(sf::Vector2f position)
@@ -659,7 +659,7 @@ TextLog::TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, 
 	m_textLogTexture.setSize(sf::Vector2f(scale.x * textLogtexture.getSize().x, scale.y * textLogtexture.getSize().y));
 
 	this->m_text.setFont(textFont);
-	this->m_text.setCharacterSize(20);
+	this->m_text.setCharacterSize(charSize);
 	this->m_text.setPosition(sf::Vector2f(0, 0));
 	this->m_text.setFillColor(textColor);
 
@@ -777,7 +777,7 @@ void TextLog::Update(float deltaTime)
 {
 }
 
-void TextLog::Render(sf::RenderWindow* window)
+void TextLog::Render(sf::RenderTexture& txtr)
 {
 	this->m_renderTexture.clear(sf::Color::Transparent);
 	this->m_renderTexture.draw(this->m_textLogTexture);
@@ -799,7 +799,7 @@ void TextLog::Render(sf::RenderWindow* window)
 	}
 	this->m_renderTexture.display();
 	this->m_sprite.setTexture(this->m_renderTexture.getTexture());
-	window->draw(this->m_sprite);
+	txtr.draw(this->m_sprite);
 
 }
 

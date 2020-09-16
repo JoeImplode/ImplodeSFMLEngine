@@ -7,7 +7,7 @@ class UIPool
 public:
 	UIPool();
 	virtual void Update(float deltaTime) = 0;
-	virtual void Draw(sf::RenderWindow* window) = 0;
+	virtual void Draw(sf::RenderTexture & txtr) = 0;
 	virtual void ProcessEvents(sf::Event& e, sf::RenderWindow* window) = 0;
 	//UI Elements
 private:

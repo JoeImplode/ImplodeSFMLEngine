@@ -6,17 +6,22 @@ sf::Event &ImplodeEngine::GetEvent()
 	return *ImplodeEngine::event;
 }
 
+sf::RenderWindow& ImplodeEngine::GetWindow()
+{
+	return *ImplodeEngine::m_window;
+}
+
 void ImplodeEngine::Initialise()
 {
-	m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(1280, 720), "Implode Engine", sf::Style::Default);
-	m_window->setFramerateLimit(200.0f);
-	m_window->setKeyRepeatEnabled(true);
+	ImplodeEngine::m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(1280, 720), "Implode Engine", sf::Style::Default);
+	ImplodeEngine::m_window->setFramerateLimit(200.0f);
+	ImplodeEngine::m_window->setKeyRepeatEnabled(true);
 	ImplodeEngine::deltaTime = 0.0f;
 	ImplodeEngine::event = new sf::Event();
-	m_context = new GameContext(*event,*m_window);
-	m_menu = new MenuState(m_context);
-	m_splash = new SplashScreenState(m_context,m_menu);
-	m_context->TransitionTo(m_splash);
+	ImplodeEngine::m_context = new GameContext(*event,*m_window);
+	ImplodeEngine::m_menu = new MenuState(m_context);
+	ImplodeEngine::m_splash = new SplashScreenState(m_context,m_menu);
+	ImplodeEngine::m_context->TransitionTo(m_splash);
 }
 
 void ImplodeEngine::GameLoop()

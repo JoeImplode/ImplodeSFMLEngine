@@ -12,9 +12,9 @@ void UIPool::Update(float deltaTime)
 	this->m_publisher->Update(deltaTime);
 }
 
-void UIPool::Draw(sf::RenderWindow* window)
+void UIPool::Draw(sf::RenderTexture &txtr)
 {
-	this->m_publisher->Render(window);
+	this->m_publisher->Render(txtr);
 }
 
 void UIPool::ProcessEvents(sf::Event& e, sf::RenderWindow* window)

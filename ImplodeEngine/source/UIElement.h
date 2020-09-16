@@ -10,7 +10,7 @@ public:
 	UIElement() {};
 	UIElement(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool activated);
 	inline virtual void Update(float deltaTime) { ; }
-	inline virtual void Render(sf::RenderWindow* window) { ; }
+	inline virtual void Render(sf::RenderTexture & txtr) { ; }
 	inline virtual void ProcessInput(sf::Event& e, sf::RenderWindow* window) { ; }
 	inline virtual void Notify() { ; }
 	inline virtual void Selected() { ; }
@@ -44,7 +44,7 @@ public:
 	Button(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, bool activated,bool valToSet = true);
 	~Button();
 	void Update(float deltaTime) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture & txtr) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void Selected() override;
 	void SetButtonText(sf::Text textExample); 
@@ -75,7 +75,7 @@ public:
 	void SetTextures(sf::Texture& barTexture, sf::Texture& selectorTexture);
 	void Update(float deltaTime)override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture & txtr) override;
 	void Notify() override;
 	void UpdatePos(sf::Vector2f position) override;
 	void Selected() override;
@@ -101,7 +101,7 @@ public:
 	ButtonGroup(std::string text,sf::Vector2f elementPos, sf::Vector2f scale, bool orientation, sf::Texture &borderTexture, bool activated);
 	~ButtonGroup();
 	void Update(float deltaTime) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture & txtr) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	void SetButtons(sf::Texture& leftTexture, sf::Vector2f scaleLeft,sf::Texture& rightTexture, sf::Vector2f scaleRight);
 	inline sf::Vector2f GetOrigin() override {
@@ -124,7 +124,7 @@ public:
 	Widget(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& widgetTexture, bool activated);
 	void Update(float deltaTime) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture& txtr) override;
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_pos.x + (this->m_border.getLocalBounds().width / 2)), this->m_pos.y + (this->m_border.getLocalBounds().height / 2));
 	}
@@ -142,7 +142,7 @@ public:
 	DropDown(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Text buttonText, sf::Texture& buttonTexture, bool activated);
 	~DropDown();
 	void Update(float deltaTime) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture& txtr) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window)override;
 	inline void SetRefVal(int index, bool* ref) { 
 		if (index >= 0 && index < this->m_buttons.size())
@@ -167,7 +167,7 @@ public:
 	~TextInput();
 	void Update(float deltaTime) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture& txtr) override;
 	void UpdatePos(sf::Vector2f position) override;
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f(this->m_textBoxTxtre.getPosition().x + (this->m_textBoxTxtre.getLocalBounds().width / 2),
@@ -205,7 +205,7 @@ public:
 	TextLog(std::string text, sf::Vector2f elementPos, sf::Vector2f scale, sf::Texture& textLogtexture, sf::Font& textFont, sf::Color textColor, int charSize,bool activated, int lineSpacing,sf::Vector2f padding,int textObjLim = 50);
 	void AddText(sf::Text text);
 	void Update(float deltaTime) override;
-	void Render(sf::RenderWindow* window) override;
+	void Render(sf::RenderTexture& txtr) override;
 	void ProcessInput(sf::Event& e, sf::RenderWindow* window) override;
 	inline sf::Vector2f GetOrigin() override {
 		return sf::Vector2f((this->m_sprite.getPosition().x + this->m_sprite.getLocalBounds().width) / 2,
@@ -232,7 +232,7 @@ class Publisher
 {
 public:
 	void Update(float deltaTime);
-	void Render(sf::RenderWindow* window);
+	void Render(sf::RenderTexture & txtr);
 	void ProcessInput(sf::Event& event, sf::RenderWindow* window);
 	inline void AddElement(UIElement* element) { this->m_elements.push_back(element); }
 private:

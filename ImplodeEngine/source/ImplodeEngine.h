@@ -17,6 +17,7 @@ namespace ImplodeEngine
 	static sf::Event *event;
 
 	sf::Event & GetEvent();
+	sf::RenderWindow& GetWindow();
 	void Initialise();
 	void GameLoop();
 	void Update(); //pass the "screens" into the update loop, they'll be passed the deltaTime and extras

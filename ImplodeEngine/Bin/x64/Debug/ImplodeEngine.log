@@ -1,17 +1,19 @@
 ﻿  MenuState.cpp
-  PoolExample.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(35,96): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(53,156): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
+          [
+              T=int
+          ]
+          and
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(44,96): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(53,99): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
-              T=float
+              T=int
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\PoolExample.cpp(53,96): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
-          with
+          and
           [
               T=float
           ]
