@@ -25,12 +25,13 @@ private:
 	GameState * m_state;
 	sf::RenderWindow* m_renderWindow;
 	sf::Event& m_event;
+	sf::RenderTexture* m_gameWorld;
 public:
-	GameContext(sf::Event& event,sf::RenderWindow &window) : m_event(event),m_renderWindow(&window)
+	GameContext(sf::Event& event,sf::RenderWindow &window,sf::RenderTexture & gameWorld) : m_event(event),m_renderWindow(&window),m_gameWorld(&gameWorld)
 	{
-
+		
 	}
-	GameContext(GameState *state,sf::Event & event) : m_state(state),m_event(event)
+	GameContext(GameState *state,sf::Event & event,sf::RenderTexture &gameWorld) : m_state(state),m_event(event), m_gameWorld(&gameWorld)
 	{
 		this->TransitionTo(state);
 	}

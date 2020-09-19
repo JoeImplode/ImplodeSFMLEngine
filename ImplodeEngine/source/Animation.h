@@ -4,7 +4,7 @@ class Animation
 {
 public:
 	Animation();
-	Animation(float speed, sf::Vector2f position);
+	Animation(float speed, sf::Vector2f position,sf::Vector2f spriteScale = sf::Vector2f(1.0f,1.0f));
 
 	void SetAnimationSheet(sf::Texture & texture, int rows, int columns);
 
@@ -12,6 +12,14 @@ public:
 	inline void SetRepeated(bool repeated) { this->m_isRepeated = repeated; }
 	inline void SetRow(int row) { this->m_row = row; }
 	inline void SetScale(sf::Vector2f scale) { this->m_scale = scale; }
+	inline void SetColumnNum(int num) { this->m_currentFrame.x = num; }
+	inline void SetRowNum(int num) { this->m_row++; }
+
+	int GetColumnNum();
+	int GetRowNum();
+
+	int GetColumnLim();
+	int GetRowLim();
 
 	void Update(float deltaTime);
 	void Render(sf::RenderWindow* window);

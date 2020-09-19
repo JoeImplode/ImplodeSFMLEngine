@@ -12,7 +12,8 @@ Animation::Animation() : m_speed(0),m_isRepeated(false)
 	this->m_scale = sf::Vector2f(1.0f, 1.0f);
 }
 
-Animation::Animation(float speed, sf::Vector2f position)
+
+Animation::Animation(float speed, sf::Vector2f position, sf::Vector2f spriteScale)
 {
 	this->m_currentTime = 0.0f;
 	this->m_row = 0;
@@ -21,8 +22,8 @@ Animation::Animation(float speed, sf::Vector2f position)
 	this->m_position = position;
 	this->m_currentFrame = sf::Vector2u(0.0f, 0.0f);
 	this->m_imageCount = sf::Vector2f(0.0f, 0.0f);
-	this->m_scale = sf::Vector2f(1.0f, 1.0f);
 	this->m_isRepeated = false;
+	this->m_scale = spriteScale;
 }
 
 void Animation::SetAnimationSheet(sf::Texture & texture, int rows, int columns)
@@ -38,6 +39,26 @@ void Animation::SetAnimationSheet(sf::Texture & texture, int rows, int columns)
 
 	this->m_sourceRect.width = sprite.getTexture()->getSize().x / float(m_imageCount.x);
 	this->m_sourceRect.height = sprite.getTexture()->getSize().y / float(m_imageCount.y);
+}
+
+int Animation::GetColumnNum()
+{
+	return this->m_currentFrame.x;
+}
+
+int Animation::GetRowNum()
+{
+	return this->m_currentFrame.y;
+}
+
+int Animation::GetColumnLim()
+{
+	return this->m_imageCount.x;
+}
+
+int Animation::GetRowLim()
+{
+	return this->m_imageCount.y;
 }
 
 void Animation::Update(float deltaTime)

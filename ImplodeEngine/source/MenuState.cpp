@@ -3,11 +3,12 @@
 #include "MenuState.h"
 #include "Animation.h"
 #include "AssetPool.h"
+#include "ImplodeEngine.h"
 
 MenuState::MenuState(GameContext* context) : GameState(context)
 {
-	this->m_cam = new Camera(sf::Vector2f(1024.0f, 576.0f), sf::Vector2f(979.0f, 291.0f));
-	this->m_smallCam = new Camera(sf::Vector2f(1280.0f,720.0f), sf::Vector2f(700.0f, 300.0f), sf::Vector2f(400.0f, 225.0f));
+	this->m_cam = new Camera(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(635.0f,355.0f), sf::Vector2f(0.0f,0.0f));
+	this->m_smallCam = new Camera(sf::Vector2f(300.0f, 300.0f), sf::Vector2f(935.0f, 339.0f), sf::Vector2f(400.0f, 400.0f));
 	p = new AssetPool();
 	p->LoadTexture("resources/textures/Banner.png", "Banner");
 	p->LoadTexture("resources/textures/BigCrate.png", "Crate");
@@ -50,7 +51,8 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 void MenuState::Update(float deltaTime)
 {
 	this->pool->Update(deltaTime);
-	this->m_cam->Update(deltaTime, sf::Vector2f(sf::Mouse::getPosition(*this->m_context->GetWindow()).x, sf::Mouse::getPosition(*this->m_context->GetWindow()).y));
+	//this->m_cam->Update(deltaTime, sf::Vector2f(sf::Mouse::getPosition(*this->m_context->GetWindow()).x, sf::Mouse::getPosition(*this->m_context->GetWindow()).y));
+	this->m_smallCam->Update(deltaTime);
 	std::string str = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).x);
 	std::string str2 = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).y);
 	txt.setString(std::string("X position: " + str + "Y position: " + str2 ));
@@ -60,8 +62,7 @@ void MenuState::Draw()
 {
 	sf::Sprite mySprite;
 	sf::Sprite mapSprite;
-	
-	m_context->GetWindow()->clear(sf::Color(50,50,50,0));
+	mySprite.setPosition(sf::Vector2f(0.0f, 0.0f));
 	t.clear(sf::Color(50, 50, 50, 0));
 	gameWorld.clear(sf::Color(50, 50, 50, 0));
 	gameWorld.draw(banner);
@@ -75,17 +76,15 @@ void MenuState::Draw()
 	gameWorld.draw(bricks);
 	gameWorld.display();
 	gameWorldSprite.setTexture(gameWorld.getTexture());
-	mySprite = this->m_cam->Draw(gameWorldSprite);
-	mapSprite = this->m_smallCam->Draw(gameWorldSprite);
-	mapSprite.setPosition(sf::Vector2f(900.0f, 0.0f));
+	mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Transparent);
+	mapSprite = this->m_smallCam->Draw(gameWorldSprite, sf::Color::Blue);
 	this->pool->Draw(t);
 	t.display();
 	s.setTexture(t.getTexture());
-	this->m_context->GetWindow()->draw(mySprite);
-	this->m_context->GetWindow()->draw(mapSprite);
-	this->m_context->GetWindow()->draw(s);
-	this->m_context->GetWindow()->draw(txt);
-	this->m_context->GetWindow()->display();
+	ImplodeEngine::GetGameWorld().draw(mySprite);
+	ImplodeEngine::GetGameWorld().draw(mapSprite);
+	ImplodeEngine::GetGameWorld().draw(s);
+	ImplodeEngine::GetGameWorld().draw(txt);
 }
 
 void MenuState::ProcessEvents(sf::Event& e)

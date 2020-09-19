@@ -1,4 +1,8 @@
 #pragma once
+#include "GameState.h"
+#include "SplashScreenState.h"
+#include "Animation.h"
+#include "AssetPool.h"
 
 class SplashScreenState : public GameState
 {

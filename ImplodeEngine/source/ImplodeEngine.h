@@ -16,6 +16,10 @@ namespace ImplodeEngine
 
 	static sf::Event *event;
 
+	static sf::RenderTexture* m_gameWorldTxtr;
+	static sf::Sprite * m_gameWorldSprite;
+
+	sf::RenderTexture &GetGameWorld();
 	sf::Event & GetEvent();
 	sf::RenderWindow& GetWindow();
 	void Initialise();
