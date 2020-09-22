@@ -13,6 +13,7 @@ public:
 	void Draw() override;
 	void ProcessEvents(sf::Event& e) override;
 	void SetBools();
+	void Initialise() override;
 private:
 	PoolExample* pool;
 	bool m_myBool = false;

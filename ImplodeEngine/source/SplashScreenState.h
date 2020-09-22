@@ -11,6 +11,7 @@ public:
 	void Update(float deltaTime) override;
 	void Draw() override;
 	void ProcessEvents(sf::Event &e) override;
+	void Initialise() override;
 	~SplashScreenState() { m_nextState = nullptr; }
 private:
 	sf::Clock m_timeElapsed;

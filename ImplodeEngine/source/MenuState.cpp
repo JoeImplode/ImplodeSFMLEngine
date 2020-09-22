@@ -7,8 +7,15 @@
 
 MenuState::MenuState(GameContext* context) : GameState(context)
 {
-	this->m_cam = new Camera(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(635.0f,355.0f), sf::Vector2f(0.0f,0.0f));
+	
+}
+
+void MenuState::Initialise()
+{
+	this->m_cam = new Camera(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(635.0f, 355.0f), sf::Vector2f(0.0f, 0.0f));
 	this->m_smallCam = new Camera(sf::Vector2f(300.0f, 300.0f), sf::Vector2f(935.0f, 339.0f), sf::Vector2f(400.0f, 400.0f));
+	ImplodeEngine::m_gameCam.SetCam(sf::Vector2f(1280.0f,720.0f), sf::Vector2f(640.0f,360.0f), sf::Vector2f(0.0f,0.0f));
+
 	p = new AssetPool();
 	p->LoadTexture("resources/textures/Banner.png", "Banner");
 	p->LoadTexture("resources/textures/BigCrate.png", "Crate");
@@ -38,7 +45,7 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 	pool = new PoolExample();
 	t.create(1280, 720);
 	gameWorld.create(1280, 720);
-	
+
 	s.setPosition(0.0f, 0.0f);
 	gameWorldSprite.setPosition(0.0f, 0.0f);
 
@@ -76,15 +83,16 @@ void MenuState::Draw()
 	gameWorld.draw(bricks);
 	gameWorld.display();
 	gameWorldSprite.setTexture(gameWorld.getTexture());
-	mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Transparent);
+	mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Green);
 	mapSprite = this->m_smallCam->Draw(gameWorldSprite, sf::Color::Blue);
 	this->pool->Draw(t);
 	t.display();
 	s.setTexture(t.getTexture());
-	ImplodeEngine::GetGameWorld().draw(mySprite);
-	ImplodeEngine::GetGameWorld().draw(mapSprite);
-	ImplodeEngine::GetGameWorld().draw(s);
-	ImplodeEngine::GetGameWorld().draw(txt);
+	ImplodeEngine::m_gameWorldTxtr.draw(gameWorldSprite);
+	ImplodeEngine::m_camTxtr.draw(mySprite);
+	ImplodeEngine::m_uiTxtr.draw(s);
+	ImplodeEngine::m_uiTxtr.draw(txt);
+	
 }
 
 void MenuState::ProcessEvents(sf::Event& e)
@@ -92,3 +100,5 @@ void MenuState::ProcessEvents(sf::Event& e)
 	this->pool->ProcessEvents(e, this->m_context->GetWindow());
 	this->m_cam->ProcessInput(e);
 }
+
+

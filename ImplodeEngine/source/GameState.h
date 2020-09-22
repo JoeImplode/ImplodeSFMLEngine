@@ -14,6 +14,7 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
 	virtual void ProcessEvents(sf::Event & e) = 0;
+	virtual void Initialise() = 0;
 	sf::Event& GetEvent();
 	sf::RenderWindow& GetRenderWindow();
 	~GameState() { m_context = nullptr; }
@@ -40,6 +41,8 @@ public:
 	{
 		this->m_state = state;
 		this->m_state->SetContext(this);
+		this->m_state->Initialise();
+
 	}
 	void SetWindow(sf::RenderWindow* renderWindow) { this->m_renderWindow = renderWindow; }
 	sf::RenderWindow* GetWindow() { return this->m_renderWindow; }
