@@ -4,6 +4,7 @@
 #include "UIElement.h"
 #include "PoolExample.h"
 #include "Camera.h"
+#include "Particle.h"
 
 class MenuState : public GameState
 {
@@ -36,4 +37,7 @@ private:
 	sf::Text txt;
 	Camera * m_cam;
 	Camera* m_smallCam;
+	std::vector<Camera*> m_cams;
+	std::vector<sf::Sprite> m_camSprites;
+	Particle m_particle;
 };

@@ -31,10 +31,15 @@ namespace ImplodeEngine
 	extern sf::Sprite m_uiSprite;
 	
 	extern Camera m_gameCam;
+	extern std::vector<Camera*> m_multiCams;
+	
+	extern sf::RenderTexture m_multiCamTxtr;
+	extern sf::Sprite m_multiCamSprite;
 
 	void Initialise();
 	void GameLoop();
 	void Update(); //pass the "screens" into the update loop, they'll be passed the deltaTime and extras
+	std::vector<sf::Sprite> CreateTextureFromCams(std::vector<Camera*> cams, sf::Sprite texture);
 	void Draw();
 	void Exit();
 }

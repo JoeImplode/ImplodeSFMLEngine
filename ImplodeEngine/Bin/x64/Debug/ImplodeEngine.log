@@ -1,2 +1,22 @@
-﻿  MenuState.cpp
+﻿  Particle.cpp
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\Particle.cpp(87,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\Particle.cpp(129,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\Particle.cpp(137,105): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\source\Particle.cpp(137,84): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
   ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

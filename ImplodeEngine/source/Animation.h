@@ -7,14 +7,15 @@ public:
 	Animation(float speed, sf::Vector2f position,sf::Vector2f spriteScale = sf::Vector2f(1.0f,1.0f));
 
 	void SetAnimationSheet(sf::Texture & texture, int rows, int columns);
-
+	sf::Texture GetAnimationSheet() { return *this->m_animationSheet.getTexture(); }
+	inline void SetPosition(sf::Vector2f pos) { this->m_position = pos; }
 	inline void SetSpeed(float speed) { this->m_speed = speed; }
 	inline void SetRepeated(bool repeated) { this->m_isRepeated = repeated; }
 	inline void SetRow(int row) { this->m_row = row; }
 	inline void SetScale(sf::Vector2f scale) { this->m_scale = scale; }
 	inline void SetColumnNum(int num) { this->m_currentFrame.x = num; }
 	inline void SetRowNum(int num) { this->m_row++; }
-
+	sf::Sprite & GetAnimationSprite(){ return this->m_animationSheet; }
 	int GetColumnNum();
 	int GetRowNum();
 
@@ -22,8 +23,7 @@ public:
 	int GetRowLim();
 
 	void Update(float deltaTime);
-	void Render(sf::RenderWindow* window);
-
+	void Render(sf::RenderTexture& texture);
 private:
 	sf::Sprite m_animationSheet;
 	bool m_isRepeated;

@@ -88,7 +88,7 @@ void Animation::Update(float deltaTime)
 	this->m_animationSheet.setScale(this->m_scale);
 }
 
-void Animation::Render(sf::RenderWindow * window)
+void Animation::Render(sf::RenderTexture & txtr)
 {
-	window->draw(this->m_animationSheet);
+	txtr.draw(this->m_animationSheet);
 }

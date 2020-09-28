@@ -170,6 +170,7 @@
     <ClCompile Include="source\ImplodeEngine.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MenuState.cpp" />
+    <ClCompile Include="source\Particle.cpp" />
     <ClCompile Include="source\pch.cpp" />
     <ClCompile Include="source\PoolExample.cpp" />
     <ClCompile Include="source\SplashScreenState.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\MenuState.h" />
+    <ClInclude Include="source\Particle.h" />
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\PoolExample.h" />
     <ClInclude Include="source\SplashScreenState.h" />

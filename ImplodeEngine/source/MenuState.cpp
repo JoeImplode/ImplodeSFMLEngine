@@ -12,16 +12,20 @@ MenuState::MenuState(GameContext* context) : GameState(context)
 
 void MenuState::Initialise()
 {
-	this->m_cam = new Camera(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(635.0f, 355.0f), sf::Vector2f(0.0f, 0.0f));
+	this->m_cam = new Camera(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(640.0f, 360.0f), sf::Vector2f(0.0f, 0.0f));
 	this->m_smallCam = new Camera(sf::Vector2f(300.0f, 300.0f), sf::Vector2f(935.0f, 339.0f), sf::Vector2f(400.0f, 400.0f));
+	this->m_cams = std::vector<Camera*>();
+	m_cams.push_back(m_cam);
+	m_cams.push_back(m_smallCam);
+	ImplodeEngine::m_multiCams = m_cams;
 	ImplodeEngine::m_gameCam.SetCam(sf::Vector2f(1280.0f,720.0f), sf::Vector2f(640.0f,360.0f), sf::Vector2f(0.0f,0.0f));
-
 	p = new AssetPool();
 	p->LoadTexture("resources/textures/Banner.png", "Banner");
 	p->LoadTexture("resources/textures/BigCrate.png", "Crate");
 	p->LoadTexture("resources/textures/FountainBig.png", "Fountain");
 	p->LoadTexture("resources/textures/RuinedBrickFormation.png", "Bricks");
 	p->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
+	p->LoadTexture("resources/textures/missile.jpg", "Missile");
 
 	banner.setTexture(p->GetTexture("Banner"));
 	banner.setPosition(sf::Vector2f(881, 87));
@@ -53,11 +57,15 @@ void MenuState::Initialise()
 	txt.setFont(p->GetFont("font"));
 	txt.setFillColor(sf::Color::Green);
 	txt.setPosition(sf::Vector2f(0.0f, 0.0f));
+	this->m_particle = Particle(p->GetTexture("Missile"),sf::Vector2f(0.0f,-1.0f));
+	this->m_particle.StartParticleStartEndPos(sf::Vector2f(100.0f, 100.0f), sf::Vector2f(360, 630),27.0f,100.0f);
+	//this->m_particle.StartParticle(sf::Vector2f(100, 100), sf::Vector2f(5.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), 27.0f, 15.0f);
 }
 
 void MenuState::Update(float deltaTime)
 {
 	this->pool->Update(deltaTime);
+	this->m_particle.Update(deltaTime);
 	//this->m_cam->Update(deltaTime, sf::Vector2f(sf::Mouse::getPosition(*this->m_context->GetWindow()).x, sf::Mouse::getPosition(*this->m_context->GetWindow()).y));
 	this->m_smallCam->Update(deltaTime);
 	std::string str = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).x);
@@ -81,6 +89,7 @@ void MenuState::Draw()
 	gameWorld.draw(crate6);
 	gameWorld.draw(fountain);
 	gameWorld.draw(bricks);
+	this->m_particle.Draw(gameWorld);
 	gameWorld.display();
 	gameWorldSprite.setTexture(gameWorld.getTexture());
 	mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Green);
@@ -89,7 +98,7 @@ void MenuState::Draw()
 	t.display();
 	s.setTexture(t.getTexture());
 	ImplodeEngine::m_gameWorldTxtr.draw(gameWorldSprite);
-	ImplodeEngine::m_camTxtr.draw(mySprite);
+
 	ImplodeEngine::m_uiTxtr.draw(s);
 	ImplodeEngine::m_uiTxtr.draw(txt);
 	
