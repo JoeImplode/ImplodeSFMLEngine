@@ -16,9 +16,10 @@ public:
 	inline void SetVelocity(sf::Vector2f velocity) { this->m_pVelocity = velocity; }
 	inline void SetAcceleration(sf::Vector2f acceleration) { this->m_pAcceleration; }
 	inline void SetTimeLim(float timeLimSeconds) { this->m_timeLimit = timeLimSeconds; }
-	inline void SetNewTexture(Animation texture) { this->m_texture = texture; }
 	inline void SetActive(bool active) { this->m_active = active; }
+	inline void SetForward(sf::Vector2f forwardDir) { this->m_forward = forwardDir; }
 	void SetNewTexture(sf::Texture & texture);
+	void SetNewTexture(Animation& animation);
 
 	inline float GetSpeed() { return this->m_pSpeed; }
 	inline sf::Vector2f GetVelocity() { return this->m_pVelocity; }
@@ -27,7 +28,11 @@ public:
 	inline sf::Vector2f GetPosition() { return this->m_position; }
 	inline Animation GetTextureAnim() { return this->m_texture; }
 	inline sf::Texture GetTextureTxtr() { return this->m_texture.GetAnimationSheet(); }
+	inline bool GetActive() { return this->m_active; }
+	void Reset();
 private:
+	float CalculateRotationAngle(sf::Vector2f velocity, float angle);
+	float CalculateDistance();
 	float m_pSpeed;
 	sf::Vector2f m_pVelocity;
 	sf::Vector2f m_pAcceleration;
@@ -38,7 +43,9 @@ private:
 	bool m_active;
 	sf::Vector2f m_forward;
 	bool m_moveToPos = false;
+	float m_distCovered;
 	sf::Vector2f m_endPos;
+	sf::Vector2f m_dist;
 protected:
 
 };

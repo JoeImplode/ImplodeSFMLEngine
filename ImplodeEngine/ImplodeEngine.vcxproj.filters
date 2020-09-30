@@ -78,6 +78,12 @@
     <ClCompile Include="source\Particle.cpp">
       <Filter>Source Files\Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="source\ParticleEmitter.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Light.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ImplodeEngine.h">
@@ -104,9 +110,6 @@
     <ClInclude Include="source\UIPool.h">
       <Filter>Header Files\Engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="PoolExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\PoolExample.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
@@ -118,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="source\pch.h">
       <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParticleEmitter.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Light.h">
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

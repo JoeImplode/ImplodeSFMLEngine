@@ -26,7 +26,12 @@ void MenuState::Initialise()
 	p->LoadTexture("resources/textures/RuinedBrickFormation.png", "Bricks");
 	p->LoadFont("resources/fonts/Roboto-Light.ttf", "font");
 	p->LoadTexture("resources/textures/missile.jpg", "Missile");
+	p->LoadTexture("resources/textures/man.png", "Man");
+	p->LoadTexture("resources/textures/BigCrate.png", "crateBackground");
 
+	backGround.setTexture(p->GetTexture("crateBackground"));
+	backGround.setPosition(sf::Vector2f(-200.0f, -700.0f));
+	backGround.setScale(50.0f, 50.0f);
 	banner.setTexture(p->GetTexture("Banner"));
 	banner.setPosition(sf::Vector2f(881, 87));
 	crate.setTexture(p->GetTexture("Crate"));
@@ -57,9 +62,18 @@ void MenuState::Initialise()
 	txt.setFont(p->GetFont("font"));
 	txt.setFillColor(sf::Color::Green);
 	txt.setPosition(sf::Vector2f(0.0f, 0.0f));
+
 	this->m_particle = Particle(p->GetTexture("Missile"),sf::Vector2f(0.0f,-1.0f));
-	this->m_particle.StartParticleStartEndPos(sf::Vector2f(100.0f, 100.0f), sf::Vector2f(360, 630),27.0f,100.0f);
-	//this->m_particle.StartParticle(sf::Vector2f(100, 100), sf::Vector2f(5.0f, 0.0f), sf::Vector2f(0.0f, 0.0f), 27.0f, 15.0f);
+	//this->m_particle.StartParticleStartEndPos(sf::Vector2f(100.0f, 100.0f), sf::Vector2f(880, 600),27.f,100.0f);
+	//this->m_particle.StartParticle(sf::Vector2f(1000, 400), sf::Vector2f(-2.F, 0.0f), sf::Vector2f(0.0f, 0.0f), 27.0f, 15.0f);
+	this->m_light = Light(300.0f, sf::Vector2f(800.0f, 400.0f), true, sf::Color(0.0f, 0.0f, 180.0f));
+	this->m_emitter = new ParticleEmitter(1000, p->GetTexture("Missile"), sf::Vector2f(0.0f, -1.0f));
+
+	this->m_shader.loadFromFile("resources/shaders/vertShader.vert","resources/shaders/fragShader.frag");
+	this->m_shader.setUniform("intensity", this->m_light.GetIntensity());
+	this->m_shader.setUniform("colour", sf::Glsl::Vec3(this->m_light.GetColor().r, this->m_light.GetColor().g, this->m_light.GetColor().b));
+	
+	this->m_shader.setUniform("ambient", sf::Glsl::Vec3(0.0, 0.0, 0.0));
 }
 
 void MenuState::Update(float deltaTime)
@@ -70,7 +84,9 @@ void MenuState::Update(float deltaTime)
 	this->m_smallCam->Update(deltaTime);
 	std::string str = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).x);
 	std::string str2 = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).y);
+	this->m_shader.setUniform("lightPos", sf::Glsl::Vec2(sf::Mouse::getPosition(*this->m_context->GetWindow())));
 	txt.setString(std::string("X position: " + str + "Y position: " + str2 ));
+	this->m_emitter->Update(deltaTime);
 }
 
 void MenuState::Draw()
@@ -80,6 +96,7 @@ void MenuState::Draw()
 	mySprite.setPosition(sf::Vector2f(0.0f, 0.0f));
 	t.clear(sf::Color(50, 50, 50, 0));
 	gameWorld.clear(sf::Color(50, 50, 50, 0));
+	gameWorld.draw(backGround);
 	gameWorld.draw(banner);
 	gameWorld.draw(crate);
 	gameWorld.draw(crate2);
@@ -90,6 +107,7 @@ void MenuState::Draw()
 	gameWorld.draw(fountain);
 	gameWorld.draw(bricks);
 	this->m_particle.Draw(gameWorld);
+	this->m_emitter->Draw(gameWorld);
 	gameWorld.display();
 	gameWorldSprite.setTexture(gameWorld.getTexture());
 	mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Green);
@@ -97,8 +115,8 @@ void MenuState::Draw()
 	this->pool->Draw(t);
 	t.display();
 	s.setTexture(t.getTexture());
-	ImplodeEngine::m_gameWorldTxtr.draw(gameWorldSprite);
 
+	ImplodeEngine::m_gameWorldTxtr.draw(gameWorldSprite,&m_shader);
 	ImplodeEngine::m_uiTxtr.draw(s);
 	ImplodeEngine::m_uiTxtr.draw(txt);
 	
@@ -108,6 +126,25 @@ void MenuState::ProcessEvents(sf::Event& e)
 {
 	this->pool->ProcessEvents(e, this->m_context->GetWindow());
 	this->m_cam->ProcessInput(e);
+	if (e.type == sf::Event::KeyPressed )
+	{
+  		float randX = rand()%1280;
+		float randY = rand() % 720;
+
+		float endX = rand() % 2560 + (-1280);
+		float endY = rand() % 1440 + (-720);
+
+		float randVelX = rand() % 19 + (-9);
+		float randVelY = rand()% 19 + (-9);
+		
+		float randSpd = rand()& 40 + 200;
+
+		float randTimeLim = rand()%100;
+		if (e.key.code == sf::Keyboard::Space)
+			this->m_emitter->CreateParticle(sf::Vector2f(rand() % 1280, rand() % 720), sf::Vector2f(rand() % 2560 + (-1280), rand() % 1440 + (-720)),sf::Vector2f(1.0f,2.0f), rand() & 40 + 200, randTimeLim, p->GetTexture("Missile"),sf::Vector2f(0.0f, -1.0f),true);
+		if(e.key.code == sf::Keyboard::B)
+			this->m_emitter->CreateParticle(sf::Vector2f(rand() % 1280, rand() % 720), sf::Vector2f(rand() % 2560 + (-1280), rand() % 1440 + (-720)), sf::Vector2f(1.0f, 2.0f), rand() & 40 + 200, randTimeLim, p->GetTexture("Man"), sf::Vector2f(0.0f, -1.0f), true);
+	}
 }
 
 

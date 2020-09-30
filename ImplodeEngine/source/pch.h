@@ -9,3 +9,4 @@
 #include <SFML/System/Utf.hpp>
 #include <queue>
 #include <stack>
+#include <cmath>

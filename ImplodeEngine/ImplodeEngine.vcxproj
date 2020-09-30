@@ -168,9 +168,11 @@
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\GameState.cpp" />
     <ClCompile Include="source\ImplodeEngine.cpp" />
+    <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MenuState.cpp" />
     <ClCompile Include="source\Particle.cpp" />
+    <ClCompile Include="source\ParticleEmitter.cpp" />
     <ClCompile Include="source\pch.cpp" />
     <ClCompile Include="source\PoolExample.cpp" />
     <ClCompile Include="source\SplashScreenState.cpp" />
@@ -178,14 +180,15 @@
     <ClCompile Include="source\UIPool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PoolExample.h" />
     <ClInclude Include="source\Animation.h" />
     <ClInclude Include="source\AssetPool.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
+    <ClInclude Include="source\Light.h" />
     <ClInclude Include="source\MenuState.h" />
     <ClInclude Include="source\Particle.h" />
+    <ClInclude Include="source\ParticleEmitter.h" />
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\PoolExample.h" />
     <ClInclude Include="source\SplashScreenState.h" />

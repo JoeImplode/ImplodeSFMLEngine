@@ -5,6 +5,8 @@
 #include "PoolExample.h"
 #include "Camera.h"
 #include "Particle.h"
+#include "ParticleEmitter.h"
+#include "Light.h"
 
 class MenuState : public GameState
 {
@@ -34,10 +36,15 @@ private:
 	sf::Sprite crate4;
 	sf::Sprite crate5;
 	sf::Sprite crate6;
+	sf::Sprite backGround;
 	sf::Text txt;
 	Camera * m_cam;
 	Camera* m_smallCam;
 	std::vector<Camera*> m_cams;
 	std::vector<sf::Sprite> m_camSprites;
 	Particle m_particle;
+	ParticleEmitter* m_emitter;
+
+	Light m_light;
+	sf::Shader m_shader;
 };
