@@ -20,6 +20,7 @@ void MenuState::Initialise()
 	ImplodeEngine::m_multiCams = m_cams;
 	ImplodeEngine::m_gameCam.SetCam(sf::Vector2f(1280.0f,720.0f), sf::Vector2f(640.0f,360.0f), sf::Vector2f(0.0f,0.0f));
 	p = new AssetPool();
+
 	p->LoadTexture("resources/textures/Banner.png", "Banner");
 	p->LoadTexture("resources/textures/BigCrate.png", "Crate");
 	p->LoadTexture("resources/textures/FountainBig.png", "Fountain");
@@ -32,22 +33,31 @@ void MenuState::Initialise()
 	backGround.setTexture(p->GetTexture("crateBackground"));
 	backGround.setPosition(sf::Vector2f(-200.0f, -700.0f));
 	backGround.setScale(50.0f, 50.0f);
+
 	banner.setTexture(p->GetTexture("Banner"));
 	banner.setPosition(sf::Vector2f(881, 87));
+
 	crate.setTexture(p->GetTexture("Crate"));
 	crate.setPosition(sf::Vector2f(600, 300));
+
 	fountain.setTexture(p->GetTexture("Fountain"));
 	fountain.setPosition(sf::Vector2f(1159, 287));
+
 	bricks.setTexture(p->GetTexture("Bricks"));
 	bricks.setPosition(sf::Vector2f(864, 507));
+
 	crate2.setTexture(p->GetTexture("Crate"));
 	crate2.setPosition(sf::Vector2f(1014, 386));
+
 	crate3.setTexture(p->GetTexture("Crate"));
 	crate3.setPosition(sf::Vector2f(827, 240));
+
 	crate4.setTexture(p->GetTexture("Crate"));
 	crate4.setPosition(sf::Vector2f(1014, 240));
+
 	crate5.setTexture(p->GetTexture("Crate"));
 	crate5.setPosition(sf::Vector2f(912, 311));
+
 	crate6.setTexture(p->GetTexture("Crate"));
 	crate6.setPosition(sf::Vector2f(827, 386));
 
@@ -72,7 +82,6 @@ void MenuState::Initialise()
 	this->m_shader.loadFromFile("resources/shaders/vertShader.vert","resources/shaders/fragShader.frag");
 	this->m_shader.setUniform("intensity", this->m_light.GetIntensity());
 	this->m_shader.setUniform("colour", sf::Glsl::Vec3(this->m_light.GetColor().r, this->m_light.GetColor().g, this->m_light.GetColor().b));
-	
 	this->m_shader.setUniform("ambient", sf::Glsl::Vec3(0.0, 0.0, 0.0));
 }
 
