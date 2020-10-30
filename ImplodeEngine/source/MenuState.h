@@ -7,6 +7,9 @@
 #include "Particle.h"
 #include "ParticleEmitter.h"
 #include "Light.h"
+#include "SoundManager.h"
+#include "BoundaryManager.h"
+#include "LightingManager.h"
 
 class MenuState : public GameState
 {
@@ -17,6 +20,7 @@ public:
 	void ProcessEvents(sf::Event& e) override;
 	void SetBools();
 	void Initialise() override;
+	~MenuState();
 private:
 	PoolExample* pool;
 	bool m_myBool = false;
@@ -37,6 +41,7 @@ private:
 	sf::Sprite crate5;
 	sf::Sprite crate6;
 	sf::Sprite backGround;
+
 	sf::Text txt;
 	Camera * m_cam;
 	Camera* m_smallCam;
@@ -45,6 +50,13 @@ private:
 	Particle m_particle;
 	ParticleEmitter* m_emitter;
 
+	BoundaryManager m_boundaryManager;
 	Light m_light;
 	sf::Shader m_shader;
+	SoundManager *m_soundManager;
+	sf::SoundBuffer m_soundBuffer;
+
+	LightingManager * m_lightingManager;
+
+	Animation m_animationTest;
 };

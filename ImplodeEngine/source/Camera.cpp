@@ -1,6 +1,8 @@
+#include "pch.h"
 #include "ImplodeEngine.h"
 #include "Camera.h"
-#include "pch.h"
+
+
 Camera::Camera(sf::Vector2f scale, sf::Vector2f pos, sf::Vector2f spritePosition)
 {
 	this->m_scale = scale;

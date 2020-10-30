@@ -1,55 +1,81 @@
-﻿  MenuState.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(70,90): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(70,84): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(70,78): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(132,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(133,15): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(135,14): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(136,14): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(138,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(139,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(141,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(143,21): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(145,71): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+﻿  Animation.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(7,35): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(9,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(9,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(21,36): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(21,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(23,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(23,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(37,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(145,56): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(38,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(145,131): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(40,62): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(41,63): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(56,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(145,106): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(61,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(145,173): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(147,71): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(78,45): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(147,56): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
-          with
+          and
           [
-              T=float
+              T=unsigned int
           ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(147,131): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(147,106): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\MenuState.cpp(147,175): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

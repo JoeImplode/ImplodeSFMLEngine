@@ -78,6 +78,11 @@ void Animation::Update(float deltaTime)
 				this->m_currentFrame.x = m_imageCount.x -1;
 			else
 				this->m_currentFrame.x = 0;
+			if (this->m_rowLoop && this->m_row <= GetRowLim())
+				this->m_row++;
+			if (this->m_rowLoop && this->m_row == GetRowLim())
+				this->m_row = 0;
+			
 		}
 	}
 	this->m_sourceRect.left = m_currentFrame.x * this->m_sourceRect.width;

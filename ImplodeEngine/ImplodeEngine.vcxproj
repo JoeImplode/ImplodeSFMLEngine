@@ -170,6 +170,7 @@
     <ClCompile Include="source\GameState.cpp" />
     <ClCompile Include="source\ImplodeEngine.cpp" />
     <ClCompile Include="source\Light.cpp" />
+    <ClCompile Include="source\LightingManager.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MenuState.cpp" />
     <ClCompile Include="source\Particle.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\Light.h" />
+    <ClInclude Include="source\LightingManager.h" />
     <ClInclude Include="source\MenuState.h" />
     <ClInclude Include="source\Particle.h" />
     <ClInclude Include="source\ParticleEmitter.h" />

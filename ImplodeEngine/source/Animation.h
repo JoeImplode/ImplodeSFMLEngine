@@ -14,7 +14,10 @@ public:
 	inline void SetRow(int row) { this->m_row = row; }
 	inline void SetScale(sf::Vector2f scale) { this->m_scale = scale; }
 	inline void SetColumnNum(int num) { this->m_currentFrame.x = num; }
-	inline void SetRowNum(int num) { this->m_row++; }
+	inline void SetRowNum(int num) { this->m_row = num; }
+	inline void NextRow() { this->m_row++; }
+	inline void NextColumn() { this->m_currentFrame.x++; }
+	inline void SetAutomaticRowLoop(bool loop) { this->m_rowLoop = loop; }
 	sf::Sprite & GetAnimationSprite(){ return this->m_animationSheet; }
 	int GetColumnNum();
 	int GetRowNum();
@@ -37,6 +40,7 @@ private:
 	sf::Vector2u m_currentFrame; //set the current frame number we are on
 	sf::Vector2f m_scale;
 
+	bool m_rowLoop = false;
 	float m_speed;
 	float m_currentTime;
 	int m_row;

@@ -112,17 +112,11 @@ void ImplodeEngine::Draw()
 	ImplodeEngine::m_gameWorldTxtr.display();
 	ImplodeEngine::m_gameWorldSprite.setTexture(m_gameWorldTxtr.getTexture());
 
-	//Particle effects
-
 	//Lighting render and more
-
-	//Elemental effect and more
 
 	ImplodeEngine::m_postProcessTxtr.draw(m_gameWorldSprite);
 	ImplodeEngine::m_postProcessTxtr.display();
 	ImplodeEngine::m_postProcessSprite.setTexture(m_postProcessTxtr.getTexture());
-
-	//Post processing effects
 
 	ImplodeEngine::m_uiTxtr.display();
 	ImplodeEngine::m_uiSprite.setTexture(m_uiTxtr.getTexture());

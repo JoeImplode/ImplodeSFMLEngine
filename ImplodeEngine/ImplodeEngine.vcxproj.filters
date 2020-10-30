@@ -90,6 +90,9 @@
     <ClCompile Include="source\SoundManager.cpp">
       <Filter>Source Files\Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="source\LightingManager.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ImplodeEngine.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="source\SoundManager.h">
       <Filter>Header Files\Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\LightingManager.h">
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

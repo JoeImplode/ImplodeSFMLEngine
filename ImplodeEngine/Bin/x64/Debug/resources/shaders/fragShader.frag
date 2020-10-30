@@ -2,7 +2,6 @@ varying in vec4 vert_pos;
 
 uniform sampler2D texture;
 
-uniform vec2 lightPos;
 
 void main()
 {
@@ -24,6 +23,6 @@ void main()
 
     // multiply it by the color and lighting
 	
-	gl_FragColor = gl_Color * pixel * (clamp(ambient + vec4(1-vecLength, 1-vecLength, 1-vecLength, 1), 0, 1));
+	gl_FragColor = gl_Color * pixel * (clamp(ambient, 0, 1));
 	
 }
