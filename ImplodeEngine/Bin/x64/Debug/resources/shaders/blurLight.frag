@@ -20,6 +20,7 @@ float sample(vec2 coord, float r) {
 }
 
 void main(void) {
+	softShadows = 1.0;
     //rectangular to polar
 	vec2 norm = vTexCoord0.st * 2.0 - 1.0;
 	float theta = atan(norm.y, norm.x);

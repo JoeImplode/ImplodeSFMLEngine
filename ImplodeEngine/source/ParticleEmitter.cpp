@@ -163,7 +163,7 @@ void ParticleEmitter::CreateParticle(sf::Vector2f position, sf::Vector2f velocit
 			this->m_particles[i]->SetForward(txtrForward);
 			this->m_particles[i]->SetNewTexture(txtr);
 			this->m_particles[i]->StartParticle(position, velocity, acceleration, speed, timeLimit);
-			lightingManager.m_boundaryManager.AddSprite(&m_particles[i]->GetSprite());
+			lightingManager.AddBoundary(m_particles[i]->GetSprite());
 			return;
 		}
 	}
@@ -174,7 +174,7 @@ void ParticleEmitter::CreateParticle(sf::Vector2f position, sf::Vector2f velocit
 		this->m_particles[0]->SetForward(txtrForward);
 		this->m_particles[0]->SetNewTexture(txtr);
 		this->m_particles[0]->StartParticle(position, velocity, acceleration, speed, timeLimit);
-		lightingManager.m_boundaryManager.AddSprite(&m_particles[0]->GetSprite());
+		lightingManager.AddBoundary(m_particles[0]->GetSprite());
 	}
 }
 
@@ -235,6 +235,25 @@ void ParticleEmitter::Update(float deltaTime)
 			this->m_particles[i]->Update(deltaTime);
 		}
 	}
+}
+
+void ParticleEmitter::Update(float deltaTime, LightingManager& lightingManager)
+{
+	std::vector<sf::Sprite*> sprites;
+	for (int i = 0; i < this->m_particles.size(); i++)
+	{
+		if (this->m_particles[i]->GetActive())
+		{
+			this->m_particles[i]->Update(deltaTime);
+			sprites.push_back(&this->m_particles[i]->GetSprite());
+		}
+		else if (!this->m_particles[i]->GetActive())
+		{
+			lightingManager.RemoveBoundary(this->m_particles[i]->GetSprite());
+		}
+	}
+	
+	lightingManager.UpdateFromSprite(sprites);
 }
 
 void ParticleEmitter::Draw(sf::RenderTexture& txtr)

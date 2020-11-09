@@ -13,16 +13,19 @@
 #include <queue>
 #include <stack>
 #include <cmath>
+#include "Light.h"
 
 struct LightSprite
 {
 	sf::Sprite lightSprite;
 	sf::RenderTexture* txtr;
+	Light* light;
 
 	LightSprite()
 	{
 		lightSprite = sf::Sprite();
 		txtr = new sf::RenderTexture();
+		light = new Light();
 	}
 	~LightSprite()
 	{

@@ -29,7 +29,7 @@ public:
 	inline Animation GetTextureAnim() { return this->m_texture; }
 	inline sf::Texture GetTextureTxtr() { return this->m_texture.GetAnimationSheet(); }
 	inline bool GetActive() { return this->m_active; }
-	sf::Sprite GetSprite() { return this->m_texture.GetAnimationSprite(); }
+	sf::Sprite & GetSprite() { return this->m_texture.GetAnimationSprite(); }
 	void Reset();
 private:
 	float CalculateRotationAngle(sf::Vector2f velocity, float angle);

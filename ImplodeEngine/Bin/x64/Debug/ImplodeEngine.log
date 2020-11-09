@@ -1,81 +1,8 @@
-﻿  Animation.cpp
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(7,35): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(9,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(9,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(21,36): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(21,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(23,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(23,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=unsigned int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(37,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(38,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(40,62): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(41,63): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(56,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(61,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\Animation.cpp(78,45): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=unsigned int
-          ]
+﻿  LightingManager.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(30,53): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(30,32): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(55,57): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(55,35): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(68,64): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\source\LightingManager.cpp(68,42): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
   ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe

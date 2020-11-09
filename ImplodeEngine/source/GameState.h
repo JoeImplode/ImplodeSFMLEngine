@@ -42,7 +42,6 @@ public:
 		this->m_state = state;
 		this->m_state->SetContext(this);
 		this->m_state->Initialise();
-
 	}
 	void SetWindow(sf::RenderWindow* renderWindow) { this->m_renderWindow = renderWindow; }
 	sf::RenderWindow* GetWindow() { return this->m_renderWindow; }

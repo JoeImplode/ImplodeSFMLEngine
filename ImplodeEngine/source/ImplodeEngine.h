@@ -43,4 +43,3 @@ namespace ImplodeEngine
 	void Draw();
 	void Exit();
 }
-	

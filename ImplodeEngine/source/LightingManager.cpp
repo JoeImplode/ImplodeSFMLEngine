@@ -15,13 +15,15 @@ LightingManager::LightingManager()
 
 LightingManager::~LightingManager()
 {
+
 }
 
-void LightingManager::CreateTexture(Light light)
+LightSprite LightingManager::CreateTexture(Light & light)
 {
 	//Firstly add the light and set the light sprite position
-	this->m_lightSprites.push_back(LightSprite());
-	this->m_lightSprites[this->m_lightSprites.size() - 1].lightSprite.setPosition(light.GetPosition().x - light.GetIntensity() / 2, light.GetPosition().y - light.GetIntensity() / 2);
+	LightSprite lightSpr;
+	
+	lightSpr.lightSprite.setPosition(light.GetPosition().x - light.GetIntensity() / 2, light.GetPosition().y - light.GetIntensity() / 2);
 
 	//Create our first texture which will conduct lighting calculations
 	sf::RenderTexture txtr;
@@ -32,10 +34,10 @@ void LightingManager::CreateTexture(Light light)
 	//For each sprite in the sprites list, we check if it is within the boundary of the light
 	for (int i = 0; i < this->m_boundaryManager.m_sprites.size(); i++)
 	{
-		if (this->m_boundaryManager.m_sprites[i]->getPosition().x < light.GetPosition().x + light.GetIntensity() / 2 + this->m_boundaryManager.m_sprites[i]->getLocalBounds().width
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().x > light.GetPosition().x - this->m_boundaryManager.m_sprites[i]->getLocalBounds().width - light.GetIntensity() / 2
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().y < light.GetPosition().y + this->m_boundaryManager.m_sprites[i]->getLocalBounds().height + light.GetIntensity() / 2
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().y > light.GetPosition().y - this->m_boundaryManager.m_sprites[i]->getLocalBounds().height - light.GetIntensity() / 2)
+		if (this->m_boundaryManager.m_sprites[i]->getPosition().x < light.GetPosition().x + light.GetIntensity() / 2 
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().x > light.GetPosition().x - light.GetIntensity() / 2
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().y < light.GetPosition().y + light.GetIntensity() / 2
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().y > light.GetPosition().y - light.GetIntensity() / 2)
 		{
 			//if it is, draw it to a texture
 			sf::Sprite sp;
@@ -55,33 +57,88 @@ void LightingManager::CreateTexture(Light light)
 
 	sf::Sprite lSprite;
 	this->m_1dSdwMapShader.setUniform("resolution", sf::Glsl::Vec2(light.GetIntensity(), light.GetIntensity()));
-
-	this->m_lightSprites[this->m_lightSprites.size() - 1].lightSprite.setPosition(0.0f, 0.0f);
+	this->m_1dSdwMapShader.setUniform("vColor", sf::Glsl::Vec4(light.GetColor()));
+	
 
 	sdwTxtr.draw(sprite,&this->m_1dSdwMapShader);
 	sdwTxtr.display();
 
 	lSprite.setTexture(sdwTxtr.getTexture());
 	//Next we create our light texture and using the shadow texture, we calculate from it the distance of each light ray.
-	this->m_lightSprites[this->m_lightSprites.size() - 1].txtr->create(light.GetIntensity(), light.GetIntensity());
-	this->m_lightSprites[this->m_lightSprites.size() - 1].txtr->clear(sf::Color::Transparent);
+	lightSpr.txtr->create(light.GetIntensity(), light.GetIntensity());
+	lightSpr.txtr->clear(sf::Color::Transparent);
 
 	this->m_blurShader.setUniform("resolution", sf::Glsl::Vec2(light.GetIntensity(), light.GetIntensity()));
+	
 
-	this->m_lightSprites[this->m_lightSprites.size() - 1].txtr->draw(lSprite, &this->m_blurShader);
+	lightSpr.txtr->draw(lSprite, &this->m_blurShader);
 
 	//finally we set the light texture and the light sprite.
-	lSprite.setTexture(this->m_lightSprites[this->m_lightSprites.size() - 1].txtr->getTexture());
+	lSprite.setTexture(lightSpr.txtr->getTexture());
 
-	this->m_lightSprites[this->m_lightSprites.size() - 1].lightSprite = lSprite;
-	this->m_lightSprites[this->m_lightSprites.size() - 1].lightSprite.setPosition(light.GetPosition().x - light.GetIntensity()/2, light.GetPosition().y - light.GetIntensity() / 2);
+	lightSpr.lightSprite = lSprite;
+	lightSpr.lightSprite.setPosition(light.GetPosition().x - light.GetIntensity()/2, light.GetPosition().y - light.GetIntensity() / 2);
+	lightSpr.lightSprite.setColor(light.GetColor());
+	lightSpr.light = &light;
+	return lightSpr;
 }
 
 void LightingManager::Update(float deltaTime)
 {
+
 }
 
 
 void LightingManager::ProcessEvents(sf::Event& e)
 {
+
+}
+
+void LightingManager::UpdateLightSprite(LightSprite & ls, float intensity, sf::Vector2f position, bool activated, sf::Color color)
+{
+	ls.txtr->~RenderTexture();
+	Light *l = new Light(intensity, position, activated, color);
+	ls = this->CreateTexture(*l);
+}
+
+void LightingManager::UpdateFromSprite(std::vector<sf::Sprite*> s)
+{
+	for (int i = 0; i < this->m_lightSprites.size(); i++)
+	{
+		for (int j = 0; j < s.size(); j++)
+		{
+			if (s[j]->getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2
+				&& s[j]->getPosition().x > m_lightSprites[i].light->GetPosition().x - m_lightSprites[i].light->GetIntensity() / 2
+				&& s[j]->getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2
+				&& s[j]->getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2)
+			{
+				this->UpdateLightSprite(m_lightSprites[i], m_lightSprites[i].light->GetIntensity(), m_lightSprites[i].light->GetPosition(), m_lightSprites[i].light->GetActivated(), m_lightSprites[i].light->GetColor());
+			}
+		}
+	}
+}
+
+void LightingManager::AddBoundary(sf::Sprite &s)
+{
+	this->m_boundaryManager.AddSprite(&s);
+
+	for (int i = 0; i < this->m_lightSprites.size(); i++)
+	{
+		if (s.getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2 
+			&& s.getPosition().x > m_lightSprites[i].light->GetPosition().x  - m_lightSprites[i].light->GetIntensity() / 2
+			&& s.getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2
+			&& s.getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2)
+		{
+			this->UpdateLightSprite(m_lightSprites[i], m_lightSprites[i].light->GetIntensity(), m_lightSprites[i].light->GetPosition(), m_lightSprites[i].light->GetActivated(), m_lightSprites[i].light->GetColor());
+		}
+	}
+}
+
+void LightingManager::RemoveBoundary(sf::Sprite& s)
+{
+	for (int i = 0; i < this->m_boundaryManager.m_sprites.size(); i++)
+	{
+		if (this->m_boundaryManager.m_sprites[i] == &s)
+			this->m_boundaryManager.m_sprites.erase(this->m_boundaryManager.m_sprites.begin() + i);
+	}
 }

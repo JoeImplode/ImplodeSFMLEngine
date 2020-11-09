@@ -1,4 +1,5 @@
 #pragma once
+#include "LightingManager.h"
 
 class Animation
 {
@@ -8,7 +9,7 @@ public:
 
 	void SetAnimationSheet(sf::Texture & texture, int rows, int columns);
 	sf::Texture GetAnimationSheet() { return *this->m_animationSheet.getTexture(); }
-	inline void SetPosition(sf::Vector2f pos) { this->m_position = pos; }
+	inline void SetPosition(sf::Vector2f pos) { this->m_position = pos; this->m_animationSheet.setPosition(pos); }
 	inline void SetSpeed(float speed) { this->m_speed = speed; }
 	inline void SetRepeated(bool repeated) { this->m_isRepeated = repeated; }
 	inline void SetRow(int row) { this->m_row = row; }
@@ -26,6 +27,7 @@ public:
 	int GetRowLim();
 
 	void Update(float deltaTime);
+	void Update(float deltaTime, LightingManager& lightingManager);
 	void Render(sf::RenderTexture& texture);
 private:
 	sf::Sprite m_animationSheet;

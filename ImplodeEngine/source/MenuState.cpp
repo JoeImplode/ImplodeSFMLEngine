@@ -18,7 +18,6 @@ void MenuState::Initialise()
 	this->m_cams = std::vector<Camera*>();
 	this->m_soundManager = new SoundManager();
 	this->m_lightingManager =  new LightingManager();
-
 	this->m_boundaryManager = BoundaryManager();
 
 	sf::Sound sound;
@@ -27,6 +26,7 @@ void MenuState::Initialise()
 	this->m_soundManager->CreateMusic("Error", "resources/sounds/error.wav");
 	m_cams.push_back(m_cam);
 	m_cams.push_back(m_smallCam);
+
 	//ImplodeEngine::m_multiCams = m_cams;
 	//ImplodeEngine::m_gameCam.SetCam(sf::Vector2f(1280.0f,720.0f), sf::Vector2f(640.0f,360.0f), sf::Vector2f(0.0f,0.0f));
 	p = new AssetPool();
@@ -86,13 +86,11 @@ void MenuState::Initialise()
 	txt.setPosition(sf::Vector2f(0.0f, 0.0f));
 
 	this->m_particle = Particle(p->GetTexture("Missile"),sf::Vector2f(0.0f,-1.0f));
-	this->m_light = Light(800.0f, sf::Vector2f(800.0f, 400.0f), true, sf::Color(0.0f, 0.0f, 180.0f));
+	this->m_light = Light(400.0f, sf::Vector2f(640.0f, 460.0f), true, sf::Color(0.0f, 180.0f, 180.0f,1.0f));
 	this->m_emitter = new ParticleEmitter(1000, p->GetTexture("Missile"), sf::Vector2f(0.0f, -1.0f));
+	Light l = Light(800.0f, sf::Vector2f(1000.0f, 300.0f), true, sf::Color(0.0f, 0.0f, 180.0f));
 
-	//this->m_shader.loadFromFile("resources/shaders/vertShader.vert","resources/shaders/fragShader.frag");
-	this->m_shader.setUniform("intensity", this->m_light.GetIntensity());
-	this->m_shader.setUniform("colour", sf::Glsl::Vec3(this->m_light.GetColor().r, this->m_light.GetColor().g, this->m_light.GetColor().b));
-	this->m_shader.setUniform("ambient", sf::Glsl::Vec3(0.0, 0.0, 0.0));
+	this->m_shader.loadFromFile("resources/shaders/vertShader.vert","resources/shaders/fragShader.frag");
 
 	this->m_boundaryManager.AddSprite(&banner);
 	this->m_boundaryManager.AddSprite(&bricks);
@@ -104,14 +102,18 @@ void MenuState::Initialise()
 	this->m_boundaryManager.AddSprite(&crate5);
 	this->m_boundaryManager.AddSprite(&crate6);
 
-	this->m_lightingManager->m_boundaryManager = this->m_boundaryManager;
-	this->m_lightingManager->m_lights.push_back(this->m_light);
-	this->m_lightingManager->CreateTexture(this->m_lightingManager->m_lights[0]);
-
-	this->m_animationTest = Animation(0.16,sf::Vector2f(100,100));
+	this->m_animationTest = Animation(0.16, sf::Vector2f(100, 100));
 	this->m_animationTest.SetAnimationSheet(p->GetTexture("pilgrim"), 2, 8);
 	this->m_animationTest.SetRepeated(true);
 	this->m_animationTest.SetAutomaticRowLoop(true);
+
+	this->m_boundaryManager.AddSprite(&this->m_animationTest.GetAnimationSprite());
+
+	this->m_lightingManager->m_boundaryManager = this->m_boundaryManager;
+	this->m_lightingManager->m_lights.push_back(this->m_light);
+	this->m_lightingManager->m_lights.push_back(l);
+	this->m_lightingManager->m_lightSprites.push_back(this->m_lightingManager->CreateTexture(this->m_lightingManager->m_lights[0]));
+	this->m_lightingManager->m_lightSprites.push_back(this->m_lightingManager->CreateTexture(this->m_lightingManager->m_lights[1]));
 }
 
 MenuState::~MenuState()
@@ -121,19 +123,20 @@ MenuState::~MenuState()
 
 void MenuState::Update(float deltaTime)
 {
-	
 	this->pool->Update(deltaTime);
 	this->m_particle.Update(deltaTime);
 	//this->m_cam->Update(deltaTime, sf::Vector2f(sf::Mouse::getPosition(*this->m_context->GetWindow()).x, sf::Mouse::getPosition(*this->m_context->GetWindow()).y));
 	this->m_smallCam->Update(deltaTime);
 	std::string str = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).x);
 	std::string str2 = std::to_string(sf::Mouse::getPosition(*this->m_context->GetWindow()).y);
-	this->m_shader.setUniform("lightPos", sf::Glsl::Vec2(sf::Mouse::getPosition(*this->m_context->GetWindow())));
 	txt.setString(std::string("X position: " + str + "Y position: " + str2 ));
-	this->m_emitter->Update(deltaTime);
+	this->m_emitter->Update(deltaTime,*this->m_lightingManager);
 	if (this->m_soundManager->GetMusic("Error").getStatus() == sf::SoundStream::Stopped)
 		this->m_soundManager->GetMusic("Error").stop();
 	this->m_animationTest.Update(deltaTime);
+	
+	this->m_lightingManager->UpdateLightSprite(this->m_lightingManager->m_lightSprites[0], 800.0f,
+		sf::Vector2f(sf::Mouse::getPosition(*this->m_context->GetWindow()).x, sf::Mouse::getPosition(*this->m_context->GetWindow()).y),true, sf::Color(0.0f, 0.0f, 180.0f));
 }
 
 void MenuState::Draw()
@@ -143,7 +146,7 @@ void MenuState::Draw()
 	mySprite.setPosition(sf::Vector2f(0.0f, 0.0f));
 	t.clear(sf::Color(50, 50, 50, 0));
 	gameWorld.clear(sf::Color(50, 50, 50, 0));
-	gameWorld.draw(backGround);
+	gameWorld.draw(backGround,&this->m_shader);
 	gameWorld.draw(banner);
 	gameWorld.draw(crate);
 	gameWorld.draw(crate2);
@@ -156,8 +159,10 @@ void MenuState::Draw()
 	this->m_particle.Draw(gameWorld);
 	this->m_emitter->Draw(gameWorld);
 	gameWorld.draw(this->m_lightingManager->m_lightSprites[0].lightSprite);
+	gameWorld.draw(this->m_lightingManager->m_lightSprites[1].lightSprite);
 	this->m_animationTest.Render(gameWorld);
 	gameWorld.display();
+
 	gameWorldSprite.setTexture(gameWorld.getTexture());
 	//mySprite = this->m_cam->Draw(gameWorldSprite,sf::Color::Green);
 	//mapSprite = this->m_smallCam->Draw(gameWorldSprite, sf::Color::Blue);

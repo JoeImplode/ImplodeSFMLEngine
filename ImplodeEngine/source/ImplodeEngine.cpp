@@ -29,7 +29,7 @@ namespace ImplodeEngine
 void ImplodeEngine::Initialise()
 {
 	ImplodeEngine::m_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(1280, 720), "Implode Engine", sf::Style::Default);
-	ImplodeEngine::m_window->setFramerateLimit(200.0f);
+	ImplodeEngine::m_window->setFramerateLimit(1000.0f);
 	ImplodeEngine::m_window->setKeyRepeatEnabled(true);
 
 	ImplodeEngine::m_multiCams = std::vector<Camera*>();
@@ -149,5 +149,5 @@ void ImplodeEngine::Draw()
 
 void ImplodeEngine::Exit()
 {
-	delete m_context;
+	m_context = nullptr;
 }

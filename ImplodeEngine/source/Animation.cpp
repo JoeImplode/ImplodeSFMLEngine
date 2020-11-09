@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Animation.h"
-
+#include "LightingManager.h"
 Animation::Animation() : m_speed(0),m_isRepeated(false)
 {
 	this->m_currentTime = 0.0f;
@@ -91,6 +91,41 @@ void Animation::Update(float deltaTime)
 	this->m_animationSheet.setTextureRect(this->m_sourceRect);
 	this->m_animationSheet.setPosition(this->m_position);
 	this->m_animationSheet.setScale(this->m_scale);
+}
+
+void Animation::Update(float deltaTime, LightingManager& lightingManager)
+{
+	this->m_currentTime += deltaTime;
+	m_currentFrame.y = m_row;
+
+	if (this->m_currentTime >= this->m_speed)
+	{
+		this->m_currentTime -= deltaTime;
+		this->m_currentFrame.x++;
+		this->m_currentTime = 0.0f;
+
+		if (this->m_currentFrame.x >= this->m_imageCount.x)
+		{
+			if (!this->m_isRepeated)
+				this->m_currentFrame.x = m_imageCount.x - 1;
+			else
+				this->m_currentFrame.x = 0;
+			if (this->m_rowLoop && this->m_row <= GetRowLim())
+				this->m_row++;
+			if (this->m_rowLoop && this->m_row == GetRowLim())
+				this->m_row = 0;
+
+		}
+	}
+	this->m_sourceRect.left = m_currentFrame.x * this->m_sourceRect.width;
+	this->m_sourceRect.top = m_currentFrame.y * this->m_sourceRect.height;
+
+	this->m_animationSheet.setTextureRect(this->m_sourceRect);
+	this->m_animationSheet.setPosition(this->m_position);
+	this->m_animationSheet.setScale(this->m_scale);
+	std::vector<sf::Sprite*> s;
+	s.push_back(&this->m_animationSheet);
+	lightingManager.UpdateFromSprite(s);
 }
 
 void Animation::Render(sf::RenderTexture & txtr)

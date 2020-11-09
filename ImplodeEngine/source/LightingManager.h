@@ -7,9 +7,13 @@ class LightingManager
 public:
 	LightingManager();
 	~LightingManager();
-	void CreateTexture(Light light);
+	LightSprite CreateTexture(Light & light);
 	void Update(float deltaTime);
 	void ProcessEvents(sf::Event& e);
+	void UpdateLightSprite(LightSprite &ls, float intensity, sf::Vector2f position, bool activated, sf::Color color);
+	void UpdateFromSprite(std::vector<sf::Sprite*> s);
+	void AddBoundary(sf::Sprite& s);
+	void RemoveBoundary(sf::Sprite& s);
 	std::vector<Light> m_lights;
 	BoundaryManager m_boundaryManager;
 	std::vector<sf::RenderTexture> m_lightTextures;

@@ -52,6 +52,7 @@ private:
 
 	BoundaryManager m_boundaryManager;
 	Light m_light;
+	Light m_light2;
 	sf::Shader m_shader;
 	SoundManager *m_soundManager;
 	sf::SoundBuffer m_soundBuffer;
