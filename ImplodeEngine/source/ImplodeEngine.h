@@ -36,6 +36,9 @@ namespace ImplodeEngine
 	extern sf::RenderTexture m_multiCamTxtr;
 	extern sf::Sprite m_multiCamSprite;
 
+	extern sf::RenderTexture m_lightTxtr;
+	extern sf::Sprite m_lightSprite;
+
 	void Initialise();
 	void GameLoop();
 	void Update(); //pass the "screens" into the update loop, they'll be passed the deltaTime and extras

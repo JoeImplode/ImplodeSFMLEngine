@@ -19,6 +19,9 @@ namespace ImplodeEngine
 	sf::RenderTexture m_uiTxtr;
 	sf::Sprite m_uiSprite;
 
+	sf::RenderTexture m_lightTxtr;
+	sf::Sprite m_lightSprite;
+
 	Camera m_gameCam;
 	std::vector<Camera*> m_multiCams;
 
@@ -42,7 +45,7 @@ void ImplodeEngine::Initialise()
 
 	ImplodeEngine::m_camSprite.setPosition(0.0f, 0.0f);
 	ImplodeEngine::m_camTxtr.create(m_window->getSize().x, m_window->getSize().y);
-
+	
 	ImplodeEngine::m_uiSprite.setPosition(0.0f, 0.0f);
 	ImplodeEngine::m_uiTxtr.create(m_window->getSize().x, m_window->getSize().y);
 
@@ -50,6 +53,9 @@ void ImplodeEngine::Initialise()
 
 	ImplodeEngine::m_multiCamTxtr.create(m_window->getSize().x, m_window->getSize().y);
 	ImplodeEngine::m_multiCamSprite.setPosition(0.0f,0.0f);
+
+	ImplodeEngine::m_lightTxtr.create(m_window->getSize().x, m_window->getSize().y);
+	ImplodeEngine::m_lightSprite.setPosition(0.0f, 0.0f);
 
 	ImplodeEngine::deltaTime = 0.0f;
 	ImplodeEngine::event = new sf::Event();
@@ -106,15 +112,18 @@ void ImplodeEngine::Draw()
 	ImplodeEngine::m_camTxtr.clear(sf::Color::Transparent);
 	ImplodeEngine::m_uiTxtr.clear(sf::Color::Transparent);
 	ImplodeEngine::m_multiCamTxtr.clear(sf::Color::Transparent);
+	ImplodeEngine::m_lightTxtr.clear(sf::Color::Transparent);
 
 	m_context->Draw();
 	
 	ImplodeEngine::m_gameWorldTxtr.display();
 	ImplodeEngine::m_gameWorldSprite.setTexture(m_gameWorldTxtr.getTexture());
 
-	//Lighting render and more
+	ImplodeEngine::m_lightTxtr.display();
+	ImplodeEngine::m_lightSprite.setTexture(m_lightTxtr.getTexture());
 
 	ImplodeEngine::m_postProcessTxtr.draw(m_gameWorldSprite);
+	ImplodeEngine::m_postProcessTxtr.draw(m_lightSprite);
 	ImplodeEngine::m_postProcessTxtr.display();
 	ImplodeEngine::m_postProcessSprite.setTexture(m_postProcessTxtr.getTexture());
 

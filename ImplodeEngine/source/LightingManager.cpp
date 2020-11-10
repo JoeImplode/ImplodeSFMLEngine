@@ -30,14 +30,16 @@ LightSprite LightingManager::CreateTexture(Light & light)
 	txtr.create(light.GetIntensity(),light.GetIntensity());
 	txtr.clear(sf::Color::Transparent);
 
+	sf::Texture texture;
 	sf::Sprite sprite;
+
 	//For each sprite in the sprites list, we check if it is within the boundary of the light
 	for (int i = 0; i < this->m_boundaryManager.m_sprites.size(); i++)
 	{
-		if (this->m_boundaryManager.m_sprites[i]->getPosition().x < light.GetPosition().x + light.GetIntensity() / 2 
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().x > light.GetPosition().x - light.GetIntensity() / 2
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().y < light.GetPosition().y + light.GetIntensity() / 2
-			&& this->m_boundaryManager.m_sprites[i]->getPosition().y > light.GetPosition().y - light.GetIntensity() / 2)
+		if (this->m_boundaryManager.m_sprites[i]->getPosition().x < light.GetPosition().x + light.GetIntensity() / 2 + this->m_boundaryManager.m_sprites[i]->getLocalBounds().width
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().x > light.GetPosition().x - light.GetIntensity() / 2 - this->m_boundaryManager.m_sprites[i]->getLocalBounds().width
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().y < light.GetPosition().y + light.GetIntensity() / 2 + this->m_boundaryManager.m_sprites[i]->getLocalBounds().height
+			&& this->m_boundaryManager.m_sprites[i]->getPosition().y > light.GetPosition().y - light.GetIntensity() / 2 - this->m_boundaryManager.m_sprites[i]->getLocalBounds().height)
 		{
 			//if it is, draw it to a texture
 			sf::Sprite sp;
@@ -48,35 +50,31 @@ LightSprite LightingManager::CreateTexture(Light & light)
 	}
 	txtr.display();
 
-	sprite.setTexture(txtr.getTexture());
+	texture = txtr.getTexture();
+	sprite.setTexture(texture);
 
 	//Firstly we create a shadow texture and calculate distances from rays to each boundary object
-	sf::RenderTexture sdwTxtr;
-	sdwTxtr.create(light.GetIntensity(), light.GetIntensity());
-	sdwTxtr.clear(sf::Color::Transparent);
 
-	sf::Sprite lSprite;
 	this->m_1dSdwMapShader.setUniform("resolution", sf::Glsl::Vec2(light.GetIntensity(), light.GetIntensity()));
 	this->m_1dSdwMapShader.setUniform("vColor", sf::Glsl::Vec4(light.GetColor()));
 	
+	txtr.draw(sprite,&this->m_1dSdwMapShader);
+	txtr.display();
+	texture = txtr.getTexture();
 
-	sdwTxtr.draw(sprite,&this->m_1dSdwMapShader);
-	sdwTxtr.display();
-
-	lSprite.setTexture(sdwTxtr.getTexture());
+	sprite.setTexture(texture);
 	//Next we create our light texture and using the shadow texture, we calculate from it the distance of each light ray.
 	lightSpr.txtr->create(light.GetIntensity(), light.GetIntensity());
 	lightSpr.txtr->clear(sf::Color::Transparent);
 
 	this->m_blurShader.setUniform("resolution", sf::Glsl::Vec2(light.GetIntensity(), light.GetIntensity()));
 	
-
-	lightSpr.txtr->draw(lSprite, &this->m_blurShader);
+	lightSpr.txtr->draw(sprite, &this->m_blurShader);
 
 	//finally we set the light texture and the light sprite.
-	lSprite.setTexture(lightSpr.txtr->getTexture());
+	sprite.setTexture(lightSpr.txtr->getTexture());
 
-	lightSpr.lightSprite = lSprite;
+	lightSpr.lightSprite = sprite;
 	lightSpr.lightSprite.setPosition(light.GetPosition().x - light.GetIntensity()/2, light.GetPosition().y - light.GetIntensity() / 2);
 	lightSpr.lightSprite.setColor(light.GetColor());
 	lightSpr.light = &light;
@@ -107,10 +105,10 @@ void LightingManager::UpdateFromSprite(std::vector<sf::Sprite*> s)
 	{
 		for (int j = 0; j < s.size(); j++)
 		{
-			if (s[j]->getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2
-				&& s[j]->getPosition().x > m_lightSprites[i].light->GetPosition().x - m_lightSprites[i].light->GetIntensity() / 2
-				&& s[j]->getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2
-				&& s[j]->getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2)
+			if (s[j]->getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2 + s[j]->getLocalBounds().width
+				&& s[j]->getPosition().x > m_lightSprites[i].light->GetPosition().x - m_lightSprites[i].light->GetIntensity() / 2 - s[j]->getLocalBounds().width
+				&& s[j]->getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2 + s[j]->getLocalBounds().height
+				&& s[j]->getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2 - s[j]->getLocalBounds().height)
 			{
 				this->UpdateLightSprite(m_lightSprites[i], m_lightSprites[i].light->GetIntensity(), m_lightSprites[i].light->GetPosition(), m_lightSprites[i].light->GetActivated(), m_lightSprites[i].light->GetColor());
 			}
@@ -124,10 +122,17 @@ void LightingManager::AddBoundary(sf::Sprite &s)
 
 	for (int i = 0; i < this->m_lightSprites.size(); i++)
 	{
-		if (s.getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2 
-			&& s.getPosition().x > m_lightSprites[i].light->GetPosition().x  - m_lightSprites[i].light->GetIntensity() / 2
-			&& s.getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2
-			&& s.getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2)
+		if (m_lightSprites[i].light->GetPosition().x < this->m_totalLightingBound.width
+			&& m_lightSprites[i].light->GetPosition().x > this->m_totalLightingBound.left
+			&& m_lightSprites[i].light->GetPosition().y < this->m_totalLightingBound.height
+			&& m_lightSprites[i].light->GetPosition().y > this->m_totalLightingBound.top)
+		{
+			break;
+		}
+		if (s.getPosition().x < m_lightSprites[i].light->GetPosition().x + m_lightSprites[i].light->GetIntensity() / 2 + s.getLocalBounds().width
+			&& s.getPosition().x > m_lightSprites[i].light->GetPosition().x  - m_lightSprites[i].light->GetIntensity() / 2 - s.getLocalBounds().width
+			&& s.getPosition().y < m_lightSprites[i].light->GetPosition().y + m_lightSprites[i].light->GetIntensity() / 2 + s.getLocalBounds().height
+			&& s.getPosition().y > m_lightSprites[i].light->GetPosition().y - m_lightSprites[i].light->GetIntensity() / 2 - s.getLocalBounds().height)
 		{
 			this->UpdateLightSprite(m_lightSprites[i], m_lightSprites[i].light->GetIntensity(), m_lightSprites[i].light->GetPosition(), m_lightSprites[i].light->GetActivated(), m_lightSprites[i].light->GetColor());
 		}
@@ -141,4 +146,37 @@ void LightingManager::RemoveBoundary(sf::Sprite& s)
 		if (this->m_boundaryManager.m_sprites[i] == &s)
 			this->m_boundaryManager.m_sprites.erase(this->m_boundaryManager.m_sprites.begin() + i);
 	}
+}
+
+void LightingManager::CalculateLightingBound()
+{
+	float left = this->m_lightSprites[0].lightSprite.getPosition().x;
+	float right = this->m_lightSprites[0].lightSprite.getPosition().x + this->m_lightSprites[0].lightSprite.getLocalBounds().width;
+	float top = this->m_lightSprites[0].lightSprite.getPosition().y;
+	float bottom = this->m_lightSprites[0].lightSprite.getPosition().y + this->m_lightSprites[0].lightSprite.getLocalBounds().height;
+
+	for (int i = 1; i < this->m_lightSprites.size(); i++)
+	{
+		if (this->m_lightSprites[i].lightSprite.getPosition().x < left)
+			left = this->m_lightSprites[i].lightSprite.getPosition().x;
+
+		if (this->m_lightSprites[i].lightSprite.getPosition().x + this->m_lightSprites[i].lightSprite.getLocalBounds().width > right)
+			right = this->m_lightSprites[i].lightSprite.getPosition().x;
+
+		if (this->m_lightSprites[i].lightSprite.getPosition().y < top)
+			top = this->m_lightSprites[i].lightSprite.getPosition().y;
+
+		if (this->m_lightSprites[i].lightSprite.getPosition().y + this->m_lightSprites[0].lightSprite.getLocalBounds().height > bottom)
+			bottom = this->m_lightSprites[i].lightSprite.getPosition().y + this->m_lightSprites[i].lightSprite.getLocalBounds().height;
+	}
+	this->m_totalLightingBound.height = bottom;
+	this->m_totalLightingBound.top = top;
+	this->m_totalLightingBound.width = right;
+	this->m_totalLightingBound.left = left;
+
+	std::cout << left << std::endl;
+	std::cout << right << std::endl;
+	std::cout << top << std::endl;
+	std::cout << bottom << std::endl;
+
 }

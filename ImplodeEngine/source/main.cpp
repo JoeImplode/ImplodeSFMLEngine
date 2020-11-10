@@ -6,5 +6,6 @@ int main()
 {
 	ImplodeEngine::Initialise();
 	ImplodeEngine::GameLoop();
+	ImplodeEngine::Exit();
 	return 0;
 }

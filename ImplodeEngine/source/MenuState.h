@@ -25,12 +25,13 @@ private:
 	PoolExample* pool;
 	bool m_myBool = false;
 	std::string m_myString;
+
+	sf::Shader m_shader;
 	sf::RenderTexture t;
 	sf::RenderTexture gameWorld;
+
 	sf::Sprite gameWorldSprite;
 	sf::Sprite s;
-	AssetPool* p;
-
 	sf::Sprite banner;
 	sf::Sprite crate;
 	sf::Sprite fountain;
@@ -42,22 +43,27 @@ private:
 	sf::Sprite crate6;
 	sf::Sprite backGround;
 
+	AssetPool* p;
+
 	sf::Text txt;
+
 	Camera * m_cam;
 	Camera* m_smallCam;
+
 	std::vector<Camera*> m_cams;
 	std::vector<sf::Sprite> m_camSprites;
+
 	Particle m_particle;
 	ParticleEmitter* m_emitter;
 
 	BoundaryManager m_boundaryManager;
+
+	LightingManager* m_lightingManager;
 	Light m_light;
 	Light m_light2;
-	sf::Shader m_shader;
+
 	SoundManager *m_soundManager;
 	sf::SoundBuffer m_soundBuffer;
-
-	LightingManager * m_lightingManager;
-
+	
 	Animation m_animationTest;
 };

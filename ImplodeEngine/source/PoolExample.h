@@ -8,16 +8,22 @@ public:
 	void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderTexture & txtr) override;
 	virtual void ProcessEvents(sf::Event& e, sf::RenderWindow* window) override;
+
 	Button* m_button;
 	Button* m_pauseButton1;
 	Button* m_pauseButton2;
 	Button* m_pauseButton3;
+
 	ButtonGroup* m_buttonGroup;
+
 	Widget* m_widgetGroup;
 	Widget* m_quitGroup;
+
 	Slider* m_slider;
 	Slider* m_volumeSlider;
+
 	DropDown* m_dropDown;
+
 	sf::Vector2f m_mousePos;
 	sf::Vector2f m_prevMousePos;
 	TextInput* m_textInput;

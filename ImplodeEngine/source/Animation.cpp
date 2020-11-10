@@ -6,6 +6,7 @@ Animation::Animation() : m_speed(0),m_isRepeated(false)
 	this->m_currentTime = 0.0f;
 	this->m_size = sf::Vector2u(0.0f,0.0f);
 	this->m_position = sf::Vector2f(100.0f, 100.0f);
+	this->m_animationSheet.setPosition(this->m_position);
 	this->m_currentFrame = sf::Vector2u(0.0f, 0.0f);
 	this->m_imageCount = sf::Vector2f(0.0f, 0.0f);
 	this->m_row = 0;
@@ -20,6 +21,7 @@ Animation::Animation(float speed, sf::Vector2f position, sf::Vector2f spriteScal
 	this->m_speed = speed;
 	this->m_size = sf::Vector2u(0.0f, 0.0f);
 	this->m_position = position;
+	this->m_animationSheet.setPosition(position);
 	this->m_currentFrame = sf::Vector2u(0.0f, 0.0f);
 	this->m_imageCount = sf::Vector2f(0.0f, 0.0f);
 	this->m_isRepeated = false;
@@ -39,6 +41,8 @@ void Animation::SetAnimationSheet(sf::Texture & texture, int rows, int columns)
 
 	this->m_sourceRect.width = sprite.getTexture()->getSize().x / float(m_imageCount.x);
 	this->m_sourceRect.height = sprite.getTexture()->getSize().y / float(m_imageCount.y);
+	this->Update(0.0f);
+
 }
 
 int Animation::GetColumnNum()
