@@ -1,2 +1,268 @@
-﻿  main.cpp
-  ImplodeEngine.vcxproj -> C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\Win32\Debug\ImplodeEngine.exe
+﻿  Animation.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(7,35): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(7,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(10,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(10,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(22,36): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(22,30): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(25,44): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(25,38): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(39,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(40,25): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(42,62): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(43,63): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(60,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(65,27): warning C4244: 'return': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(82,45): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=unsigned int
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Animation.cpp(114,45): warning C4244: '=': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=unsigned int
+          ]
+  AssetPool.cpp
+  BoundaryManager.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\BoundaryManager.cpp(12,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\BoundaryManager.cpp(25,20): warning C4018: '<': signed/unsigned mismatch
+  Camera.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Camera.cpp(12,38): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Camera.cpp(12,30): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Camera.cpp(46,39): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Camera.cpp(46,30): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  DefaultState.cpp
+  GameState.cpp
+  ImplodeEngine.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(35,45): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(109,40): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(109,34): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(109,28): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ImplodeEngine.cpp(140,21): warning C4018: '<': signed/unsigned mismatch
+  Light.cpp
+  LightingManager.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(30,53): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(30,32): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(37,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(67,64): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(67,42): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(104,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(106,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(123,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(144,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\LightingManager.cpp(158,20): warning C4018: '<': signed/unsigned mismatch
+  Particle.cpp
+  ParticleEmitter.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(24,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(40,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(48,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(71,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(113,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(136,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(159,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(183,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(206,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(231,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(243,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\ParticleEmitter.cpp(261,20): warning C4018: '<': signed/unsigned mismatch
+  SoundManager.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\SoundManager.cpp(146,22): warning C4834: discarding return value of function with 'nodiscard' attribute
+  UIElement.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(133,85): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(148,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(155,63): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(72,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(73,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(74,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(119,81): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(125,81): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(147,81): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(190,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(191,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(192,14): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(196,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(197,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(198,15): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(362,90): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(370,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(386,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(396,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(412,70): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(425,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(441,73): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(453,72): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(490,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(511,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(540,89): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(551,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(570,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(589,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(590,27): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(595,27): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(597,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(670,117): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(670,70): warning C4244: 'argument': conversion from 'T' to 'unsigned int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(696,25): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(697,24): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(699,98): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(702,20): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(722,38): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(752,35): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(759,21): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(768,100): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(772,41): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(820,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(830,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.cpp(851,20): warning C4018: '<=': signed/unsigned mismatch
+  UIPool.cpp
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(133,85): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(148,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\UIElement.h(155,63): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+  pch.cpp
+Animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\Win32\Debug\ImplodeEngine.exe

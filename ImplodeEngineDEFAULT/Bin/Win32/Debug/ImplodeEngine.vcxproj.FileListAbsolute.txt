@@ -1,2 +1,4 @@
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\Win32\Debug\ImplodeEngine.exe
 C:\Users\Joe_P\Documents\GitHub\ImplodeSFMLEngine\ImplodeEngine\Bin\Win32\Debug\ImplodeEngine.pdb
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\Win32\Debug\ImplodeEngine.exe
+C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\Win32\Debug\ImplodeEngine.pdb
