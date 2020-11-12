@@ -1,0 +1,6 @@
+﻿  ImplodeEngine.cpp
+C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(35,45): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(109,40): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(109,34): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\source\ImplodeEngine.cpp(109,28): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.exe
