@@ -1,6 +1,5 @@
 #pragma once
 #include "GameState.h"
-
 class DefaultState : public GameState
 {
 public:
@@ -12,5 +11,6 @@ public:
 	void Initialise() override;
 	~DefaultState();
 private:
+
 protected:
 };

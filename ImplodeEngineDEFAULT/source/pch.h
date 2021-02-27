@@ -13,6 +13,8 @@
 #include <queue>
 #include <stack>
 #include <cmath>
+#include<cstdlib>
+#include<ctime>
 #include "Light.h"
 
 struct LightSprite

@@ -1,1 +1,30 @@
-﻿  ImplodeEngine.vcxproj -> C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.exe
+﻿  Enemy.cpp
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(43,44): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(48,44): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(53,44): warning C4244: '-=': conversion from 'float' to 'sf::Uint8', possible loss of data
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(93,79): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(94,62): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(98,82): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(99,64): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(103,81): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(104,64): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(108,80): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(109,63): warning C4305: 'argument': truncation from 'double' to 'float'
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\source\Enemy.cpp(156,13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  ImplodeEngine.vcxproj -> E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.exe

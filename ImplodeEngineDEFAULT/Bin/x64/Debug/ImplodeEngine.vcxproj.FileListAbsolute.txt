@@ -6,3 +6,5 @@ C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\Implod
 C:\Users\Joe\Documents\Test\ImplodeSFMLEngine\ImplodeEngine\Bin\x64\Debug\ImplodeEngine.pdb
 C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.exe
 C:\Users\Joe\Documents\GitHub\Defender\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.pdb
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.exe
+E:\Github\Deadman's Lair\ImplodeSFMLEngine\ImplodeEngineDEFAULT\Bin\x64\Debug\ImplodeEngine.pdb

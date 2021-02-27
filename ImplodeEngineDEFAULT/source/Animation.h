@@ -19,7 +19,10 @@ public:
 	inline void NextRow() { this->m_row++; }
 	inline void NextColumn() { this->m_currentFrame.x++; }
 	inline void SetAutomaticRowLoop(bool loop) { this->m_rowLoop = loop; }
+	inline sf::Vector2f GetScale() { return this->m_scale; }
 	sf::Sprite & GetAnimationSprite(){ return this->m_animationSheet; }
+	inline void FlipSprite(sf::Vector2f scale) { this->SetScale(sf::Vector2f(scale.x, scale.y)); }
+	inline sf::Vector2f GetOrigin() { return this->m_animationSheet.getOrigin(); }
 	int GetColumnNum();
 	int GetRowNum();
 

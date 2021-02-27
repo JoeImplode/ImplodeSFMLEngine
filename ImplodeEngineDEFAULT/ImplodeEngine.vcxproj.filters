@@ -37,6 +37,12 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{7754a522-4ac0-4988-8de2-6c1a5226edce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Enemies">
+      <UniqueIdentifier>{1b82d9b2-a513-4b68-8cd3-56940283d189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Enemies">
+      <UniqueIdentifier>{24827c5a-5d76-44f9-87cf-f01f411554cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -87,6 +93,30 @@
     <ClCompile Include="source\DefaultState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="source\MainGame.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy.cpp">
+      <Filter>Source Files\Engine\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Skeleton.cpp">
+      <Filter>Source Files\Engine\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scorpion.cpp">
+      <Filter>Source Files\Engine\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Demon.cpp">
+      <Filter>Source Files\Engine\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Treant.cpp">
+      <Filter>Source Files\Engine\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AIManager.cpp">
+      <Filter>Source Files\Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ImplodeEngine.h">
@@ -133,6 +163,30 @@
     </ClInclude>
     <ClInclude Include="source\DefaultState.h">
       <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="source\MainGame.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy.h">
+      <Filter>Header Files\Engine\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Skeleton.h">
+      <Filter>Header Files\Engine\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scorpion.h">
+      <Filter>Header Files\Engine\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Demon.h">
+      <Filter>Header Files\Engine\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Treant.h">
+      <Filter>Header Files\Engine\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AIManager.h">
+      <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

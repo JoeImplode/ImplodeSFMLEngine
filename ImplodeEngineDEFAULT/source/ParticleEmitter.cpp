@@ -9,13 +9,13 @@ ParticleEmitter::ParticleEmitter()
 	this->m_particles = std::vector<Particle*>{};
 }
 
-ParticleEmitter::ParticleEmitter(int count, sf::Texture & txtr, sf::Vector2f forwardDir)
+ParticleEmitter::ParticleEmitter(int count, sf::Texture & txtr, sf::Vector2f txtrNormal)
 {
 	this->m_particles = std::vector<Particle*>{};
 
 	for (int i = 0; i < count; i++)
 	{
-		this->m_particles.push_back(new Particle(txtr,forwardDir));
+		this->m_particles.push_back(new Particle(txtr,txtrNormal));
 	}
 }
 
@@ -145,7 +145,7 @@ void ParticleEmitter::CreateParticle(sf::Vector2f position, sf::Vector2f velocit
 		}
 	}
 
-	if (forceIn == true)
+	if (forceIn)
 	{
 		this->m_particles[0]->Reset();
 		this->m_particles[0]->SetForward(txtrForward);
@@ -223,6 +223,16 @@ void ParticleEmitter::CreateParticle(sf::Vector2f position, sf::Vector2f velocit
 		this->m_particles[0]->SetNewTexture(txtr);
 		this->m_particles[0]->StartParticle(position, velocity, acceleration, speed, timeLimit);
 		lightingManager.m_boundaryManager.AddSprite(&this->m_particles[0]->GetSprite());
+	}
+}
+
+void ParticleEmitter::CreateParticles(int count, sf::Texture& txtr, sf::Vector2f forwardDir)
+{
+	this->m_particles = std::vector<Particle*>{};
+
+	for (int i = 0; i < count; i++)
+	{
+		this->m_particles.push_back(new Particle(txtr, forwardDir));
 	}
 }
 

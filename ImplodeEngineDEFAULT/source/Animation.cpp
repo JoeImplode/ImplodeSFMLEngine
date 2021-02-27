@@ -33,6 +33,7 @@ void Animation::SetAnimationSheet(sf::Texture & texture, int rows, int columns)
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
 	this->m_animationSheet = sprite;
+
 	this->m_size.x = rows/(sprite.getTexture()->getSize().x); //the size of each sprite
 	this->m_size.y = columns/(sprite.getTexture()->getSize().y);
 
@@ -41,8 +42,10 @@ void Animation::SetAnimationSheet(sf::Texture & texture, int rows, int columns)
 
 	this->m_sourceRect.width = sprite.getTexture()->getSize().x / float(m_imageCount.x);
 	this->m_sourceRect.height = sprite.getTexture()->getSize().y / float(m_imageCount.y);
-	this->Update(0.0f);
 
+	this->m_animationSheet.setOrigin(sf::Vector2f(this->m_sourceRect.width / 2, this->m_sourceRect.height / 2));
+	
+	this->Update(0.0f);
 }
 
 int Animation::GetColumnNum()
@@ -126,6 +129,7 @@ void Animation::Update(float deltaTime, LightingManager& lightingManager)
 
 	this->m_animationSheet.setTextureRect(this->m_sourceRect);
 	this->m_animationSheet.setPosition(this->m_position);
+
 	this->m_animationSheet.setScale(this->m_scale);
 	std::vector<sf::Sprite*> s;
 	s.push_back(&this->m_animationSheet);

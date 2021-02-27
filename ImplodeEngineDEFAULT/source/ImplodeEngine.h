@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "Camera.h"
 #include "DefaultState.h"
+#include "MainGame.h"
 
 //Here we'll include all of the engine files we need so animations, asset managers, shader management e.t.c
 //We'll also define the different parts to pass to each engine file within this namespace, it'll either be a class or not
@@ -13,6 +14,8 @@ namespace ImplodeEngine
 
 	static GameContext * m_context;
 	static DefaultState* m_defaultState;
+	static MainGame* m_mainGame;
+
 
 	extern sf::Event *event;
 

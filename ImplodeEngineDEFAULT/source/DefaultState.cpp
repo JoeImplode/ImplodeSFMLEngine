@@ -4,6 +4,7 @@
 
 DefaultState::DefaultState(GameContext* context) : GameState(context)
 {
+
 }
 
 void DefaultState::Update(float deltaTime)

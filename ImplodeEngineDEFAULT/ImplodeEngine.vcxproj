@@ -168,37 +168,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\AIManager.cpp" />
     <ClCompile Include="source\Animation.cpp" />
     <ClCompile Include="source\AssetPool.cpp" />
     <ClCompile Include="source\BoundaryManager.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\DefaultState.cpp" />
+    <ClCompile Include="source\Demon.cpp" />
+    <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\GameState.cpp" />
     <ClCompile Include="source\ImplodeEngine.cpp" />
     <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="source\LightingManager.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\MainGame.cpp" />
     <ClCompile Include="source\Particle.cpp" />
     <ClCompile Include="source\ParticleEmitter.cpp" />
     <ClCompile Include="source\pch.cpp" />
+    <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\Scorpion.cpp" />
+    <ClCompile Include="source\Skeleton.cpp" />
     <ClCompile Include="source\SoundManager.cpp" />
+    <ClCompile Include="source\Treant.cpp" />
     <ClCompile Include="source\UIElement.cpp" />
     <ClCompile Include="source\UIPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\AIManager.h" />
     <ClInclude Include="source\Animation.h" />
     <ClInclude Include="source\AssetPool.h" />
     <ClInclude Include="source\BoundaryManager.h" />
     <ClInclude Include="source\Camera.h" />
     <ClInclude Include="source\DefaultState.h" />
+    <ClInclude Include="source\Demon.h" />
+    <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\GameState.h" />
     <ClInclude Include="source\ImplodeEngine.h" />
     <ClInclude Include="source\Light.h" />
     <ClInclude Include="source\LightingManager.h" />
+    <ClInclude Include="source\MainGame.h" />
     <ClInclude Include="source\Particle.h" />
     <ClInclude Include="source\ParticleEmitter.h" />
     <ClInclude Include="source\pch.h" />
+    <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\Scorpion.h" />
+    <ClInclude Include="source\Skeleton.h" />
     <ClInclude Include="source\SoundManager.h" />
+    <ClInclude Include="source\Treant.h" />
     <ClInclude Include="source\UIElement.h" />
     <ClInclude Include="source\UIPool.h" />
   </ItemGroup>

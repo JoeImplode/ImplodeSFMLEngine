@@ -61,7 +61,8 @@ void ImplodeEngine::Initialise()
 	ImplodeEngine::event = new sf::Event();
 	ImplodeEngine::m_context = new GameContext(*event,*m_window,m_gameWorldTxtr);
 	ImplodeEngine::m_defaultState = new DefaultState(m_context);
-	ImplodeEngine::m_context->TransitionTo(m_defaultState);
+	ImplodeEngine::m_mainGame = new MainGame(m_context);
+	ImplodeEngine::m_context->TransitionTo(m_mainGame);
 
 }
 
@@ -106,7 +107,7 @@ std::vector<sf::Sprite> ImplodeEngine::CreateTextureFromCams(std::vector<Camera*
 }
 void ImplodeEngine::Draw()
 {
-	m_window->clear(sf::Color(50.0f,50.0f,50.0f));
+	m_window->clear(sf::Color(255.0f,255.0f,255.0f));
 	ImplodeEngine::m_gameWorldTxtr.clear(sf::Color::Transparent);
 	ImplodeEngine::m_postProcessTxtr.clear(sf::Color::Transparent);
 	ImplodeEngine::m_camTxtr.clear(sf::Color::Transparent);

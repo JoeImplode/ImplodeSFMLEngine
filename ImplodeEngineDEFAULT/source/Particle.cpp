@@ -170,9 +170,6 @@ float Particle::CalculateRotationAngle(sf::Vector2f velocity, float angle)
 {
 	float finalAngle = (acos(angle) * 180.0f) / 3.141592653589793238463f;
 
-	std::cout << "ANGLE: " << finalAngle << std::endl;
-	std::cout << "VELOCITY: " << velocity.x << "," << velocity.y << std::endl;
-
 	if (velocity.x > 0.0f && velocity.y < 0.0f)
 		return finalAngle;
 	else if (velocity.x < 0 && velocity.y < 0)
